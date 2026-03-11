@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/Logo Glass Large.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+
+    <title>My job postings</title>
+    <link rel="stylesheet" href="/css/tables.css">
+
+
+</head>
+<body>
+<div class="container" style="border-radius: 48px;">
+    <div class="table-header" style="background: transparent">
+        <h2 style="font-weight: bold; font-size: 28px; color: black; border: none">My Job Postings</h2>
+    </div>
+
+    <div class="table-wrapper" style="border: none">
+        <table class="table" style="border-radius: 48px; border: none">
+            <thead style="background: white">
+            <tr>
+                <th>Job Title</th>
+                <th>Description</th>
+                <th>Applications</th>
+            </tr>
+            </thead>
+
+            <tbody th:if="${myJobs != null and !myJobs.isEmpty()}">
+            <tr th:each="job : ${myJobs}">
+                <td th:text="${job.jobName}" data-label="Job Title"></td>
+                <td th:text="${job.jobDescription}" data-label="Description"></td>
+                <td data-label="Applications">
+                <a th:href="@{/JobPostings/{id}/applications(id=${job.jobPostingUUID})}"
+                   class="btn btn-primary" style="border-radius: 24px;">
+                    View Applications
+                </a>
+                </td>
+
+
+            </tr>
+            </tbody>
+
+            <tbody th:if="${myJobs == null or myJobs.isEmpty()}">
+            <tr>
+                <td colspan="3" style="border: none; padding: 0;">
+                    <div class="empty-state">
+                        <h3>You haven't created any job postings to display.</h3>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
