@@ -1,10 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
+use App\Models\User\User;
+use App\Models\User\Student;
+use App\Models\User\Admin;
+use App\Models\User\Recruiter;
 
-Route::get('/test-db', function () {
+Route::get('/test-db/users', function () {
     return User::all();
+});
+Route::get('/test-db/students', function () {
+    return Student::all();
+});
+Route::get('/test-db/admins', function () {
+    return Admin::all();
+});
+Route::get('/test-db/recruiters', function () {
+    return Recruiter::all();
 });
 
 Route::get('/', function () {
