@@ -10,11 +10,14 @@ class User extends Model
  protected $table = 'users'; // existing table name
 
     public $timestamps = false;
+    protected $fillable = ['name', 'email', 'password'];
 
-    //basically meand user has one recruiter with this specific id
+    //basically means user has one recruiter with this specific id
     //this simulates inhertance of user for recruiter
     public function recruiter(): HasOne{
-        return $this->hasOne(Recruiter::class, 'user_id');
+        return $this->hasOne(Recruiter::class, 'id');
+    }
+    public function student(): HasOne{
+        return $this->hasOne(Student::class, 'id');
     }
 }
-// 1-4 ,

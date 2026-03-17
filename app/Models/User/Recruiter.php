@@ -2,18 +2,22 @@
 
 namespace App\Models\User;
 use App\Models\Company\Company;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Recruiter extends User
+class Recruiter extends Model
 {
  protected $table = 'recruiter';
- protected $fillable = ['user_id','title'];
+ //he can only fill the title , the id is genrated
+ protected $fillable = ['id','title'];
+ protected $primaryKey = 'id';
+ public $incrementing = false;
  public $timestamps = false;
  //this shows the inhertance relationship between rec and user
     public function user() :BelongsTo
     {
         //the link between them is here
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'id', 'id');
     }
 
     public function companies()
