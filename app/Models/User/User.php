@@ -12,7 +12,7 @@ public $incrementing = true;
 protected $keyType = 'int';
    
     protected $fillable = ['f_name','l_name', 'email', 'plain_password'];
-    public $timestamps = false;
+
     //basically means user has one recruiter with this specific id
     //this simulates inhertance of user for recruiter
     public function recruiter(): HasOne{
@@ -21,6 +21,10 @@ protected $keyType = 'int';
     public function student(): HasOne{
         return $this->hasOne(Student::class, 'id');
     }
+    public function admin(): HasOne{
+        return $this->hasOne(Admin::class, 'id');
+    }
+
 }   
 
 
