@@ -5,7 +5,7 @@ use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Recruiter extends Model
+class Recruiter extends User
 {
  protected $table = 'recruiter';
  //he can only fill the title , the id is genrated

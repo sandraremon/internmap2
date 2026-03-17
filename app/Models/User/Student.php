@@ -5,7 +5,7 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Student extends Model
+class Student extends User
 {
  protected $table = 'student';
 // the id should be generated
