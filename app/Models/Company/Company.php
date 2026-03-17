@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User\Recruiter;
 
 class Company extends Model{
-    private $table='company';
+    protected $table='company';
      public function recruiters()
     {
         return $this->belongsToMany(Recruiter::class);
