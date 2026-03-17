@@ -4,6 +4,7 @@ namespace App\Models\User;
 use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Recruiter extends User
 {
@@ -20,7 +21,7 @@ class Recruiter extends User
         return $this->belongsTo(User::class, 'id', 'id');
     }
 
-    public function companies()
+    public function company():BelongsToMany
     {
         return $this->belongsToMany(Company::class,'recruiter_companies');
     }
