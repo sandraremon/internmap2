@@ -10,7 +10,7 @@ class User extends Model
  protected $table = 'users'; // existing table name
 public $incrementing = true; 
     // public $timestamps = false;
-    protected $fillable = ['fname','lname', 'email', 'plainPassword',];
+    protected $fillable = ['f_name','l_name', 'email', 'plain_pssword'];
 
     // //basically means user has one recruiter with this specific id
     // //this simulates inhertance of user for recruiter
