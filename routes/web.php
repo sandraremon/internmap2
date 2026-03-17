@@ -7,7 +7,9 @@ use App\Models\User\Admin;
 use App\Models\User\Recruiter;
 
 Route::get('/test-db/users', function () {
+    
     return User::all();
+
 });
 Route::get('/test-db/students', function () {
     return Student::all();
