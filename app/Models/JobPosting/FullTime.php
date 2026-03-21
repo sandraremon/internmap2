@@ -6,6 +6,6 @@ class FullTime extends JobPosting{
     protected $table='full_time';
         public function jobPosting()
     {
-        return $this->belongsTo(JobPosting::class,'id','id');
+        return $this->belongsTo(JobPosting::class,'id');
     }
 }

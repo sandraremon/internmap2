@@ -15,6 +15,7 @@ class Student extends User
 //   public $timestamps = false;
 //     // 'id' IS here because it's the "link" we have to save.
   protected $fillable = ['id','uni_name','student_major','faculty','graduating_year'];
+
     public function user() :BelongsTo
     {
         //the link between them is here by belongsTo

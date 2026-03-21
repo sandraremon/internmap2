@@ -7,6 +7,7 @@ class Internship extends Model
     protected $table='internship';
         public function jobPosting()
     {
-        return $this->belongsTo(JobPosting::class,'id','id');
+        return $this->belongsTo(JobPosting::class,'id');
     }
+
 }
