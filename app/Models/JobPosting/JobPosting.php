@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\JobPosting;
+use App\Models\Company\Company;
+use App\Models\User\Recruiter;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\JobPosting\Internship;
@@ -42,6 +44,6 @@ class JobPosting extends Model{
 
     public function freelanceProject():HasOne
     {
-        return $this->hasOne(FreelanceProject::class,'id','id');
+        return $this->hasOne(FreelanceProject::class,'id');
     }
 }

@@ -5,9 +5,10 @@ use App\Models\User\User;
 use App\Models\User\Student;
 use App\Models\User\Admin;
 use App\Models\User\Recruiter;
+use App\Models\JobPosting\JobPosting;
 
 Route::get('/test-db/users', function () {
-    
+
     return User::all();
 
 });
@@ -26,7 +27,22 @@ Route::get('/', function () {
 });
 
 Route::get('/JobPostings', function () {
-    return view('JobPosting');
+    $job = \App\Models\JobPosting\JobPosting::create([
+        'id'=>1033,
+        'job_description' => 'project',
+        'job_name' => 'project',
+        'job_requirements' => 'jojas',
+        'company_id' => 32,      // must exist
+        'recruiter_id' => 23  ,
+        'date_posted' => now()// must exist
+    ]);
+    $job->freelanceProject()->create([
+        'duration' => 12.4,
+        'payout' => 9400,
+        'job_location' => 'cairo'
+    ]);
+
+    return JobPosting::all();
 });
 
 Route::get('/login', function () {

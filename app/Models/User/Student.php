@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Models\User;
-
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Application\Application;
+use App\Models\Roadmap\Skill\Skill;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class Student extends User
 {
  protected $table = 'student';
@@ -21,6 +21,12 @@ class Student extends User
         //the link between them is here by belongsTo
         return $this->belongsTo(User::class, 'id', 'id');
         // , 'id','id'
+    }
+    public function Application(): HasMany{
+        return $this->hasMany(Application::class, 'id');
+    }
+    public function Skill(): HasMany{
+        return $this->hasMany(Skill::class, 'id');
     }
 
 }
