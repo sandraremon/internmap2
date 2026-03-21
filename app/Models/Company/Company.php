@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Company extends Model{
     protected $table='company';
+    protected $primaryKey = 'companyID';
+
+
+    protected $fillable = ['name', 'websiteURL','locationOfHQ'];
+    public function JobPosting():HasMany
+    {
+        return $this->HasMany(JobPosting::class,'id');
+    }
+
      public function recruiter() :BelongsToMany
     {
         return $this->belongsToMany(Recruiter::class);
