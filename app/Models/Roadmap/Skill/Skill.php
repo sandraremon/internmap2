@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Skill extends Model{
     protected $table = 'skill';
+    protected $primaryKey = 'id';
     protected $fillable = ['description', 'name'];
     public $timestamps = false;
     public array $skill_resource_links = [];
@@ -19,6 +20,9 @@ class Skill extends Model{
     public function student(): HasMany
     {
         return $this->hasMany(Student::class, 'id');
+    }
+    public function skill_resource_links(): HasMany{
+        return $this->HasMany(skill_resource_links::class, 'id');
     }
 
 }

@@ -4,12 +4,6 @@ namespace App\Models\JobPosting;
 use App\Models\Company\Company;
 use App\Models\User\Recruiter;
 use Illuminate\Database\Eloquent\Model;
-
-use App\Models\JobPosting\Internship;
-use App\Models\JobPosting\FullTime;
-use App\Models\JobPosting\FreelanceProject;
-
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -22,7 +16,7 @@ class JobPosting extends Model{
     protected $keyType = 'int';
     protected $primaryKey = 'id';
 
-    protected $fillable=['id','job_description','job_name','job_requirements', 'date_posted'];
+    protected $fillable=['job_description','job_name','job_requirements', 'date_posted'];
     public $timestamps=false;
 
     public function recruiter():BelongsTo
@@ -45,5 +39,9 @@ class JobPosting extends Model{
     public function freelanceProject():HasOne
     {
         return $this->hasOne(FreelanceProject::class,'id');
+    }
+    public function Application(): HasMany
+    {
+        return $this->HasMany(JobPosting::class,'id');
     }
 }

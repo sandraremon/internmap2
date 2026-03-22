@@ -2,14 +2,15 @@
 
 namespace App\Models\Roadmap;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class Roadmap extends Model
 {
     protected $table = 'roadmap';
-
-    protected $fillable=['id','name'];
-    public function RoadmapModule(): HasMany{
-        return $this->hasMany(RoadmapModule::class, 'id');
+    protected $primaryKey ='id';
+    protected $fillable=['name'];
+    public function RoadmapModule(): BelongsToMany{
+        return $this->belongsToMany(RoadmapModule::class, 'roadmap_roadmap_modules');
     }
 }

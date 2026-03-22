@@ -27,19 +27,27 @@ Route::get('/', function () {
 });
 
 Route::get('/JobPostings', function () {
-    $job = \App\Models\JobPosting\JobPosting::create([
-        'id'=>1033,
+    $job = JobPosting::create([
         'job_description' => 'project',
         'job_name' => 'project',
         'job_requirements' => 'jojas',
-        'company_id' => 32,      // must exist
-        'recruiter_id' => 23  ,
+        //'company_id' => 32,      // must exist
+        //'recruiter_id' => 23  ,
         'date_posted' => now()// must exist
     ]);
+
     $job->freelanceProject()->create([
-        'duration' => 12.4,
-        'payout' => 9400,
+        'duration'=> 0,
+        'payout' => 1,
+        'job_location'=>"cairo"
+    ]);
+
+    $job->internship()->create([
+        'duration' => 13.1,
         'job_location' => 'cairo'
+    ]);
+    $job->fullTime()->create([
+        'benefits' => 'anything'
     ]);
 
     return JobPosting::all();
