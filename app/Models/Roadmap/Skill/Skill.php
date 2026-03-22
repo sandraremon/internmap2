@@ -5,6 +5,7 @@ use App\Models\Roadmap\RoadmapModule;
 use App\Models\User\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Skill extends Model{
@@ -12,14 +13,13 @@ class Skill extends Model{
     protected $primaryKey = 'id';
     protected $fillable = ['description', 'name'];
     public $timestamps = false;
-    public array $skill_resource_links = [];
-    public function RoadmapModule() :BelongsTo
+    public function RoadmapModule() :BelongsToMany
     {
-        return $this->belongsTo(RoadmapModule::class, 'id', 'id');
+        return $this->belongsToMany(RoadmapModule::class, 'id', 'id');
     }
-    public function student(): HasMany
+    public function student(): BelongstoMany
     {
-        return $this->hasMany(Student::class, 'id');
+        return $this->belongsToMany(Student::class, 'skill');
     }
     public function skill_resource_links(): HasMany{
         return $this->HasMany(skill_resource_links::class, 'id');

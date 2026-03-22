@@ -4,6 +4,7 @@ namespace App\Models\User;
 use App\Models\Application\Application;
 use App\Models\Roadmap\Skill\Skill;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 class Student extends User
 {
@@ -25,8 +26,8 @@ class Student extends User
     public function Application(): HasMany{
         return $this->hasMany(Application::class, 'id');
     }
-    public function Skill(): HasMany{
-        return $this->hasMany(Skill::class, 'id');
+    public function Skill(): BelongsToMany{
+        return $this->belongstoMany(Skill::class, 'id');
     }
 
 }

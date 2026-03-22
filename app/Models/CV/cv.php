@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class cv extends Model
 {
-    //id should be insrementing
+    //id should be incrementing
     protected $table = 'cv';
     protected $primaryKey = 'cv_id';
     public $incrementing = true;

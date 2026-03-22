@@ -3,7 +3,7 @@
 namespace App\Models\Roadmap;
 use App\Models\Roadmap\Skill\Skill;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RoadmapModule extends Model
@@ -12,11 +12,10 @@ class RoadmapModule extends Model
     protected $primaryKey = 'roadmap_module_id';
 
     protected $fillable = [ 'name' , 'description'];
-    public function Roadmap() :BelongsTo
+    public function Roadmap() :BelongsToMany
     {
         //the link between them is here by belongsTo
-        return $this->belongsTo(Roadmap::class, 'id', 'id');
-        // , 'id','id'
+        return $this->belongsToMany(Roadmap::class,'roadmap_roadmap_modules');
     }
     public function skill(): HasMany
     {

@@ -82,6 +82,7 @@ Route::get('/CV', function () {
 });
 
 Route::get('/application', function () {
+
     return view('Application');
 });
 
