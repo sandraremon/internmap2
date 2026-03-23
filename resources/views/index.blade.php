@@ -37,10 +37,11 @@
                    style="text-decoration: none;">
                 </a>
 
-                <a temp="${roadmaps.isEmpty and isAdmin == false}"
-                   style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
+                @if ($roadmaps->isEmpty())
+                <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
                     No roadmaps to show.
                 </a>
+                @endif
             </div>
         </body>
     </x-indexFooter>

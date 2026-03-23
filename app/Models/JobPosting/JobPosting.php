@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-
 class JobPosting extends Model{
     //it needs company relationship and recruiter relationship
     protected $table='job_posting';
@@ -26,6 +25,7 @@ class JobPosting extends Model{
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
+
     public function internship(): HasOne{
         return $this->hasOne(Internship::class, 'id_internship');
     }
@@ -39,6 +39,7 @@ class JobPosting extends Model{
     {
         return $this->hasOne(FreelanceProject::class,'id');
     }
+
     public function Application(): HasMany
     {
         return $this->HasMany(JobPosting::class,'id');

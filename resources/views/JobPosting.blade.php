@@ -125,7 +125,6 @@
 </head>
 
 <x-indexHeader>
-    <x-indexFooter>
         <body>
             <div class="search-action-container">
                 <div id="bb1" class="no-longer-a-box">
@@ -150,12 +149,13 @@
                         <button class="action-btn">View Your job postings</button>
                     </a>
                 </div>
+                @if($jobpostings->isEmpty())
                 <div style="margin-top: 70px; margin-bottom: -90px;">
-                    <a temp="${jobPostings.isEmpty()}"
-                       style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
+                    <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
                         No job postings to show.
                     </a>
                 </div>
+                @endif
             </div>
 
             <div>
