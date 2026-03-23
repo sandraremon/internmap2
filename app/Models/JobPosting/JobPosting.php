@@ -15,8 +15,7 @@ class JobPosting extends Model{
     public $incrementing = true;
     protected $keyType = 'int';
     protected $primaryKey = 'id';
-
-    protected $fillable=['job_description','job_name','job_requirements', 'date_posted'];
+    protected $fillable=['recruiter_id','company_id','job_description','job_name','job_requirements', 'date_posted'];
     public $timestamps=false;
 
     public function recruiter():BelongsTo

@@ -8,9 +8,7 @@ use App\Models\User\Recruiter;
 use App\Models\JobPosting\JobPosting;
 
 Route::get('/test-db/users', function () {
-
     return User::all();
-
 });
 Route::get('/test-db/students', function () {
     return Student::all();
@@ -93,5 +91,3 @@ Route::get('/viewApplicationDetails', function () {
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');
 });
-
-
