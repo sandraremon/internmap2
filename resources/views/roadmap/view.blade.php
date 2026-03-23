@@ -223,43 +223,44 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <img src="/images/compass.png" alt="Roadmap Logo" width="140" height="140">
-        <h1 th:text="${roadmap.name}" style="font-weight: 700">Roadmap Name</h1>
-    </div>
+//TODO: THIS
+    <div class="container">
+        <div class="header">
+            <img src="/images/compass.png" alt="Roadmap Logo" width="140" height="140">
+            <h1 style="font-weight: 700">{{$roadmap->name}}</h1>
+        </div>
 
-    <div class="back-button">
-        <img src="/images/chevron.png" alt="Back Button" onclick="location.href = '/'" width="20" height="28">
-    <button class="btn-header primary" onclick="location.href = '/'">Back</button>
-    </div>
-    <div class="roadmap-container">
-        <div th:if="${roadmap.allModules != null and !roadmap.allModules.isEmpty()}">
-            <div class="module" th:each="module, iterStat : ${roadmap.allModules}">
-                <div class="module-header" th:onclick="'toggleModule(' + ${iterStat.index} + ')'">
-                    <div class="module-info">
-                        <div class="module-title" th:text="${module.name}">Module Name</div>
-                        <div class="module-description" th:text="${module.description}">Module Description</div>
-                    </div>
-<!--                    <div class="module-toggle"></div>-->
-                </div>
+        <div class="back-button">
+            <img src="/images/chevron.png" alt="Back Button" onclick="location.href = '/'" width="20" height="28">
+            <button class="btn-header primary" onclick="location.href = '/'">Back</button>
+        </div>
+        <div class="roadmap-container">
+                @foreach($roadmap->modules as $module)
+                    <div class="module">
+                        <div class="module-header" th:onclick="'toggleModule(' + ${iterStat.index} + ')'">
+                            <div class="module-info">
+                                <div class="module-title" th:text="${module.name}">{{}}</div>
+                                <div class="module-description" th:text="${module.description}">Module Description</div>
+                            </div>
+                            <!--                    <div class="module-toggle"></div>-->
+                        </div>
 
-                <div class="skills-grid" th:if="${module.allSkills != null and !module.allSkills.isEmpty()}">
-                    <div class="skill-card" th:each="skill : ${module.allSkills}">
-                        <div class="skill-name" th:text="${skill.name}">Skill Name</div>
-                        <div class="skill-description" th:text="${skill.description}">Skill Description</div>
+                        <div class="skills-grid" th:if="${module.allSkills != null and !module.allSkills.isEmpty()}">
+                            <div class="skill-card" th:each="skill : ${module.allSkills}">
+                                <div class="skill-name" th:text="${skill.name}">Skill Name</div>
+                                <div class="skill-description" th:text="${skill.description}">Skill Description</div>
 
-                        <div class="resource-links" th:if="${skill.resourceLinks != null and !skill.resourceLinks.isEmpty()}">
-                            <a th:each="link : ${skill.resourceLinks}"
-                               th:href="${link}"
-                               th:text="'Resource ' + ${linkStat.index + 1}"
-                               class="resource-link"
-                               target="_blank">Resource</a>
+                                <div class="resource-links" th:if="${skill.resourceLinks != null and !skill.resourceLinks.isEmpty()}">
+                                    <a th:each="link : ${skill.resourceLinks}"
+                                       th:href="${link}"
+                                       th:text="'Resource ' + ${linkStat.index + 1}"
+                                       class="resource-link"
+                                       target="_blank">Resource</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                @endforeach
 
         <div th:if="${roadmap.allModules == null or roadmap.allModules.isEmpty()}" class="empty-state">
             <p>No modules available yet</p>

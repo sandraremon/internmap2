@@ -159,31 +159,34 @@
             </div>
 
             <div>
-                <div class="grid" id="box">
-                    <div class="box" temp="job : ${jobPostings}">
-                        <div id="Title" temp="${job.jobName}">Title</div>
-                        <div id="info" temp="${job.jobDescription}">
-                            "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes... the ones who see things differently - they're not fond of rules... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things... they push the human race forward, and while some may see them as the crazy ones, we see genius, because the ones who are crazy enough to think that they can change the world, are the ones who do."
-                        </div>
-                        <hr id="separator">
-                        <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
-                        <div class="unordered-list" id="details-specifics">
-                            <ul>
-                                <li>Email: <span temp="${job.recruiterEmail}">example@example.com</span></li>
-                                <li>Company: <span temp="${job.companyName}">[COMPANY NAME]</span></li>
-                                <li>Posting Type: <span temp="${job.jobPostingType}">Full Time</span></li>
-                                <li>Date Posted: <span temp="${job.datePosted}">2024-01-01</span></li>
-                                <li>Requirements: <span temp="${job.jobRequirements}">Requirements</span></li>
-                                <li>Job ID: <span temp="${job.jobPostingUUID}">UUID</span></li>
-                            </ul>
-                            <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
-                                <a temp="@{/applications/new(jobId=${job.jobPostingUUID})}" style="text-decoration: none" temp="${isRecruiter == false && isAdmin == false}">
-                                    <button id="apply-button">Apply</button>
-                                </a>
+                @foreach ($jobpostings as $job)
+
+                    <div class="grid" id="box">
+                        <div class="box">
+                            <div id="Title"> {{$job->job_name}}</div>
+                            <div id="info">
+                                {{$job->job_description}}
+                            </div>
+                            <hr id="separator">
+                            <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
+                            <div class="unordered-list" id="details-specifics">
+                                <ul>
+                                    <li>Email: {{$job->recruiter_id}}</li>
+                                    <li> Company: {{$job->company_id}}</li>
+{{--                                    <li> Posting Type: {{$job->jobPostingType}}</li>--}}
+                                    <li> Date Posted: {{$job->date_posted}}</li>
+                                    <li>Requirements: {{$job->job_requirements}}</li>
+                                    <li>Job ID: {{$job->id}}</li>
+                                </ul>
+                                <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
+                                    <a href="/applications/new?jobId={{$job->id}}" style="text-decoration: none" temp="${isRecruiter == false && isAdmin == false}">
+                                        <button id="apply-button">Apply</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </body>
     </x-indexFooter>

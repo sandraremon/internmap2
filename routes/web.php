@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobPostingController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User\User;
 use App\Models\User\Student;
@@ -24,32 +25,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/JobPostings', function () {
-    $job = JobPosting::create([
-        'job_description' => 'project',
-        'job_name' => 'project',
-        'job_requirements' => 'jojas',
-        //'company_id' => 32,      // must exist
-        //'recruiter_id' => 23  ,
-        'date_posted' => now()// must exist
-    ]);
-
-    $job->freelanceProject()->create([
-        'duration'=> 0,
-        'payout' => 1,
-        'job_location'=>"cairo"
-    ]);
-
-    $job->internship()->create([
-        'duration' => 13.1,
-        'job_location' => 'cairo'
-    ]);
-    $job->fullTime()->create([
-        'benefits' => 'anything'
-    ]);
-
-    return JobPosting::all();
-});
+Route::get('/JobPostings', [JobPostingController::class, 'index']);
 
 Route::get('/login', function () {
     return view('login');
