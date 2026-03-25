@@ -8,20 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Skill extends Model{
+class Skill extends Model
+{
+
     protected $table = 'skill';
+
     protected $primaryKey = 'id';
+
     protected $fillable = ['description', 'name'];
     public $timestamps = false;
+
     public function RoadmapModule() :BelongsToMany
     {
         return $this->belongsToMany(RoadmapModule::class, 'id', 'id');
     }
+
     public function student(): BelongstoMany
     {
         return $this->belongsToMany(Student::class, 'skill');
     }
-    public function skill_resource_links(): HasMany{
+
+    public function skill_resource_links(): HasMany
+    {
         return $this->HasMany(skill_resource_links::class, 'id');
     }
 

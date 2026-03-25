@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Changed 'User' to 'users' to match Laravel standards
+//        // Changed 'User' to 'users' to match Laravel standards
         Schema::create('users', function (Blueprint $table) {
             $table->id(); // Auto-incrementing ID
             $table->string('f_name'); // Matches your model $fillable
             $table->string('l_name');
             $table->string('email')->unique();
-            $table->string('plain_password'); // Matches your existing database setup
-            $table->integer('role')->default(1);
+            $table->string('password'); // Matches your existing database setup
+            $table->string('role')->default('STUDENT');
 
             // Remove $table->timestamps(); if you want to avoid 'updated_at' errors
             // Or keep them and remove 'public $timestamps = false;' from your User model

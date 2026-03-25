@@ -10,10 +10,12 @@ class cv extends Model
 {
     //id should be incrementing
     protected $table = 'cv';
+
     protected $primaryKey = 'cv_id';
     public $incrementing = true;
 
-    protected $fillable = ['description','past_experiences' , 'projects'];
+    protected $fillable = ['description', 'past_experiences', 'projects'];
+
     public function Student(): BelongsTo
     {
         return $this->belongsTo(Student::class , 'id');
