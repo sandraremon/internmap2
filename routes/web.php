@@ -22,7 +22,7 @@ Route::get('/test-db/recruiters', function () {
 });
 
 Route::get('/', function () {
-    return view('index');
+    return view('index', [ "roadmaps" => \App\Models\Roadmap\Roadmap::all() ]);
 });
 
 Route::get('/JobPostings', [ JobPostingController::class, 'index']);
