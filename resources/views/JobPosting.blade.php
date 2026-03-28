@@ -136,11 +136,12 @@
                         <button id="bu2"> Positions</button>
                     </div>
                 </div>
-                <form temp="@{/JobPostings/search(searchQuery=${searchQuery})}" method="post" class="search-form">
+                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">
+                    @csrf
                     <input type="text" name="searchQuery" placeholder="Search by company name or job title" class="search-input"/>
                     <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>
                 </form>
-
+f
                 <div class="action-buttons">
                     <a href="/JobPostingForm" temp="${isRecruiter == true}">
                         <button class="action-btn">Add a job posting</button>
@@ -150,17 +151,15 @@
                     </a>
                 </div>
                 @if($jobpostings->isEmpty())
-                <div style="margin-top: 70px; margin-bottom: -90px;">
-                    <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
-                        No job postings to show.
-                    </a>
-                </div>
+                    <div style="margin-top: 70px; margin-bottom: -90px;">
+                        <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
+                            No job postings to show.
+                        </a>
+                    </div>
                 @endif
             </div>
-
+            @foreach ($jobpostings as $job)
             <div>
-                @foreach ($jobpostings as $job)
-
                     <div class="grid" id="box">
                         <div class="box">
                             <div id="Title"> {{$job->job_name}}</div>
