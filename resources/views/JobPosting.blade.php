@@ -150,16 +150,16 @@ f
                         <button class="action-btn">View Your job postings</button>
                     </a>
                 </div>
-                @if($jobpostings->isEmpty())
+                <!-- @if($jobpostings->isEmpty())
                     <div style="margin-top: 70px; margin-bottom: -90px;">
                         <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
                             No job postings to show.
                         </a>
                     </div>
-                @endif
+                @endif -->
             </div>
-            @foreach ($jobpostings as $job)
             <div>
+                @foreach ($jobpostings as $job)
                     <div class="grid" id="box">
                         <div class="box">
                             <div id="Title"> {{$job->job_name}}</div>

@@ -6,23 +6,29 @@ use App\Models\User\User;
 use App\Models\User\Student;
 use App\Models\User\Admin;
 use App\Models\User\Recruiter;
-use App\Models\JobPosting\JobPosting;
+use App\Models\Roadmap\Roadmap;
 
 Route::get('/test-db/users', function () {
     return User::all();
 });
+
 Route::get('/test-db/students', function () {
     return Student::all();
 });
+
 Route::get('/test-db/admins', function () {
     return Admin::all();
 });
+
 Route::get('/test-db/recruiters', function () {
     return Recruiter::all();
 });
 
 Route::get('/', function () {
-    return view('index', [ "roadmaps" => \App\Models\Roadmap\Roadmap::all() ]);
+    $roadmaps = Roadmap::all();
+    return view('index',[
+                   'roadmaps' => $roadmaps
+               ]);
 });
 
 Route::get('/JobPostings', [ JobPostingController::class, 'index']);

@@ -30,7 +30,7 @@
             <div class="button-grid">
                 <a temp="@{/roadmaps/new}"
                    class="grid-button" temp="${isAdmin == true}"><img src="/images/plus.png" alt="Create new Roadmap" width="46" height="46" id="grid-button-plus"></a>
-                <a temp="@{/roadmaps/{id}(id=${roadmap.roadmapID})}"
+                <a temp="{/roadmaps/{id}(id={$roadmap.roadmapID})}"
                    class="grid-button"
                    temp="roadmap : ${roadmaps}"
                    temp="${roadmap.name}"
