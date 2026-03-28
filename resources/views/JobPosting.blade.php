@@ -133,7 +133,7 @@
                     </div>
                     <div id="bb2">
                         <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
-                        <button id="bu2"> Positions</button>
+                        <button id="bu2">Positions</button>
                     </div>
                 </div>
 {{--                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">--}}
@@ -158,8 +158,8 @@
                 @endif
             </div>
             <div>
-                @foreach ($jobpostings as $job)
                     <div class="grid" id="box">
+                        @foreach ($jobpostings as $job)
                         <div class="box">
                             <div id="Title"> {{$job->job_name}}</div>
                             <div id="info">
@@ -183,8 +183,8 @@
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
             </div>
         </body>
 </x-indexHeader>
