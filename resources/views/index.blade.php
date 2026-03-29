@@ -28,14 +28,12 @@
             </div>
 
             <div class="button-grid">
-                <a temp="@{/roadmaps/new}"
-                   class="grid-button" temp="${isAdmin == true}"><img src="/images/plus.png" alt="Create new Roadmap" width="46" height="46" id="grid-button-plus"></a>
-                <a temp="{/roadmaps/{id}(id={$roadmap.roadmapID})}"
-                   class="grid-button"
-                   temp="roadmap : ${roadmaps}"
-                   temp="${roadmap.name}"
-                   style="text-decoration: none;">
+                <a temp="@{/roadmaps/new}" class="grid-button" temp="${isAdmin == true}" onclick="location.href = '/new'"><img src="/Images/plus.png" alt="Create" width="46" height="46" id="grid-button-plus"></a>
+                @foreach ($roadmaps as $roadmap)
+                <a temp="{/roadmaps/{id}(id={$roadmap.roadmapID})}" class="grid-button" style="text-decoration: none;">
+                    {{$roadmap->name}}
                 </a>
+                @endforeach
 
                 @if ($roadmaps->isEmpty())
                 <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
@@ -43,6 +41,7 @@
                 </a>
                 @endif
             </div>
+
         </body>
     </x-indexFooter>
 </x-indexHeader>

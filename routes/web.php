@@ -6,20 +6,23 @@ use App\Models\User\User;
 use App\Models\User\Student;
 use App\Models\User\Admin;
 use App\Models\User\Recruiter;
-use App\Models\JobPosting\JobPosting;
 use App\Models\Roadmap\Roadmap;
 
 Route::get('/test-db/users', function () {
     return User::all();
 });
+
 Route::get('/test-db/students', function () {
     return Student::all();
 });
+
 Route::get('/test-db/admins', function () {
     return Admin::all();
 });
+
 Route::get('/test-db/recruiters', function () {
-    return Recruiter::all();});
+    return Recruiter::all();
+});
 
 Route::get('/', function () {
     $roadmaps = Roadmap::all();
@@ -46,8 +49,16 @@ Route::get('/recruiter/register', function () {
     return view('RecruiterRegister');
 });
 
+Route::get('/recruiter/jobpostings', function () {
+    return view('recruiter-jobpostings');
+});
+
 Route::get('/admin/register', function () {
     return view('AdminRegister');
+});
+
+Route::get('/company/register', function () {
+    return view('CompanyRegister');
 });
 
 Route::get('/profile', function () {
@@ -65,6 +76,10 @@ Route::get('/application', function () {
 
 Route::get('/viewApplicationDetails', function () {
     return view('ViewApplicationDetail');
+});
+
+Route::get('/new', function () {
+   return view('roadmap.form');
 });
 
 Route::get('/JobPostingForm', function () {

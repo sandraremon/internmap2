@@ -133,15 +133,14 @@
                     </div>
                     <div id="bb2">
                         <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
-                        <button id="bu2"> Positions</button>
+                        <button id="bu2">Positions</button>
                     </div>
                 </div>
-                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">
-                    @csrf
-                    <input type="text" name="searchQuery" placeholder="Search by company name or job title" class="search-input"/>
-                    <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>
-                </form>
-f
+{{--                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">--}}
+{{--                    @csrf--}}
+{{--                    <input type="text" name="searchQuery" placeholder="Search by company name or job title" class="search-input"/>--}}
+{{--                    <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>--}}
+{{--                </form>--}}
                 <div class="action-buttons">
                     <a href="/JobPostingForm" temp="${isRecruiter == true}">
                         <button class="action-btn">Add a job posting</button>
@@ -150,17 +149,17 @@ f
                         <button class="action-btn">View Your job postings</button>
                     </a>
                 </div>
-                <!-- @if($jobpostings->isEmpty())
+                @if($jobpostings->isEmpty())
                     <div style="margin-top: 70px; margin-bottom: -90px;">
                         <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
                             No job postings to show.
                         </a>
                     </div>
-                @endif -->
+                @endif
             </div>
             <div>
-                @foreach ($jobpostings as $job)
                     <div class="grid" id="box">
+                        @foreach ($jobpostings as $job)
                         <div class="box">
                             <div id="Title"> {{$job->job_name}}</div>
                             <div id="info">
@@ -184,10 +183,9 @@ f
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
             </div>
         </body>
-    </x-indexFooter>
 </x-indexHeader>
 </html>

@@ -31,7 +31,7 @@
         </div>
     </div>
     <div id="l1">
-        <img id="logo" src="/Images/New Logo.png" alt="This didn't load successfully >:(" onclick="location.href = '/';" style="cursor: pointer">
+        <img id="logo" src="/Images/Navi/Navi Unique.png" alt="This didn't load successfully >:(" onclick="location.href = '/';" style="cursor: pointer">
         <span id="p1">InternMap</span>
         <span id="p2">Welcome to the platform that sets your future for you</span>
     </div>
