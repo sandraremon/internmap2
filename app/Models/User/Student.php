@@ -3,10 +3,15 @@
 namespace App\Models\User;
 use App\Models\Application\Application;
 use App\Models\Roadmap\Skill\Skill;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-class Student extends User
+
+/**
+ * @method static create(array $validated)
+ */
+class Student extends Model
 {
     protected $table = 'student';
 
@@ -14,6 +19,7 @@ class Student extends User
     protected $primaryKey = 'id';
 //   laravel automatically increments the id in every class, but my user id and student id are the same
     public $incrementing = false;
+    public $timestamps = false;
 
 //   public $timestamps = false;
 //   'id' IS here because it's the "link" we have to save.
@@ -23,7 +29,6 @@ class Student extends User
     {
         //the link between them is here by belongsTo
         return $this->belongsTo(User::class, 'id', 'id');
-        // , 'id','id'
     }
 
     public function Application(): HasMany

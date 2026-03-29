@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Recruiter;
 use Illuminate\Http\Request;
 
 class RecruiterController extends Controller
@@ -11,7 +12,7 @@ class RecruiterController extends Controller
      */
     public function index()
     {
-        //
+        return Recruiter::all();
     }
 
     /**
@@ -19,7 +20,7 @@ class RecruiterController extends Controller
      */
     public function create()
     {
-        //
+        return view('RecruiterRegister');
     }
 
     /**
@@ -46,19 +47,10 @@ class RecruiterController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $user = app(UserController::class)->update($request, $id);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

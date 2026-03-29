@@ -5,6 +5,9 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @method static create(array $array)
+ */
 class User extends Model
 {
     protected $table = 'users';
@@ -12,6 +15,7 @@ class User extends Model
     public $incrementing = true;
 
     protected $keyType = 'int';
+    public $timestamps = false;
 
     protected $fillable = ['f_name','l_name', 'email', 'plain_password'];
 

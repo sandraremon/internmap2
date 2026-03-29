@@ -2,40 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        return Student::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // takes you to the register form
+    //then save the student who registered in the store()
     public function create()
     {
-        //
+        return view('StudentRegister');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //the request is the newly registered student
+    //gives me the data that the student just submitted
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'uni_name'        => 'required|string',
+            'student_major'   => 'required|string',
+            'faculty'         => 'required|string',
+            'graduating_year' => 'required|integer',
+        ]);
+        $user = app(UserController::class)->store($request);
+
+        $validated['id'] = $user->id;
+        return redirect("/");
     }
 
-    /**
-     * Display the specified resource.
-     */
+    //send the user of that id - we can also make it an email
+    //maybe for the search bar ?
     public function show(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return $student;
     }
 
     /**
@@ -46,19 +52,10 @@ class StudentController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    //update credentials
     public function update(Request $request, string $id)
     {
-        //
+        $user = app(UserController::class)->update($request, $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

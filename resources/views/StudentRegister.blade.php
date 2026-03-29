@@ -2,91 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>InternMap - Login</title>
+    <title>InternMap - Register</title>
     <link rel="icon" type="image/png" href="/images/New Logo.png">
     <link rel="stylesheet" href="/css/InternMapSignIn.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <meta name="viewport" content="height=device-height, scale=0.2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-
-<x-header>
-    <x-footer>
 <body>
+<x-header />
+
 <h2 class="form-title">Sign up</h2>
 <div class="form-container">
-<form  action="@{/student/register}" object="${user}" method="post">
-    <div temp="${errorMessage}"
-         style="color:red;border:0 solid red;padding:2px;margin-bottom:15px; font-weight: 550;">
-        <p temp="${errorMessage}"></p></div>
-    <div class="form-row">
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{FName}"
-               placeholder="First name"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{LName}"
-               placeholder="Last name"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="email"
-               class="form-input"
-               temp="*{email}"
-               placeholder="Email"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="password"
-               class="form-input"
-               temp="*{plainPassword}"
-               placeholder="Password"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{graduatingYear}"
-               placeholder="Graduating Year"
-               required />
-    </div>
 
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{uniName}"
-               placeholder="University"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{studentMajor}"
-               placeholder="Major"
-               required />
-    </div>
-    <div class="form-group">
-        <input type="text"
-               class="form-input"
-               temp="*{faculty}"
-               placeholder="Faculty"
-               required />
-    </div>
-    </div>
-    <button type="submit" class="form-submit">Create Account</button>
-</form>
-<p class="form-link">
-    Already have an account?
-    <a href="/login">Sign in</a>
-</p>
+    @if ($errors->any())
+        <div style="color:red; margin-bottom:15px; font-weight:550;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('student.register.submit') }}">
+        @csrf
+
+        <div class="form-row">
+            <div class="form-group">
+                <input type="text"
+                       name="f_name"
+                       class="form-input"
+                       value="{{ old('f_name') }}"
+                       placeholder="First name"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="l_name"
+                       class="form-input"
+                       value="{{ old('l_name') }}"
+                       placeholder="Last name"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="email"
+                       name="email"
+                       class="form-input"
+                       value="{{ old('email') }}"
+                       placeholder="Email"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="password"
+                       name="password"
+                       class="form-input"
+                       value="{{ old('password') }}"
+                       placeholder="Password"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="graduating_year"
+                       class="form-input"
+                       value="{{ old('graduating_year') }}"
+                       placeholder="Graduating Year"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="uni_name"
+                       class="form-input"
+                       value="{{ old('uni_name') }}"
+                       placeholder="University"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="student_major"
+                       class="form-input"
+                       value="{{ old('student_major') }}"
+                       placeholder="Major"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="faculty"
+                       class="form-input"
+                       value="{{ old('faculty') }}"
+                       placeholder="Faculty"
+                       required />
+            </div>
+        </div>
+
+        <button type="submit" class="form-submit">Create Account</button>
+    </form>
+
+    <p class="form-link">
+        Already have an account?
+        <a href="/login">Sign in</a>
+    </p>
 </div>
+
+<x-footer />
 </body>
-    </x-footer>
-</x-header>
 </html>
