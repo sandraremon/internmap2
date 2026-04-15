@@ -28,7 +28,18 @@ class RecruiterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'f_name' => 'required',
+            'l_name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $data['password'] = bcrypt($data['password']);
+
+        // Create the user
+        Recruiter::create($data);
     }
 
     /**
@@ -36,7 +47,7 @@ class RecruiterController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Recruiter::find($id);
     }
 
     /**

@@ -36,7 +36,7 @@ class RoadmapController extends Controller
         ]);
 
         Roadmap::create($roadmap);
-        return view('roadmap.form');
+        return redirect("/");
         //this fetches the data and saves it in database
     }
 
@@ -53,6 +53,8 @@ class RoadmapController extends Controller
      */
     public function edit(string $id)
     {
+        $roadmap = Roadmap::find($id);
+        return view('roadmap.form', ['roadmap' => $roadmap]);
         // idk what to put in here
     }
 
@@ -66,7 +68,7 @@ class RoadmapController extends Controller
         ]);
         $roadmap = Roadmap::find($id);
         $roadmap->update($data);
-        return view('roadmap.form');
+         return view('roadmap.view', ['roadmap' => $roadmap]);
     }
 
     /**

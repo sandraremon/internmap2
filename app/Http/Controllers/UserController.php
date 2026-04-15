@@ -48,6 +48,7 @@ class UserController extends Controller
     //i can use this if i have a update form for user and email
     public function edit(User $user)
     {
+
         //
     }
 
@@ -66,10 +67,9 @@ class UserController extends Controller
     }
 
 
-    //this should be restrictly for the admin
+    //this should be restrictly for the admin     ( I've removed the function for here as we will only use it in admin )
     public function destroy(User $user)
     {
-        $user->delete();
         // return anything , confirmation and homePage
     }
 }
