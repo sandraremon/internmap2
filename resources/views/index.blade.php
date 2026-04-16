@@ -28,10 +28,12 @@
             </div>
 
             <div class="button-grid">
-                <a temp="@{/roadmaps/new}" class="grid-button" temp="${isAdmin == true}" onclick="location.href = '/new'"><img src="/Images/plus.png" alt="Create" width="46" height="46" id="grid-button-plus"></a>
+                @if (auth()->check() && auth()->user()->role === 'ADMIN')
+                    <a href="{{ url('/new') }}" class="grid-button" onclick="location.href = '/new'"><img src="/Images/plus.png" alt="Create" width="46" height="46" id="grid-button-plus"></a>
+                @endif
                 @foreach ($roadmaps as $roadmap)
-                <a temp="{/roadmaps/{id}(id={$roadmap.roadmapID})}" class="grid-button" style="text-decoration: none;">
-                    {{$roadmap->name}}
+                        <a href="{{ url('/roadmaps/' . ($roadmap->roadmapID ?? $roadmap->id ?? '')) }}" class="grid-button" style="text-decoration: none;">
+                        {{$roadmap->name}}
                 </a>
                 @endforeach
 

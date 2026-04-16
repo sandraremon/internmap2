@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\Student;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
-use App\Models\User\User;
 
 class StudentController extends Controller
 {
@@ -21,41 +21,18 @@ class StudentController extends Controller
         return view('StudentRegister');
     }
 
-    //the request is the newly registered student
-    //gives me the data that the student just submitted
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'f_name' => 'required|string',
-            'l_name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-            'uni_name' => 'required|string',
-            'student_major' => 'required|string',
-            'faculty' => 'required|string',
+            'uni_name'        => 'required|string',
+            'student_major'   => 'required|string',
+            'faculty'         => 'required|string',
             'graduating_year' => 'required|integer',
         ]);
-
-        // Create User
-        $user = User::create([
-            'f_name' => $validated['f_name'],
-            'l_name' => $validated['l_name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-            'role' => 'STUDENT',
-        ]);
-
-        // Create Student record
-        Student::create([
-            'id' => $user->id,
-            'uni_name' => $validated['uni_name'],
-            'student_major' => $validated['student_major'],
-            'faculty' => $validated['faculty'],
-            'graduating_year' => $validated['graduating_year'],
-        ]);
-
-        auth()->login($user);
-
+        $request->merge(['role' => UserRole::STUDENT->value]);
+        $user = app(UserController::class)->store($request);
+        $validated['id'] = $user->id;
+        Student::create($validated);
         return redirect("/");
     }
 

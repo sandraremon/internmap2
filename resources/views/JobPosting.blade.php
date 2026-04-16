@@ -125,67 +125,70 @@
 </head>
 
 <x-indexHeader>
-        <body>
-            <div class="search-action-container">
-                <div id="bb1" class="no-longer-a-box">
-                    <div id="bh">
-                        Explore Job Postings
-                    </div>
-                    <div id="bb2">
-                        <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
-                        <button id="bu2">Positions</button>
-                    </div>
-                </div>
-{{--                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">--}}
-{{--                    @csrf--}}
-{{--                    <input type="text" name="searchQuery" placeholder="Search by company name or job title" class="search-input"/>--}}
-{{--                    <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>--}}
-{{--                </form>--}}
-                <div class="action-buttons">
-                    <a href="/JobPostingForm" temp="${isRecruiter == true}">
-                        <button class="action-btn">Add a job posting</button>
-                    </a>
-                    <a href="/recruiter/jobpostings" temp="${isRecruiter == true}">
-                        <button class="action-btn">View Your job postings</button>
-                    </a>
-                </div>
-                @if($jobpostings->isEmpty())
-                    <div style="margin-top: 70px; margin-bottom: -90px;">
-                        <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
-                            No job postings to show.
-                        </a>
-                    </div>
-                @endif
+    <body>
+    <div class="search-action-container">
+        <div id="bb1" class="no-longer-a-box">
+            <div id="bh">
+                Explore Job Postings
             </div>
-            <div>
-                    <div class="grid" id="box">
-                        @foreach ($jobpostings as $job)
-                        <div class="box">
-                            <div id="Title"> {{$job->job_name}}</div>
-                            <div id="info">
-                                {{$job->job_description}}
-                            </div>
-                            <hr id="separator">
-                            <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
-                            <div class="unordered-list" id="details-specifics">
-                                <ul>
-                                    <li>Email: {{$job->recruiter_id}}</li>
-                                    <li> Company: {{$job->company_id}}</li>
-{{--                                    <li> Posting Type: {{$job->jobPostingType}}</li>--}}
-                                    <li> Date Posted: {{$job->date_posted}}</li>
-                                    <li>Requirements: {{$job->job_requirements}}</li>
-                                    <li>Job ID: {{$job->id}}</li>
-                                </ul>
-                                <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
-                                    <a href="/applications/new?jobId={{$job->id}}" style="text-decoration: none" temp="${isRecruiter == false && isAdmin == false}">
-                                        <button id="apply-button">Apply</button>
-                                    </a>
-                                </div>
-                            </div>
+            <div id="bb2">
+                <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
+                <button id="bu2">Positions</button>
+            </div>
+        </div>
+
+
+
+        <div class="action-buttons">
+            @if(auth()->check() && auth()->user()->role === UserRole::RECRUITER)
+                <a href="/JobPostingForm">
+                    <button class="action-btn">Add a job posting</button>
+                </a>
+                <a href="/recruiter/jobpostings">
+                    <button class="action-btn">View Your job postings</button>
+                </a>
+            @endif
+        </div>
+
+        @if($jobpostings->isEmpty())
+            <div style="margin-top: 70px; margin-bottom: -90px;">
+                <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
+                    No job postings to show.
+                </a>
+            </div>
+        @endif
+    </div>
+
+    <div>
+        <div class="grid" id="box">
+            @foreach ($jobpostings as $job)
+                <div class="box">
+                    <div id="Title"> {{ $job->job_name }}</div>
+                    <div id="info">
+                        {{ $job->job_description }}
+                    </div>
+                    <hr id="separator">
+                    <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
+                    <div class="unordered-list" id="details-specifics">
+                        <ul>
+                            <li>Email: {{ $job->recruiter_id }}</li>
+                            <li> Company: {{ $job->company_id }}</li>
+                            <li> Date Posted: {{ $job->date_posted }}</li>
+                            <li>Requirements: {{ $job->job_requirements }}</li>
+                            <li>Job ID: {{ $job->id }}</li>
+                        </ul>
+                        <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
+                            @if(auth()->check() && auth()->user()->UserRole->value == 'STUDENT')
+                                <a href="/applications/new?jobId={{ $job->id }}" style="text-decoration: none">
+                                    <button id="apply-button">Apply</button>
+                                </a>
+                            @endif
                         </div>
-                        @endforeach
                     </div>
-            </div>
-        </body>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    </body>
 </x-indexHeader>
 </html>

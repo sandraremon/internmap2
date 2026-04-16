@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-enum UserRole: int {
+enum UserRole: string {
 
-    case STUDENT = 1;
-    case RECRUITER = 2;
-    case ADMIN = 3;
+    case STUDENT = 'STUDENT';   // Match exactly what is in your DB
+    case RECRUITER = 'RECRUITER';
+    case ADMIN = 'ADMIN';
 
     public function roleName(): string
     {

@@ -3,65 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\Recruiter;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class RecruiterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return Recruiter::all();
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('RecruiterRegister');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'f_name' => 'required',
-            'l_name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'role' => 'required'
+        $validated = $request->validate([
+            'title' => 'required|string',
         ]);
+        $request->merge(['role' => UserRole::RECRUITER->value]);
+        $user = app(UserController::class)->store($request);
+        $validated['id'] = $user->id;
+        Recruiter::create($validated);
+        return redirect("/");
 
-        $data['password'] = bcrypt($data['password']);
-
-        // Create the user
-        Recruiter::create($data);
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         return Recruiter::find($id);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(string $id, $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string',
+        ]);
+        $request->merge(['role' => UserRole::RECRUITER->value]);
+        $user = app(UserController::class)->store($request);
+        $validated['id'] = $user->id;
+        Recruiter::create($validated);
+        return redirect("/");
     }
 
     public function update(Request $request, string $id)
     {
-        $user = app(UserController::class)->update($request, $id);
+        $data = $request->validate([
+            'title' => 'required',
+        ]);
 
+        $rec = Recruiter::find($id);
+        $rec->update($data);
+
+        return $rec;
     }
-
 }

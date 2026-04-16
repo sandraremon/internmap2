@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\RecruiterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User\User;
 use App\Models\User\Student;
 use App\Models\User\Admin;
 use App\Models\User\Recruiter;
 use App\Models\Roadmap\Roadmap;
+use \App\Http\Controllers\StudentController;
 
 Route::get('/test-db/users', function () {
     return User::all();
@@ -29,9 +31,9 @@ Route::get('/', function () {
     return view('index',[
                    'roadmaps' => $roadmaps
                ]);
-});
+})->name('home');
 
-Route::get('/JobPostings', [ JobPostingController::class, 'index']);
+Route::get('/JobPostings', [JobPostingController::class, 'index']);
 
 Route::get('/login', function () {
     return view('login');
@@ -41,17 +43,23 @@ Route::get('/signup-choice', function () {
     return view('InternMapSignUpChoice');
 });
 
-Route::get('/student/register', function () {
-    return view('StudentRegister');
-});
+Route::get('/student/register', [StudentController::class, 'create'])->name('student.register');
 
-Route::get('/recruiter/register', function () {
-    return view('RecruiterRegister');
+Route::post('/student/register', [StudentController::class, 'store'])->name('student.register.submit');
+
+Route::get('/recruiter/register', [RecruiterController::class, 'create']);
+
+Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
+
+Route::get('/company/register', function () {
+    return view('CompanyRegister');
 });
 
 Route::get('/recruiter/jobpostings', function () {
     return view('recruiter-jobpostings');
 });
+
+Route::post('/company/register', );
 
 Route::get('/admin/register', function () {
     return view('AdminRegister');
@@ -85,3 +93,11 @@ Route::get('/new', function () {
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');
 });
+// Add this to handle the form submission
+Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
+
+
+Route::get('/test', function () {
+    return response()->json(['message' => 'Hello from Laravel API! React is connected.']);
+});
+

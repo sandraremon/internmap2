@@ -95,6 +95,7 @@ class AdminController extends Controller
         return $user;
     }
 
+
     /**
      * Remove the specified resource from storage.
      */

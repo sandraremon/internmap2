@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('l_name');
             $table->string('email')->unique();
             $table->string('password'); // Matches your existing database setup
-            $table->string('role')->default('STUDENT');
+            $table->string('role');
 
             // Remove $table->timestamps(); if you want to avoid 'updated_at' errors
             // Or keep them and remove 'public $timestamps = false;' from your User model

@@ -7,11 +7,14 @@ use App\Models\User\Recruiter;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static create(array $validated)
+ */
 class Company extends Model
 {
     protected $table = 'company';
 
-    protected $primaryKey = 'companyID';
+    protected $primaryKey = 'id';
 
     protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl'];
 

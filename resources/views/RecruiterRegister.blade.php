@@ -40,23 +40,46 @@
             </div>
             <div class="form-group">
                 <input type="text"
+                       name="l_name"
                        class="form-input"
-                       temp="*{user.title}"
+                       value="{{ old('l_name') }}"
+                       placeholder="Last name"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="email"
+                       name="email"
+                       class="form-input"
+                       value="{{ old('email') }}"
+                       placeholder="Email"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="password"
+                       name="password"
+                       class="form-input"
+                       placeholder="Password"
+                       required />
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       name="title"
+                       class="form-input"
+                       value="{{ old('title') }}"
                        placeholder="Title"
                        required />
-            </label>
-        </div>
-        <div class="form-group">
-            <label>
+            </div>
+            <div class="form-group">
                 <input type="text"
+                       name="company_name"
                        class="form-input"
-                       temp="*{company.name}"
-                       placeholder="Company's name">
-            </label>
+                       value="{{ old('company_name') }}"
+                       placeholder="Company's name" />
+            </div>
         </div>
-    </div>
-    <button type="submit" class="form-submit">Create Account</button>
-</form>
+
+        <button type="submit" class="form-submit">Create Account</button>
+    </form>
 
     <p class="form-link">
         If your company doesn't exist, you can
@@ -68,7 +91,7 @@
     </p>
 
 </div>
+
+<x-footer />
 </body>
-</x-footer>
-</x-header>
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 /**
@@ -10,19 +11,10 @@ use Illuminate\Http\Request;
  */
 class UserController extends Controller
 {
-    //this is to restrict the deleting of a user only to the admin
-    public function __construct()
-    {
-        // Only 'admin' role can access the destroy method
-        $this->middleware('UserRole:admin')->only('destroy');
-    }
-    //get all
-    public function index()
-    {
-        return User::all();
-    }
 
-    // UserController
+    //public function __construct(){ }
+    public function index(){ return User::all(); }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -30,31 +22,22 @@ class UserController extends Controller
             'l_name'   => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:6',
+            'role'     => 'nullable|string'
         ]);
 
         $validated['password'] = bcrypt($validated['password']); // never store plain text
-
+        if (!$request->has('role')) {
+            $validated['role'] = UserRole::STUDENT->value;
+        }
         return User::create($validated);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function show(string $id)
     {
-        return $user;
+        return User::find($id);
     }
 
-    //i can use this if i have a update form for user and email
-    public function edit(User $user)
-    {
+    //public function edit(User $user){}
 
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -66,8 +49,6 @@ class UserController extends Controller
         return $user;// should return a confirmation maybe then redirect to home
     }
 
-
-    //this should be restrictly for the admin     ( I've removed the function for here as we will only use it in admin )
     public function destroy(User $user)
     {
         // return anything , confirmation and homePage

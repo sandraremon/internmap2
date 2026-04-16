@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Job Posting</title>
-    <link rel="icon" type="image/png" href="/images/New Logo.png">
-    <link rel="stylesheet" href="/css/InternMapSignIn.css">
+    <link rel="icon" type="image/png" href="{{ asset('images/New Logo.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/InternMapSignIn.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
+<body>
 <header>
     <div class="header-top">
         <nav class="header-nav">
@@ -20,30 +21,41 @@
         </nav>
     </div>
     <div class="header-hero">
-        <img class="logo" src="/Images/New Logo.png" alt="InternMap Logo">
+        <img class="logo" src="{{ asset('Images/New Logo.png') }}" alt="InternMap Logo">
     </div>
 </header>
 
-<x-footer>
-<body>
 <h2 class="form-title">Create a Job Posting</h2>
 <div class="form-container">
 
-    <div if="${success}"
-         style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
-        <p text="${success}" style="margin: 0;"></p>
-    </div>
+    {{-- Success Message --}}
+    @if(session('success'))
+        <div style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
+            <p style="margin: 0;">{{ session('success') }}</p>
+        </div>
+    @endif
 
-    <div th:if="${errorMessage}"
-         style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
-        <p th:text="${errorMessage}" style="margin: 0;"></p>
-    </div>
+    {{-- Error Message (General or Validation) --}}
+    @if(session('errorMessage') || $errors->any())
+        <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
+            <p style="margin: 0;">{{ session('errorMessage') ?? 'Please check the errors below.' }}</p>
+            @if($errors->any())
+                <ul style="margin-top: 10px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    @endif
 
-    <form th:action="@{/JobPostingForm}" method="post">
+    {{-- Use the named route job.store --}}
+    <form action="{{ route('job.store') }}" method="POST">
+        @csrf {{-- CRITICAL: Laravel requires this for POST requests --}}
+
         <input type="hidden" name="jobPostingType" id="jobPostingTypeHidden" value="">
 
         <div class="form-row">
-            <!-- Job Type Selection First -->
             <div class="form-group">
                 <label>
                     <select class="form-input" id="jobTypeSelect" required>
@@ -55,118 +67,70 @@
                 </label>
             </div>
 
-            <!-- Common Fields -->
             <div class="form-group">
                 <label>
-                    <input type="text"
-                           class="form-input"
-                           name="jobName"
-                           placeholder="Job Title"
-                           required />
+                    <input type="text" class="form-input" name="jobName" placeholder="Job Title" value="{{ old('jobName') }}" required />
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="text"
-                           class="form-input"
-                           name="companyName"
-                           placeholder="Company Name"
-                           required />
+                    <input type="text" class="form-input" name="companyName" placeholder="Company Name" value="{{ old('companyName') }}" required />
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="text"
-                           class="form-input"
-                           name="jobDescription"
-                           placeholder="Job Description"
-                           required />
+                    <input type="text" class="form-input" name="jobDescription" placeholder="Job Description" value="{{ old('jobDescription') }}" required />
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="text"
-                           class="form-input"
-                           name="jobRequirements"
-                           placeholder="Job Requirements"
-                           required />
+                    <input type="text" class="form-input" name="jobRequirements" placeholder="Job Requirements" value="{{ old('jobRequirements') }}" required />
                 </label>
             </div>
 
-            <!-- Full Time Specific Fields -->
             <div id="fullTimeFields" style="display: none;">
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="benefits"
-                               placeholder="Benefits"
-                               id="fullTimeBenefits" />
+                        <input type="text" class="form-input" name="benefits" placeholder="Benefits" id="fullTimeBenefits" />
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="location"
-                               placeholder="Location"
-                               id="fullTimeLocation" />
+                        <input type="text" class="form-input" name="location" placeholder="Location" id="fullTimeLocation" />
                     </label>
                 </div>
             </div>
 
-            <!-- Internship Specific Fields -->
             <div id="internshipFields" style="display: none;">
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="duration"
-                               placeholder="Duration (e.g., 3 months)"
-                               id="internshipDuration" />
+                        <input type="text" class="form-input" name="duration" placeholder="Duration (e.g., 3 months)" id="internshipDuration" />
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="location"
-                               placeholder="Location"
-                               id="internshipLocation" />
+                        <input type="text" class="form-input" name="location" placeholder="Location" id="internshipLocation" />
                     </label>
                 </div>
             </div>
 
-            <!-- Freelance Project Specific Fields -->
             <div id="freeLanceProjectFields" style="display: none;">
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="duration"
-                               placeholder="Duration"
-                               id="freelanceDuration" />
+                        <input type="text" class="form-input" name="duration" placeholder="Duration" id="freelanceDuration" />
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="payout"
-                               placeholder="Payout"
-                               id="freelancePayout" />
+                        <input type="text" class="form-input" name="payout" placeholder="Payout" id="freelancePayout" />
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="text"
-                               class="form-input"
-                               name="jobLocation"
-                               placeholder="Location"
-                               id="freelanceLocation" />
+                        <input type="text" class="form-input" name="jobLocation" placeholder="Location" id="freelanceLocation" />
                     </label>
                 </div>
             </div>
@@ -175,28 +139,24 @@
         <button type="submit" class="form-submit">Add Job Posting</button>
     </form>
 </div>
-</body>
-</x-footer>
+
+<x-footer></x-footer>
 
 <script>
     function toggleJobSpecificFields() {
         let selectElement = document.getElementById("jobTypeSelect");
         let selectedValue = selectElement.value;
 
-        // Update hidden field
         document.getElementById("jobPostingTypeHidden").value = selectedValue;
 
-        // Get all field containers
         let fullTimeDiv = document.getElementById("fullTimeFields");
         let internshipDiv = document.getElementById("internshipFields");
         let freelanceDiv = document.getElementById("freeLanceProjectFields");
 
-        // Hide all fields first
         fullTimeDiv.style.display = "none";
         internshipDiv.style.display = "none";
         freelanceDiv.style.display = "none";
 
-        // Clear required attributes from all hidden fields
         clearRequired("fullTimeBenefits");
         clearRequired("fullTimeLocation");
         clearRequired("internshipDuration");
@@ -205,7 +165,6 @@
         clearRequired("freelancePayout");
         clearRequired("freelanceLocation");
 
-        // Show selected fields and set required
         if (selectedValue === "FullTime") {
             fullTimeDiv.style.display = "block";
             setRequired("fullTimeBenefits");
@@ -224,20 +183,18 @@
 
     function setRequired(elementId) {
         let element = document.getElementById(elementId);
-        if (element) {
-            element.required = true;
-        }
+        if (element) { element.required = true; }
     }
 
     function clearRequired(elementId) {
         let element = document.getElementById(elementId);
         if (element) {
             element.required = false;
-            element.value = "";
+            // Only clear value if hidden, might want to keep if validation fails
+            // element.value = "";
         }
     }
 
-    // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         let selectElement = document.getElementById("jobTypeSelect");
         if (selectElement) {
@@ -246,5 +203,5 @@
         toggleJobSpecificFields();
     });
 </script>
-
+</body>
 </html>
