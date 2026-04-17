@@ -3,6 +3,7 @@
 namespace App\Models\User;
 use App\Models\Company\Company;
 use App\Models\JobPosting\JobPosting;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -33,11 +34,11 @@ class Recruiter extends User
 
     public function company():BelongsToMany
     {
-        return $this->belongsToMany(Company::class,'recruiter_companies');
+        return $this->belongsToMany(Company::class,'recruiter_companies','recruiters_id','companies_id');
     }
 
     public function JobPosting():HasMany
     {
-        return $this->HasMany(JobPosting::class,'id');
+        return $this->HasMany(JobPosting::class,'recruiter_id');
     }
 }

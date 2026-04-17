@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CvController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\RecruiterController;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +11,7 @@ use App\Models\User\Admin;
 use App\Models\User\Recruiter;
 use App\Models\Roadmap\Roadmap;
 use \App\Http\Controllers\StudentController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/test-db/users', function () {
     return User::all();
@@ -35,47 +38,39 @@ Route::get('/', function () {
 
 Route::get('/JobPostings', [JobPostingController::class, 'index']);
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::get('/login', function () {return view('login');});
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/signup-choice', function () {
     return view('InternMapSignUpChoice');
 });
 
 Route::get('/student/register', [StudentController::class, 'create'])->name('student.register');
-
 Route::post('/student/register', [StudentController::class, 'store'])->name('student.register.submit');
 
 Route::get('/recruiter/register', [RecruiterController::class, 'create']);
 
 Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
 
-Route::get('/company/register', function () {
-    return view('CompanyRegister');
-});
+Route::get('/company/register', function () {return view('CompanyRegister');});
+Route::post('/company/register', [CompanyController::class, 'store']);
 
 Route::get('/recruiter/jobpostings', function () {
     return view('recruiter-jobpostings');
 });
 
-Route::post('/company/register', );
 
 Route::get('/admin/register', function () {
     return view('AdminRegister');
 });
 
-Route::get('/company/register', function () {
-    return view('CompanyRegister');
-});
 
 Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/CV', function () {
-    return view('CV');
-});
+Route::get('/CV', function () {return view('CV');});
+Route::post('/CV', [CvController::class, 'store']);
 
 Route::get('/application', function () {
 

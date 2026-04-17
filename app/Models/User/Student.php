@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Models\User;
+use App\Models\CV\cv;
 use App\Models\Application\Application;
 use App\Models\Roadmap\Skill\Skill;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static create(array $validated)
@@ -38,6 +40,10 @@ class Student extends Model
 
     public function Skill(): BelongsToMany {
         return $this->belongstoMany(Skill::class, 'id');
+    }
+
+    public function cv(): HasOne {
+        return $this->hasOne(cv::class, 'cv_id', 'cv_cv_id');
     }
 
 }

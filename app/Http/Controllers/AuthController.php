@@ -17,14 +17,14 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            // if Authentication passed...
-            return redirect()->intended('/');
-            // incase intended was not needed remove it ...
+            $user = Auth::user();
+            return response()->json([
+                'message' => 'Logged in successfully',
+                'user' => $user
+            ], 200);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return response()->json(['error' => 'Invalid credentials'], 401);
     }
 
     public function logout()

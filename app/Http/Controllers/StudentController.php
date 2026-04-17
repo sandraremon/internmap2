@@ -33,7 +33,10 @@ class StudentController extends Controller
         $user = app(UserController::class)->store($request);
         $validated['id'] = $user->id;
         Student::create($validated);
-        return redirect("/");
+        return response()->json(['message' => 'Student created successfully',
+            'Student' => $validated,
+            'user' => $user,
+            ], 201);
     }
 
     //send the user of that id - we can also make it an email

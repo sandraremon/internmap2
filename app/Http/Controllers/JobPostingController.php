@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\JobPosting\JobPosting;
 
@@ -20,19 +21,30 @@ class JobPostingController extends Controller
 
     public function store(Request $request)
     {
-        $company = app(CompanyController::class)->store($request);
-        $rec = app(RecruiterController::class)->store($request);
+        $user = auth()->user();
+        if ($user->role !== UserRole::RECRUITER) {
+            return response()->json([
+                'error' => 'Only recruiters can post jobs',
+                'your_role' => $user->role
+            ], 403);
+        }
+        $rec = $user->recruiter;
+        //picking the first one of that specific recruiter , technically the last
+        $company= $rec->company()->first();
+        if (!$company) {
+            return response()->json(['error' => 'No company assigned to this recruiter'], 404);
+        }
         $job = $request->validate([
-            'date_posted' => 'required',
-            'job_description' => 'required',
-            'job_name' => 'required',
-            'job_requirements' => 'required',
-        ]);
-        // mention the foreign keys through the relationships in the models
-        $job['company_id'] = $company ->id;
-        $job['recruiter_id'] = $rec ->id;
-        JobPosting::create($job);
-        return view('JobPosting');
+                'date_posted' => 'required',
+                'job_description' => 'required',
+                'job_name' => 'required',
+                'job_requirements' => 'required',
+            ]);
+
+            $job['company_id'] = $company ->id;
+            $job['recruiter_id'] = $rec -> id;
+            JobPosting::create($job);
+        return response()->json($job, 200);
     }
     public function show(string $id){ return JobPosting::find($id); }
 

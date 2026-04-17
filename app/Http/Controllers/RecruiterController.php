@@ -18,15 +18,17 @@ class RecruiterController extends Controller
     }
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $recData = $request->validate([
             'title' => 'required|string',
         ]);
         $request->merge(['role' => UserRole::RECRUITER->value]);
         $user = app(UserController::class)->store($request);
-        $validated['id'] = $user->id;
-        Recruiter::create($validated);
-        return redirect("/");
-
+        $recData['id'] = $user->id;
+        Recruiter::create($recData);
+        return response()->json([
+            'user' => $user,
+            'title' => $recData['title']
+        ], 200);
     }
     public function show(string $id)
     {

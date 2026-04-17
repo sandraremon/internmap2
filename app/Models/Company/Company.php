@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $validated)
+ * @method static find(string $id)
  */
 class Company extends Model
 {
@@ -17,6 +18,7 @@ class Company extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl'];
+    public $timestamps = false;
 
     public function JobPosting(): HasMany
     {
@@ -25,6 +27,6 @@ class Company extends Model
 
      public function recruiter(): BelongsToMany
     {
-        return $this->belongsToMany(Recruiter::class);
+        return $this->belongsToMany(Recruiter::class,'recruiter_companies','companies_id','recruiters_id');
     }
 }

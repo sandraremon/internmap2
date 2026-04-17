@@ -2,16 +2,27 @@
 
 namespace App\Models\User;
 
+use App\Models\Company\Company;
 use App\Models\UserRole;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User\Recruiter;
+use App\Models\User\Student;
+use App\Models\User\Admin;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use phpDocumentor\Reflection\DocBlock\Tags\Property;
 
 /**
  * @method static create(array $array)
  * @method static find(string $id)
+ * @property Recruiter $recruiter = $recruiter
+ * @property UserRole $role=$role
+ * @property Student $student = $student
+ *
  */
-class User extends Model
+
+class User extends Authenticatable
 {
+    protected $primaryKey='id';
     protected $table = 'users';
 
     public $incrementing = true;
@@ -28,7 +39,7 @@ class User extends Model
     //This simulates inheritance of user for recruiter
     public function recruiter(): HasOne
     {
-        return $this->hasOne(Recruiter::class, 'id');
+        return $this->hasOne(Recruiter::class, 'id','id');
     }
 
     public function student(): HasOne
