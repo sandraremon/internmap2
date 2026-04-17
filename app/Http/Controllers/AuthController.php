@@ -31,4 +31,5 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect('/');
-    }}
+    }
+}
