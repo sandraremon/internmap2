@@ -97,7 +97,3 @@ Route::get('/JobPostingForm', function () {
 Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
 
 
-Route::get('/test', function () {
-    return response()->json(['message' => 'Hello from Laravel API! React is connected.']);
-});
-
