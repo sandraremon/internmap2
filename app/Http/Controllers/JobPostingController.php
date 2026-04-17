@@ -30,23 +30,26 @@ class JobPostingController extends Controller
         }
         $rec = $user->recruiter;
         //picking the first one of that specific recruiter , technically the last
-        $company= $rec->company()->first();
+        $company = $rec->company()->first();
         if (!$company) {
             return response()->json(['error' => 'No company assigned to this recruiter'], 404);
         }
         $job = $request->validate([
-                'date_posted' => 'required',
-                'job_description' => 'required',
-                'job_name' => 'required',
-                'job_requirements' => 'required',
-            ]);
+            'date_posted' => 'required',
+            'job_description' => 'required',
+            'job_name' => 'required',
+            'job_requirements' => 'required',
+        ]);
 
-            $job['company_id'] = $company ->id;
-            $job['recruiter_id'] = $rec -> id;
-            JobPosting::create($job);
+        $job['company_id'] = $company->id;
+        $job['recruiter_id'] = $rec->id;
+        JobPosting::create($job);
         return response()->json($job, 200);
     }
-    public function show(string $id){ return JobPosting::find($id); }
+    public function show(string $id)
+    {
+        return JobPosting::find($id);
+    }
 
     //we dont have an edit
     public function update(Request $request, string $id)

@@ -31,14 +31,16 @@ Route::get('/test-db/recruiters', function () {
 
 Route::get('/', function () {
     $roadmaps = Roadmap::all();
-    return view('index',[
-                   'roadmaps' => $roadmaps
-               ]);
+    return view('index', [
+        'roadmaps' => $roadmaps
+    ]);
 })->name('home');
 
 Route::get('/JobPostings', [JobPostingController::class, 'index']);
 
-Route::get('/login', function () {return view('login');});
+Route::get('/login', function () {
+    return view('login');
+});
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/signup-choice', function () {
@@ -52,7 +54,9 @@ Route::get('/recruiter/register', [RecruiterController::class, 'create']);
 
 Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
 
-Route::get('/company/register', function () {return view('CompanyRegister');});
+Route::get('/company/register', function () {
+    return view('CompanyRegister');
+});
 Route::post('/company/register', [CompanyController::class, 'store']);
 
 Route::get('/recruiter/jobpostings', function () {
@@ -69,7 +73,9 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/CV', function () {return view('CV');});
+Route::get('/CV', function () {
+    return view('CV');
+});
 Route::post('/CV', [CvController::class, 'store']);
 
 Route::get('/application', function () {
@@ -82,7 +88,7 @@ Route::get('/viewApplicationDetails', function () {
 });
 
 Route::get('/new', function () {
-   return view('roadmap.form');
+    return view('roadmap.form');
 });
 
 Route::get('/JobPostingForm', function () {
