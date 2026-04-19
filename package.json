@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "react-router": "^7.14.1"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.14.1",
+    "vite-tsconfig-paths": "^6.1.1"
+  }
+}
