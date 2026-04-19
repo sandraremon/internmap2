@@ -738,7 +738,7 @@
 /* Reset and Base Styles */
 * {
     zoom: 0.97;
-    font-family: 'Inter';
+    font-family: 'Inter', system-ui;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -967,7 +967,7 @@ body {
 .form-textarea,
 .form-select {
     color: rgba(0, 0, 0, 0.70);
-    font-family: Inter;
+    font-family: Inter, system-ui;
     font-size: 18px;
     font-weight: 500;
     border: 2px solid transparent;
@@ -1015,7 +1015,7 @@ body {
     border-radius: 80px;
     background: #2391FF;
     color: #FFF;
-    font-family: Inter;
+    font-family: Inter,system-ui;
     font-size: 22px;
     font-weight: 700;
     cursor: pointer;
