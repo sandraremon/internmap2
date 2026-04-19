@@ -7,9 +7,6 @@ use App\Models\Roadmap\Roadmap;
 
 class RoadmapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $roadmaps = Roadmap::all();
@@ -17,18 +14,12 @@ class RoadmapController extends Controller
         // this returns all roadmaps
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('roadmap.form');
         //this returns the HTML form to make a roadmap
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $roadmap = $request->validate([
@@ -40,17 +31,11 @@ class RoadmapController extends Controller
         //this fetches the data and saves it in database
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         return Roadmap::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $roadmap = Roadmap::find($id);
@@ -58,9 +43,6 @@ class RoadmapController extends Controller
         // idk what to put in here
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $data = $request->validate([
@@ -71,9 +53,6 @@ class RoadmapController extends Controller
          return view('roadmap.view', ['roadmap' => $roadmap]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         Roadmap::destroy($id);

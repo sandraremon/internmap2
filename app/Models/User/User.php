@@ -2,14 +2,11 @@
 
 namespace App\Models\User;
 
-use App\Models\Company\Company;
+
 use App\Models\UserRole;
-use App\Models\User\Recruiter;
-use App\Models\User\Student;
-use App\Models\User\Admin;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use phpDocumentor\Reflection\DocBlock\Tags\Property;
+
 
 /**
  * @method static create(array $array)

@@ -1,0 +1,838 @@
+Subject: [PATCH] worked on the controllers - modified the views to be laravel compatible
+---
+Index: resources/views/JobPostingForm.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/resources/views/JobPostingForm.blade.php b/resources/views/JobPostingForm.blade.php
+--- a/resources/views/JobPostingForm.blade.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/resources/views/JobPostingForm.blade.php	(date 1776375114424)
+@@ -3,14 +3,15 @@
+ <head>
+     <meta charset="UTF-8">
+     <title>Create Job Posting</title>
+-    <link rel="icon" type="image/png" href="/images/New Logo.png">
+-    <link rel="stylesheet" href="/css/InternMapSignIn.css">
++    <link rel="icon" type="image/png" href="{{ asset('images/New Logo.png') }}">
++    <link rel="stylesheet" href="{{ asset('css/InternMapSignIn.css') }}">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+
++<body>
+ <header>
+     <div class="header-top">
+         <nav class="header-nav">
+@@ -20,30 +21,41 @@
+         </nav>
+     </div>
+     <div class="header-hero">
+-        <img class="logo" src="/Images/New Logo.png" alt="InternMap Logo">
++        <img class="logo" src="{{ asset('Images/New Logo.png') }}" alt="InternMap Logo">
+     </div>
+ </header>
+
+-<x-footer>
+-<body>
+ <h2 class="form-title">Create a Job Posting</h2>
+ <div class="form-container">
+
+-    <div if="${success}"
+-         style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
+-        <p text="${success}" style="margin: 0;"></p>
+-    </div>
++    {{-- Success Message --}}
++    @if(session('success'))
++        <div style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
++            <p style="margin: 0;">{{ session('success') }}</p>
++        </div>
++    @endif
+
+-    <div th:if="${errorMessage}"
+-         style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
+-        <p th:text="${errorMessage}" style="margin: 0;"></p>
+-    </div>
++    {{-- Error Message (General or Validation) --}}
++    @if(session('errorMessage') || $errors->any())
++        <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; margin-bottom: 20px; border-radius: 8px;">
++            <p style="margin: 0;">{{ session('errorMessage') ?? 'Please check the errors below.' }}</p>
++            @if($errors->any())
++                <ul style="margin-top: 10px;">
++                    @foreach ($errors->all() as $error)
++                        <li>{{ $error }}</li>
++                    @endforeach
++                </ul>
++            @endif
++        </div>
++    @endif
+
+-    <form th:action="@{/JobPostingForm}" method="post">
++    {{-- Use the named route job.store --}}
++    <form action="{{ route('job.store') }}" method="POST">
++        @csrf {{-- CRITICAL: Laravel requires this for POST requests --}}
++
+         <input type="hidden" name="jobPostingType" id="jobPostingTypeHidden" value="">
+
+         <div class="form-row">
+-            <!-- Job Type Selection First -->
+             <div class="form-group">
+                 <label>
+                     <select class="form-input" id="jobTypeSelect" required>
+@@ -55,118 +67,70 @@
+                 </label>
+             </div>
+
+-            <!-- Common Fields -->
+             <div class="form-group">
+                 <label>
+-                    <input type="text"
+-                           class="form-input"
+-                           name="jobName"
+-                           placeholder="Job Title"
+-                           required />
++                    <input type="text" class="form-input" name="jobName" placeholder="Job Title" value="{{ old('jobName') }}" required />
+                 </label>
+             </div>
+
+             <div class="form-group">
+                 <label>
+-                    <input type="text"
+-                           class="form-input"
+-                           name="companyName"
+-                           placeholder="Company Name"
+-                           required />
++                    <input type="text" class="form-input" name="companyName" placeholder="Company Name" value="{{ old('companyName') }}" required />
+                 </label>
+             </div>
+
+             <div class="form-group">
+                 <label>
+-                    <input type="text"
+-                           class="form-input"
+-                           name="jobDescription"
+-                           placeholder="Job Description"
+-                           required />
++                    <input type="text" class="form-input" name="jobDescription" placeholder="Job Description" value="{{ old('jobDescription') }}" required />
+                 </label>
+             </div>
+
+             <div class="form-group">
+                 <label>
+-                    <input type="text"
+-                           class="form-input"
+-                           name="jobRequirements"
+-                           placeholder="Job Requirements"
+-                           required />
++                    <input type="text" class="form-input" name="jobRequirements" placeholder="Job Requirements" value="{{ old('jobRequirements') }}" required />
+                 </label>
+             </div>
+
+-            <!-- Full Time Specific Fields -->
+             <div id="fullTimeFields" style="display: none;">
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="benefits"
+-                               placeholder="Benefits"
+-                               id="fullTimeBenefits" />
++                        <input type="text" class="form-input" name="benefits" placeholder="Benefits" id="fullTimeBenefits" />
+                     </label>
+                 </div>
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="location"
+-                               placeholder="Location"
+-                               id="fullTimeLocation" />
++                        <input type="text" class="form-input" name="location" placeholder="Location" id="fullTimeLocation" />
+                     </label>
+                 </div>
+             </div>
+
+-            <!-- Internship Specific Fields -->
+             <div id="internshipFields" style="display: none;">
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="duration"
+-                               placeholder="Duration (e.g., 3 months)"
+-                               id="internshipDuration" />
++                        <input type="text" class="form-input" name="duration" placeholder="Duration (e.g., 3 months)" id="internshipDuration" />
+                     </label>
+                 </div>
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="location"
+-                               placeholder="Location"
+-                               id="internshipLocation" />
++                        <input type="text" class="form-input" name="location" placeholder="Location" id="internshipLocation" />
+                     </label>
+                 </div>
+             </div>
+
+-            <!-- Freelance Project Specific Fields -->
+             <div id="freeLanceProjectFields" style="display: none;">
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="duration"
+-                               placeholder="Duration"
+-                               id="freelanceDuration" />
++                        <input type="text" class="form-input" name="duration" placeholder="Duration" id="freelanceDuration" />
+                     </label>
+                 </div>
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="payout"
+-                               placeholder="Payout"
+-                               id="freelancePayout" />
++                        <input type="text" class="form-input" name="payout" placeholder="Payout" id="freelancePayout" />
+                     </label>
+                 </div>
+                 <div class="form-group">
+                     <label>
+-                        <input type="text"
+-                               class="form-input"
+-                               name="jobLocation"
+-                               placeholder="Location"
+-                               id="freelanceLocation" />
++                        <input type="text" class="form-input" name="jobLocation" placeholder="Location" id="freelanceLocation" />
+                     </label>
+                 </div>
+             </div>
+@@ -175,28 +139,24 @@
+         <button type="submit" class="form-submit">Add Job Posting</button>
+     </form>
+ </div>
+-</body>
+-</x-footer>
++
++<x-footer></x-footer>
+
+ <script>
+     function toggleJobSpecificFields() {
+         let selectElement = document.getElementById("jobTypeSelect");
+         let selectedValue = selectElement.value;
+
+-        // Update hidden field
+         document.getElementById("jobPostingTypeHidden").value = selectedValue;
+
+-        // Get all field containers
+         let fullTimeDiv = document.getElementById("fullTimeFields");
+         let internshipDiv = document.getElementById("internshipFields");
+         let freelanceDiv = document.getElementById("freeLanceProjectFields");
+
+-        // Hide all fields first
+         fullTimeDiv.style.display = "none";
+         internshipDiv.style.display = "none";
+         freelanceDiv.style.display = "none";
+
+-        // Clear required attributes from all hidden fields
+         clearRequired("fullTimeBenefits");
+         clearRequired("fullTimeLocation");
+         clearRequired("internshipDuration");
+@@ -205,7 +165,6 @@
+         clearRequired("freelancePayout");
+         clearRequired("freelanceLocation");
+
+-        // Show selected fields and set required
+         if (selectedValue === "FullTime") {
+             fullTimeDiv.style.display = "block";
+             setRequired("fullTimeBenefits");
+@@ -224,20 +183,18 @@
+
+     function setRequired(elementId) {
+         let element = document.getElementById(elementId);
+-        if (element) {
+-            element.required = true;
+-        }
++        if (element) { element.required = true; }
+     }
+
+     function clearRequired(elementId) {
+         let element = document.getElementById(elementId);
+         if (element) {
+             element.required = false;
+-            element.value = "";
++            // Only clear value if hidden, might want to keep if validation fails
++            // element.value = "";
+         }
+     }
+
+-    // Initialize on page load
+     document.addEventListener('DOMContentLoaded', function() {
+         let selectElement = document.getElementById("jobTypeSelect");
+         if (selectElement) {
+@@ -246,5 +203,5 @@
+         toggleJobSpecificFields();
+     });
+ </script>
+-
++</body>
+ </html>
+Index: database/migrations/2026_03_17_195253_make_users_id_auto_increment.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/database/migrations/2026_03_17_195253_make_users_id_auto_increment.php b/database/migrations/2026_03_17_195253_make_users_id_auto_increment.php
+--- a/database/migrations/2026_03_17_195253_make_users_id_auto_increment.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/database/migrations/2026_03_17_195253_make_users_id_auto_increment.php	(date 1776368402540)
+@@ -18,7 +18,7 @@
+             $table->string('l_name');
+             $table->string('email')->unique();
+             $table->string('password'); // Matches your existing database setup
+-            $table->string('role')->default('STUDENT');
++            $table->string('role');
+
+             // Remove $table->timestamps(); if you want to avoid 'updated_at' errors
+             // Or keep them and remove 'public $timestamps = false;' from your User model
+Index: app/Http/Controllers/RecruiterController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Http/Controllers/RecruiterController.php b/app/Http/Controllers/RecruiterController.php
+--- a/app/Http/Controllers/RecruiterController.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Http/Controllers/RecruiterController.php	(date 1776371298867)
+@@ -3,6 +3,7 @@
+ namespace App\Http\Controllers;
+
+ use App\Models\User\Recruiter;
++use App\Models\UserRole;
+ use Illuminate\Http\Request;
+
+ class RecruiterController extends Controller
+@@ -28,7 +29,14 @@
+      */
+     public function store(Request $request)
+     {
+-        //
++        $validated = $request->validate([
++            'title' => 'required|string',
++        ]);
++        $request->merge(['role' => UserRole::RECRUITER->value]);
++        $user = app(UserController::class)->store($request);
++        $validated['id'] = $user->id;
++        Recruiter::create($validated);
++        return redirect("/");
+     }
+
+     /**
+Index: app/Models/User/User.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Models/User/User.php b/app/Models/User/User.php
+--- a/app/Models/User/User.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Models/User/User.php	(date 1776376353238)
+@@ -2,6 +2,7 @@
+
+ namespace App\Models\User;
+
++use App\Models\UserRole;
+ use Illuminate\Database\Eloquent\Model;
+ use Illuminate\Database\Eloquent\Relations\HasOne;
+
+@@ -17,8 +18,11 @@
+     protected $keyType = 'int';
+     public $timestamps = false;
+
+-    protected $fillable = ['f_name','l_name', 'email', 'plain_password'];
++    protected $fillable = ['f_name','l_name', 'email', 'password','role'];
+
++    protected $casts = [
++        'role' => UserRole::class,
++    ];
+     //Basically means every recruiter has one user with this specific id
+     //This simulates inheritance of user for recruiter
+     public function recruiter(): HasOne
+Index: app/Http/Controllers/JobPostingController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Http/Controllers/JobPostingController.php b/app/Http/Controllers/JobPostingController.php
+--- a/app/Http/Controllers/JobPostingController.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Http/Controllers/JobPostingController.php	(date 1776374202766)
+@@ -34,13 +34,17 @@
+      */
+     public function store(Request $request)
+     {
++        $company = app(CompanyController::class)->store($request);
++        $rec = app(RecruiterController::class)->store($request);
+         $job = $request->validate([
+-            'date_posted' => 'required', // Must exist, at least 5 chars, max 100
+-            'job_description' => 'required',       // Must exist and be a number
++            'date_posted' => 'required',
++            'job_description' => 'required',
+             'job_name' => 'required',
+             'job_requirements' => 'required',
+         ]);
+         // mention the foreign keys through the relationships in the models
++        $job['company_id'] = $company ->id;
++        $job['recruiter_id'] = $rec ->id;
+         JobPosting::create($job);
+         return view('JobPosting');
+     }
+Index: app/Models/Company/Company.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Models/Company/Company.php b/app/Models/Company/Company.php
+--- a/app/Models/Company/Company.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Models/Company/Company.php	(date 1776373351770)
+@@ -7,11 +7,14 @@
+ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+ use Illuminate\Database\Eloquent\Relations\HasMany;
+
++/**
++ * @method static create(array $validated)
++ */
+ class Company extends Model
+ {
+     protected $table = 'company';
+
+-    protected $primaryKey = 'companyID';
++    protected $primaryKey = 'id';
+
+     protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl'];
+
+Index: resources/views/RecruiterRegister.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/resources/views/RecruiterRegister.blade.php b/resources/views/RecruiterRegister.blade.php
+--- a/resources/views/RecruiterRegister.blade.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/resources/views/RecruiterRegister.blade.php	(date 1774814283333)
+@@ -40,23 +40,46 @@
+             </div>
+             <div class="form-group">
+                 <input type="text"
++                       name="l_name"
++                       class="form-input"
++                       value="{{ old('l_name') }}"
++                       placeholder="Last name"
++                       required />
++            </div>
++            <div class="form-group">
++                <input type="email"
++                       name="email"
+                        class="form-input"
+-                       temp="*{user.title}"
++                       value="{{ old('email') }}"
++                       placeholder="Email"
++                       required />
++            </div>
++            <div class="form-group">
++                <input type="password"
++                       name="password"
++                       class="form-input"
++                       placeholder="Password"
++                       required />
++            </div>
++            <div class="form-group">
++                <input type="text"
++                       name="title"
++                       class="form-input"
++                       value="{{ old('title') }}"
+                        placeholder="Title"
+                        required />
+-            </label>
+-        </div>
+-        <div class="form-group">
+-            <label>
++            </div>
++            <div class="form-group">
+                 <input type="text"
++                       name="company_name"
+                        class="form-input"
+-                       temp="*{company.name}"
+-                       placeholder="Company's name">
+-            </label>
+-        </div>
+-    </div>
+-    <button type="submit" class="form-submit">Create Account</button>
+-</form>
++                       value="{{ old('company_name') }}"
++                       placeholder="Company's name" />
++            </div>
++        </div>
++
++        <button type="submit" class="form-submit">Create Account</button>
++    </form>
+
+     <p class="form-link">
+         If your company doesn't exist, you can
+@@ -68,7 +91,7 @@
+     </p>
+
+ </div>
++
++<x-footer />
+ </body>
+-</x-footer>
+-</x-header>
+ </html>
+Index: app/Http/Controllers/StudentController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Http/Controllers/StudentController.php b/app/Http/Controllers/StudentController.php
+--- a/app/Http/Controllers/StudentController.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Http/Controllers/StudentController.php	(date 1776371229840)
+@@ -3,6 +3,7 @@
+ namespace App\Http\Controllers;
+
+ use App\Models\User\Student;
++use App\Models\UserRole;
+ use Illuminate\Http\Request;
+
+ class StudentController extends Controller
+@@ -22,6 +23,25 @@
+
+     //the request is the newly registered student
+     //gives me the data that the student just submitted
++//    public function store(Request $request)
++//    {
++//        $validated = $request->validate([
++//            'uni_name'        => 'required|string',
++//            'student_major'   => 'required|string',
++//            'faculty'         => 'required|string',
++//            'graduating_year' => 'required|integer',
++//        ]);
++//        $request->merge(['role' => UserRole::STUDENT->value]);
++//        $user = app(UserController::class)->store($request);
++
++//        $user->update(['role' => UserRole::STUDENT->value]);
++//
++//        $validated['id'] = $user->id;
++//        Student::create($validated);
++//
++//        return redirect("/");
++//
++//    }
+     public function store(Request $request)
+     {
+         $validated = $request->validate([
+@@ -30,9 +50,10 @@
+             'faculty'         => 'required|string',
+             'graduating_year' => 'required|integer',
+         ]);
++        $request->merge(['role' => UserRole::STUDENT->value]);
+         $user = app(UserController::class)->store($request);
+-
+         $validated['id'] = $user->id;
++        Student::create($validated);
+         return redirect("/");
+     }
+
+Index: app/Http/Controllers/UserController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Http/Controllers/UserController.php b/app/Http/Controllers/UserController.php
+--- a/app/Http/Controllers/UserController.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Http/Controllers/UserController.php	(date 1776370967468)
+@@ -3,6 +3,7 @@
+ namespace App\Http\Controllers;
+
+ use App\Models\User\User;
++use App\Models\UserRole;
+ use Illuminate\Http\Request;
+
+ /**
+@@ -14,7 +15,7 @@
+     public function __construct()
+     {
+         // Only 'admin' role can access the destroy method
+-        $this->middleware('UserRole:admin')->only('destroy');
++       // $this->middleware('UserRole:admin')->only('destroy');
+     }
+     //get all
+     public function index()
+@@ -30,10 +31,13 @@
+             'l_name'   => 'required|string|max:255',
+             'email'    => 'required|email|unique:users',
+             'password' => 'required|min:6',
++            'role'     => 'nullable|string'
+         ]);
+
+         $validated['password'] = bcrypt($validated['password']); // never store plain text
+-
++        if (!$request->has('role')) {
++            $validated['role'] = UserRole::STUDENT->value;
++        }
+         return User::create($validated);
+     }
+
+Index: app/Models/UserRole.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Models/UserRole.php b/app/Models/UserRole.php
+--- a/app/Models/UserRole.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Models/UserRole.php	(date 1776370942024)
+@@ -2,11 +2,11 @@
+
+ namespace App\Models;
+
+-enum UserRole: int {
++enum UserRole: string {
+
+-    case STUDENT = 1;
+-    case RECRUITER = 2;
+-    case ADMIN = 3;
++    case STUDENT = 'STUDENT';   // Match exactly what is in your DB
++    case RECRUITER = 'RECRUITER';
++    case ADMIN = 'ADMIN';
+
+     public function roleName(): string
+     {
+Index: resources/views/JobPosting.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/resources/views/JobPosting.blade.php b/resources/views/JobPosting.blade.php
+--- a/resources/views/JobPosting.blade.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/resources/views/JobPosting.blade.php	(date 1776376438391)
+@@ -125,67 +125,70 @@
+ </head>
+
+ <x-indexHeader>
+-        <body>
+-            <div class="search-action-container">
+-                <div id="bb1" class="no-longer-a-box">
+-                    <div id="bh">
+-                        Explore Job Postings
+-                    </div>
+-                    <div id="bb2">
+-                        <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
+-                        <button id="bu2">Positions</button>
+-                    </div>
+-                </div>
+-{{--                <form action="{{ route('jobpostings.search') }}" method="post" class="search-form">--}}
+-{{--                    @csrf--}}
+-{{--                    <input type="text" name="searchQuery" placeholder="Search by company name or job title" class="search-input"/>--}}
+-{{--                    <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>--}}
+-{{--                </form>--}}
+-                <div class="action-buttons">
+-                    <a href="/JobPostingForm" temp="${isRecruiter == true}">
+-                        <button class="action-btn">Add a job posting</button>
+-                    </a>
+-                    <a href="/recruiter/jobpostings" temp="${isRecruiter == true}">
+-                        <button class="action-btn">View Your job postings</button>
+-                    </a>
+-                </div>
+-                @if($jobpostings->isEmpty())
+-                    <div style="margin-top: 70px; margin-bottom: -90px;">
+-                        <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
+-                            No job postings to show.
+-                        </a>
+-                    </div>
+-                @endif
+-            </div>
+-            <div>
+-                    <div class="grid" id="box">
+-                        @foreach ($jobpostings as $job)
+-                        <div class="box">
+-                            <div id="Title"> {{$job->job_name}}</div>
+-                            <div id="info">
+-                                {{$job->job_description}}
+-                            </div>
+-                            <hr id="separator">
+-                            <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
+-                            <div class="unordered-list" id="details-specifics">
+-                                <ul>
+-                                    <li>Email: {{$job->recruiter_id}}</li>
+-                                    <li> Company: {{$job->company_id}}</li>
+-{{--                                    <li> Posting Type: {{$job->jobPostingType}}</li>--}}
+-                                    <li> Date Posted: {{$job->date_posted}}</li>
+-                                    <li>Requirements: {{$job->job_requirements}}</li>
+-                                    <li>Job ID: {{$job->id}}</li>
+-                                </ul>
+-                                <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
+-                                    <a href="/applications/new?jobId={{$job->id}}" style="text-decoration: none" temp="${isRecruiter == false && isAdmin == false}">
+-                                        <button id="apply-button">Apply</button>
+-                                    </a>
+-                                </div>
+-                            </div>
+-                        </div>
+-                        @endforeach
+-                    </div>
+-            </div>
+-        </body>
++    <body>
++    <div class="search-action-container">
++        <div id="bb1" class="no-longer-a-box">
++            <div id="bh">
++                Explore Job Postings
++            </div>
++            <div id="bb2">
++                <button id="bu1" onclick="location.href = '/'">Roadmaps</button>
++                <button id="bu2">Positions</button>
++            </div>
++        </div>
++
++
++
++        <div class="action-buttons">
++            @if(auth()->check() && auth()->user()->role === UserRole::RECRUITER)
++                <a href="/JobPostingForm">
++                    <button class="action-btn">Add a job posting</button>
++                </a>
++                <a href="/recruiter/jobpostings">
++                    <button class="action-btn">View Your job postings</button>
++                </a>
++            @endif
++        </div>
++
++        @if($jobpostings->isEmpty())
++            <div style="margin-top: 70px; margin-bottom: -90px;">
++                <a style="text-decoration: none; font-size: 40px; font-weight: bold; color: #3e3e3e; display: flex; justify-content: center;">
++                    No job postings to show.
++                </a>
++            </div>
++        @endif
++    </div>
++
++    <div>
++        <div class="grid" id="box">
++            @foreach ($jobpostings as $job)
++                <div class="box">
++                    <div id="Title"> {{ $job->job_name }}</div>
++                    <div id="info">
++                        {{ $job->job_description }}
++                    </div>
++                    <hr id="separator">
++                    <div id="details" style="font-weight: bold; font-size: 20px;">Details</div>
++                    <div class="unordered-list" id="details-specifics">
++                        <ul>
++                            <li>Email: {{ $job->recruiter_id }}</li>
++                            <li> Company: {{ $job->company_id }}</li>
++                            <li> Date Posted: {{ $job->date_posted }}</li>
++                            <li>Requirements: {{ $job->job_requirements }}</li>
++                            <li>Job ID: {{ $job->id }}</li>
++                        </ul>
++                        <div id="bottom" style="justify-items: right; display: flex; justify-content: flex-end">
++                            @if(auth()->check() && auth()->user()->UserRole->value == 'STUDENT')
++                                <a href="/applications/new?jobId={{ $job->id }}" style="text-decoration: none">
++                                    <button id="apply-button">Apply</button>
++                                </a>
++                            @endif
++                        </div>
++                    </div>
++                </div>
++            @endforeach
++        </div>
++    </div>
++    </body>
+ </x-indexHeader>
+ </html>
+Index: app/Models/JobPosting/JobPosting.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Models/JobPosting/JobPosting.php b/app/Models/JobPosting/JobPosting.php
+--- a/app/Models/JobPosting/JobPosting.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/app/Models/JobPosting/JobPosting.php	(date 1776374157472)
+@@ -8,6 +8,9 @@
+ use Illuminate\Database\Eloquent\Relations\HasMany;
+ use Illuminate\Database\Eloquent\Relations\HasOne;
+
++/**
++ * @method static create(array $validated)
++ */
+ class JobPosting extends Model
+ {
+
+Index: routes/web.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/routes/web.php b/routes/web.php
+--- a/routes/web.php	(revision 6437924788356cfdaaaa8b1f29f539043c4f4871)
++++ b/routes/web.php	(date 1776374759576)
+@@ -1,12 +1,14 @@
+ <?php
+
+ use App\Http\Controllers\JobPostingController;
++use App\Http\Controllers\RecruiterController;
+ use Illuminate\Support\Facades\Route;
+ use App\Models\User\User;
+ use App\Models\User\Student;
+ use App\Models\User\Admin;
+ use App\Models\User\Recruiter;
+ use App\Models\Roadmap\Roadmap;
++use \App\Http\Controllers\StudentController;
+
+ Route::get('/test-db/users', function () {
+     return User::all();
+@@ -29,9 +31,9 @@
+     return view('index',[
+                    'roadmaps' => $roadmaps
+                ]);
+-});
++})->name('home');
+
+-Route::get('/JobPostings', [ JobPostingController::class, 'index']);
++Route::get('/JobPostings', [JobPostingController::class, 'index']);
+
+ Route::get('/login', function () {
+     return view('login');
+@@ -41,18 +43,24 @@
+     return view('InternMapSignUpChoice');
+ });
+
+-Route::get('/student/register', function () {
+-    return view('StudentRegister');
+-});
++Route::get('/student/register', [StudentController::class, 'create'])->name('student.register');
++
++Route::post('/student/register', [StudentController::class, 'store'])->name('student.register.submit');
+
+-Route::get('/recruiter/register', function () {
+-    return view('RecruiterRegister');
++Route::get('/recruiter/register', [RecruiterController::class, 'create']);
++
++Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
++
++Route::get('/company/register', function () {
++    return view('CompanyRegister');
+ });
+
+ Route::get('/recruiter/jobpostings', function () {
+     return view('recruiter-jobpostings');
+ });
+
++Route::post('/company/register', );
++
+ Route::get('/admin/register', function () {
+     return view('AdminRegister');
+ });
+@@ -85,3 +93,5 @@
+ Route::get('/JobPostingForm', function () {
+     return view('JobPostingForm');
+ });
++// Add this to handle the form submission
++Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');

@@ -1,27 +1,98 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CvController;
+use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\RecruiterController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User\User;
+use App\Models\User\Student;
+use App\Models\User\Admin;
+use App\Models\User\Recruiter;
+use App\Models\Roadmap\Roadmap;
+use \App\Http\Controllers\StudentController;
+use App\Http\Controllers\AuthController;
 use Inertia\Inertia;
 
+Route::get('/test-db/users', function () {
+    return User::all();
+});
+
+Route::get('/test-db/students', function () {
+    return Student::all();
+});
+
+Route::get('/test-db/admins', function () {
+    return Admin::all();
+});
+
+Route::get('/test-db/recruiters', function () {
+    return Recruiter::all();
+});
+
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    $roadmaps = Roadmap::all();
+    return view('index',[
+                   'roadmaps' => $roadmaps
+               ]);
+})->name('home');
+
+Route::get('/JobPostings', [JobPostingController::class, 'index']);
+
+Route::get('/login', function () {return view('login');});
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/signup-choice', function () {
+    return view('InternMapSignUpChoice');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/student/register', [StudentController::class, 'create'])->name('student.register');
+Route::post('/student/register', [StudentController::class, 'store'])->name('student.register.submit');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::get('/recruiter/register', [RecruiterController::class, 'create']);
+
+Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
+
+Route::get('/company/register', function () {return view('CompanyRegister');});
+Route::post('/company/register', [CompanyController::class, 'store']);
+
+Route::get('/recruiter/jobpostings', function () {
+    return view('recruiter-jobpostings');
 });
 
-require __DIR__.'/auth.php';
+
+Route::get('/admin/register', function () {
+    return view('AdminRegister');
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/CV', function () {return view('CV');});
+Route::post('/CV', [CvController::class, 'store']);
+
+Route::get('/application', function () {
+
+    return view('Application');
+});
+
+Route::get('/viewApplicationDetails', function () {
+    return view('ViewApplicationDetail');
+});
+
+Route::get('/new', function () {
+   return view('roadmap.form');
+});
+
+Route::get('/login', function () {
+    // This looks inside resources/js/Pages/ and finds Login.jsx
+    return Inertia::render('Login');
+});
+
+Route::get('/JobPostingForm', function () {
+    return view('JobPostingForm');
+});
+
+// Add this to handle the form submission
+Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
