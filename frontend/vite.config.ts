@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import { reactRouter } from "@react-router/dev/vite";
-import tailwindcss from "@tailwindcss/vite";
+import {type RouteConfig, index, route} from "@react-router/dev/routes";
 
-export default defineConfig({
-    plugins: [reactRouter(), tailwindcss()],
-});
+export default [
+    index("routes/home.tsx"),
+    route("/login", "routes/login.tsx"),
+    //route("/home", "routes/home.tsx"),
+] satisfies RouteConfig;
