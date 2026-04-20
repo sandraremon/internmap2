@@ -85,10 +85,7 @@ Route::get('/new', function () {
    return view('roadmap.form');
 });
 
-Route::get('/login', function () {
-    // This looks inside resources/js/Pages/ and finds Login.jsx
-    return Inertia::render('Login');
-});
+
 
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="/Images/Logo Glass Large.png">
+    <link rel="stylesheet" href="css/InternMapSignIn.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<header>
+    <div class="header-top">
+        <nav class="header-nav">
+            <a href="/signup-choice">
+                <button class="btn-header primary">Sign Up</button>
+            </a>
+        </nav>
+    </div>
+    <div class="header-hero">
+        <img class="logo" src="/Images/Logo Glass.png" alt="InternMap Logo">
+    </div>
+</header>
+
+<x-footer>
+    <body>
+    <h2 class="form-title">Sign In</h2>
+    <div class="form-container">
+
+        <form temp="@{/login}" temp="${user}" method="post">
+            <div temp="${errorMessage}"
+                 style="color:red;border:0 solid red;padding:2px;margin-bottom:5px; font-weight: 550;">
+                <p temp="${errorMessage}"></p></div>
+            <div class="form-row">
+            <div class="form-group">
+                <label>
+                    <input type="email"
+                           class="form-input"
+                           temp="*{email}"
+                           placeholder="Email"
+                           required />
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="password"
+                           class="form-input"
+                           temp="*{plainPassword}"
+                           placeholder="Password"
+                           required />
+                </label>
+            </div>
+            </div>
+            <button type="submit" class="form-submit">Sign In</button>
+        </form>
+
+        <p class="form-link">
+            Looking for the sign up page?
+            <a href="/signup-choice">Sign up</a>
+        </p>
+    </div>
+    </body>
+</x-footer>>
+
+</html>

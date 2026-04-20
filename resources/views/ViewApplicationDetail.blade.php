@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/New Logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Applications for ' + ${jobPosting?.jobName ?: 'Job'}">Applications</title>
+    <link rel="icon" type="image/png" href="/images/New Logo.png}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <style>
+        html, body { height: 100%; margin: 0; }
+
+        .page-container {
+            font-family: 'Inter', 'Helvetica Neue', 'Arial', system-ui;
+            max-width: 1400px;
+            padding: 20px;
+        }
+
+        .page-header {
+            background: linear-gradient(180deg, #339bff 0%, #1184ff 100%);
+            color: white;
+            padding: 10px 30px 30px;
+            border-radius: 46px;
+            margin-bottom: 40px;
+            /*box-shadow: 0 4px 15px rgba(35, 145, 255, 0.3);*/
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            margin: 5px 0;
+            opacity: 0.95;
+        }
+
+        .btn-header {
+            background: transparent;
+            margin: 10px;
+            border-radius: 34px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-action-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 600px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 34px;
+            border: 2px #d54e4e;
+            background: rgba(246, 246, 246, 0.8);
+            font-size: 16px;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #ededed;
+            background: #ededed;
+        }
+
+        .search-button {
+            padding: 8px 22px;
+            border-radius: 34px;
+            border: none;
+            background: #2391FF;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: #1c7ae6;
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 10px 25px;
+            border-radius: 34px;
+            background: #2391FF;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            background: rgba(56, 158, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .applications-grid {
+            display: grid;
+            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .application-card {
+            padding: 26px;
+            border-radius: 42px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(56, 158, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .applicant-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .application-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .application-info li {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #4b5563;
+        }
+
+        .application-info li strong {
+            font-weight: 600;
+            color: #1f2937;
+            display: inline-block;
+            min-width: 110px;
+        }
+
+        .action-link {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .review-btn {
+            padding: 10px 20px;
+            border-radius: 34px;
+            background: #2391FF;
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .review-btn-unprovided {
+            padding: 10px 20px;
+            border-radius: 34px;
+            background: #ededed;
+            color: rgba(97, 97, 97, 0.6);
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .review-btn {
+            padding: 10px 20px;
+            border-radius: 34px;
+            background: #2391FF;
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .review-btn:hover {
+            background: #1c7ae6;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<x-indexFooter>
+<body>
+<!-- Header -->
+<header>
+    <div class="header-top" style="display: flex; justify-content: space-between; padding-top: 20px; padding-right: 30px; padding-left: 30px; flex-direction: row; align-items: center;">
+        <div class="header-brand" style="font-size: 40px; font-weight: 700; letter-spacing: -0.32px; ">InternMap</div>
+        <nav class="header-nav" style="display: flex; gap: 10px; align-items: center">
+            <a href="/">
+                <button class="btn-header transparent">Home</button>
+            </a>
+            <a href="/JobPostings">
+                <button class="btn-header transparent">All Jobs</button>
+            </a>
+            <a href="/recruiter/jobpostings">
+                <button class="btn-header transparent">My Jobs</button>
+            </a>
+            <a href="/profile">
+                <img id="person-fill" src="/images/person_fill.png" alt="Profile" style="width: 25px; height: 26px; margin-left: 10px; filter: invert(100%);">
+            </a>
+        </nav>
+    </div>
+</header>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div th:unless="${jobPosting == null}"  class="page-header">
+        <h1 th:text="'Applications for: ' + ${jobPosting.jobName}">Applications List</h1>
+        <p><strong>Company:</strong> <span th:text="${jobPosting.companyName}">Company Name</span></p>
+        <p><strong>Posted By:</strong> <span th:text="${jobPosting.recruiterEmail}">recruiter@example.com</span></p>
+        <p><strong>Total Applications:</strong> <span th:text="${applications.size()}">0</span></p>
+    </div>
+
+    <!-- Search and Action Buttons -->
+    <div class="search-action-container">
+        <form th:action="@{/application/search(searchQuery=${searchQuery})}" method="post" class="search-form">
+            <input type="text" name="searchQuery" placeholder="Search by applicant's name or email"
+                       class="search-input"/>
+            <button type="submit" class="search-button"><img src="/images/magnifying_glass.png" alt="Magnifying glass" style="width: 22px; height: 22px"></button>
+        </form>
+
+
+        <div class="action-buttons">
+            <a th:href="@{/recruiter/jobpostings}" class="action-btn">
+                Back to My Job Postings
+            </a>
+            <a th:href="@{/JobPostings}" class="action-btn">
+                View All Job Postings
+            </a>
+        </div>
+    </div>
+
+    <!-- Applications Grid -->
+    <div class="applications-grid">
+        <!-- Application Cards -->
+        <div class="application-card" th:each="app : ${applications}"
+             th:if="${applications != null and !applications.isEmpty()}">
+            <div class="applicant-title" th:text="${app.fname + ' ' + app.lname}">Applicant's Name</div>
+
+            <div class="application-info">
+                <ul>
+                    <li>
+                        <strong>Email:</strong>
+                        <span th:text="${app.email}">example@student.com</span>
+                    </li>
+                    <li>
+                        <strong>Phone:</strong>
+                        <span th:text="${app.phoneNumber != null ? app.phoneNumber : 'N/A'}">N/A</span>
+                    </li>
+                    <li>
+                        <strong>Applied On:</strong>
+                        <span th:text="${#dates.format(app.applicationDate, 'dd-MMM-yyyy')}">Date</span>
+                    </li>
+                    <li>
+                        <!--                        <strong>Status:</strong>-->
+                        <!--                        <span th:text="${app.applicationStatus != null ? app.applicationStatus : 'Pending'}">Pending</span>-->
+                    </li>
+                </ul>
+            </div>
+
+            <div class="action-link">
+                <a th:unless="${app.cv != null}" class="review-btn-unprovided">Not provided</a>
+                <a th:href="@{/cv/{email}(email=${app.email})}" class="review-btn">
+                    View CV
+                </a>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" th:if="${applications == null or applications.isEmpty()}">
+            <h3>No applications to show</h3>
+        </div>
+    </div>
+</div>
+</body>
+</x-indexFooter>
+</html>
