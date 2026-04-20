@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router";
 import {Alert, CloseButton, Spinner} from "@heroui/react";
-import "./CSS/InternMapSignIn.css";
-import "./CSS/Universal.css";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -11,7 +9,7 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState(null as string | null);
     const [loading, setLoading] = useState(false);
 
-    async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    async function handleLogin(e: React.SubmitEvent) {
         e.preventDefault();
         setErrorMessage(null);
         setLoading(true);
