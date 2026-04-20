@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*', 'login', 'signup', '*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'], // allow React
+    'allowed_origins' => ['http://localhost:5173'], // allow React
 
     'allowed_headers' => ['*'],
 

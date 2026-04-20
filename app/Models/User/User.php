@@ -6,11 +6,13 @@ namespace App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Sanctum\HasApiTokens;
 
 
 /**
  * @method static create(array $array)
  * @method static find(string $id)
+ * @method createToken(string $string)
  * @property Recruiter $recruiter = $recruiter
  * @property UserRole $role=$role
  * @property Student $student = $student
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
+    use HasApiTokens;
     protected $primaryKey='id';
     protected $table = 'users';
 

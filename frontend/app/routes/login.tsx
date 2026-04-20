@@ -14,26 +14,35 @@ export default function Login() {
         setErrorMessage(null);
         setLoading(true);
 
-        const response = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        });
+        try {
+            const response = await fetch("http://127.0.0.1:8000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-        setLoading(false);
+            const data = await response.json();
 
-        if (response.status === 502) {
-            setErrorMessage("Email and password is not valid.");
-            return;
+            if (!response.ok) {
+                console.log(data);
+                setErrorMessage(data.message || "Login failed");
+                return;
+            }
+
+            console.log("you are in");
+
+            localStorage.setItem("token", data.access_token);
+            navigate("/");
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("Server error or connection issue");
+        } finally {
+            setLoading(false);
         }
-
-        const data = await response.json();
-
-        localStorage.setItem("token", data.token);
-
-        navigate("/");
     }
 
     return (
@@ -58,9 +67,9 @@ export default function Login() {
                             </Alert.Indicator>
                             <Alert.Content>
                                 <Alert.Title>
-                                    <p className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
-                                        Your Email &/or Password may be incorrect
-                                    </p>
+    <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+        Your Email &/or Password may be incorrect
+    </span>
                                 </Alert.Title>
                             </Alert.Content>
                             <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />

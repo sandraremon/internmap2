@@ -4,27 +4,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('login');
-    }
 
     public function login(Request $request)
     {
+        // 1. Validate the input
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
+        // 2. Attempt to authenticate
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
+            // 3. Create a Plain Text Token
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             return response()->json([
                 'message' => 'Logged in successfully',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
                 'user' => $user
             ], 200);
         }
 
-        return response()->json(['error' => 'Invalid credentials'], 401);
+        // 4. Handle failure
+        return response()->json([
+            'message' => 'Invalid login details'
+        ], 401);
     }
 
     public function logout()

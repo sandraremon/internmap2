@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @method middleware(string $string)
@@ -25,7 +26,7 @@ class UserController extends Controller
             'role'     => 'nullable|string'
         ]);
 
-        $validated['password'] = bcrypt($validated['password']); // never store plain text
+        $validated['password'] = Hash::make($validated['password']); // never store plain text
         if (!$request->has('role')) {
             $validated['role'] = UserRole::STUDENT->value;
         }
