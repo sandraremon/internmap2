@@ -4,6 +4,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CvController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\RecruiterController;
+use App\Http\Controllers\RoadmapController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User\User;
 use App\Models\User\Student;
@@ -94,3 +95,4 @@ Route::get('/JobPostingForm', function () {
 // Add this to handle the form submission
 Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/',          [RoadmapController::class, 'index']);

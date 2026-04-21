@@ -24,18 +24,18 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/login";
   };
-  "routes/home.tsx": {
-    id: "routes/home";
-    page: "/";
-  };
   "routes/login.tsx": {
     id: "routes/login";
     page: "/login";
+  };
+  "WebPages/home.tsx": {
+    id: "WebPages/home";
+    page: "/";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
-  "routes/home": typeof import("./app/routes/home.tsx");
   "routes/login": typeof import("./app/routes/login.tsx");
+  "WebPages/home": typeof import("./app/WebPages/home.tsx");
 };
