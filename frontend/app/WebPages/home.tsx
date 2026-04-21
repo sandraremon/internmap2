@@ -19,6 +19,7 @@ export default function Home() {
         const loadRoadmaps = async () => {
             try {
                 const roadmaps2 = await getRoadmaps();
+                setRoadmaps(roadmaps2);
                 setError(null);
             } catch (err) {
                 console.error(err);
