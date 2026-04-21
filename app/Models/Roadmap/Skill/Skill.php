@@ -8,11 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
- * @method static create(array $array)
- * @method static find(string $id)
- * @method createToken(string $string)
-
- *
+ * @method static create(array $validated)
  */
 class Skill extends Model
 {
@@ -26,7 +22,11 @@ class Skill extends Model
 
     public function RoadmapModule() :BelongsToMany
     {
-        return $this->belongsToMany(RoadmapModule::class, 'id', 'id');
+        return $this->belongsToMany(
+            RoadmapModule::class,
+            'roadmap_module_skills',
+            'skill_id',
+            'roadmap_module_id');
     }
 
     public function student(): BelongstoMany

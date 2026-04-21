@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static create(array $array)
  * @method static find(string $id)
  * @method createToken(string $string)
-
  *
  */
 class Roadmap extends Model

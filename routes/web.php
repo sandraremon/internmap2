@@ -30,16 +30,16 @@ Route::get('/test-db/recruiters', function () {
     return Recruiter::all();
 });
 
-Route::get('/', function () {
-    $roadmaps = Roadmap::all();
-    return view('index',[
-                   'roadmaps' => $roadmaps
-               ]);
-})->name('home');
+//Route::get('/', function () {
+//    $roadmaps = Roadmap::all();
+//    return view('index',[
+//                   'roadmaps' => $roadmaps
+//               ]);
+//})->name('home');
 
 Route::get('/JobPostings', [JobPostingController::class, 'index']);
 
-Route::get('/login', function () {return view('login');});
+//Route::get('/login', function () {return view('login');});
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/signup-choice', function () {

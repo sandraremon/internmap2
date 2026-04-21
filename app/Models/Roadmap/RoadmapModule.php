@@ -32,8 +32,8 @@ class RoadmapModule extends Model
     }
 
 
-    public function skills(): HasMany
+    public function skills(): BelongsToMany
     {
-        return $this->hasMany(Skill::class, 'id');
+        return $this->belongsToMany(Skill::class, 'roadmap_module_skills', 'roadmap_module_id', 'skill_id');
     }
 }

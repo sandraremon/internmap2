@@ -13,7 +13,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        //
+        return Skill::all();
     }
 
     /**
@@ -29,17 +29,13 @@ class SkillController extends Controller
      */
     public function store(Request $request,RoadmapModule $module)
     {
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description'=>'required|string|max:255',
         ]);
-
-        $skill = $module->skills()->create($validated );
-
+        $skill = Skill::create($validated);
+        $module->skills()->attach($skill->skill_id);
         return response()->json($skill, 201);
-
-
     }
 
     /**
