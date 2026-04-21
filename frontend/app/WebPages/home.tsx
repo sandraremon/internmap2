@@ -5,14 +5,10 @@ import Roadmap from "../components/Roadmap";
 export default function Home() {
     // The empty array [] means this runs ONLY once when the page loads
 
-    const [roadmaps, setRoadmaps] = useState<RoadmapType[]>([]);
+    const [roadmaps, setRoadmaps] = useState<Roadmap[]>([]);
     // const [roadmaps, setRoadmaps] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    type RoadmapType = {
-        id: number;
-        title: string;
-    };
 
     useEffect(() => {
         // Define the async function inside the effect

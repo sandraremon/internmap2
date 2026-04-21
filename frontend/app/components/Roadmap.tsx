@@ -3,10 +3,10 @@ import {Card} from "@heroui/react";
 
 
 // @ts-ignore
-function Roadmap( {roadmap}){
+function Roadmap({roadmap}: {roadmap: Roadmap} ){
 return(
     <div>
-       <h1>hiiiii</h1>
+        <h1>{roadmap.name}</h1>
     </div>
 );
 }
