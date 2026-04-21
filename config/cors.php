@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5174'], // allow React
+    'allowed_origins' => ['http://localhost:5173'], // allow React
 
     'allowed_headers' => ['*'],
 
