@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import {getRoadmaps} from "~/services/api";
+import {useEffect, useState} from "react";
+import {getRoadmaps} from "../services/api";
 import Roadmap from "../components/Roadmap";
 
-function Home() {
+export default function Home() {
     // The empty array [] means this runs ONLY once when the page loads
 
-    const [roadmaps, setRoadmaps] = useState<RoadmapType[]>([]);
+    let superRoadmaps
     // const [roadmaps, setRoadmaps] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -18,8 +18,7 @@ function Home() {
         // Define the async function inside the effect
         const loadRoadmaps = async () => {
             try {
-                const roadmaps = await getRoadmaps();
-                setRoadmaps(roadmaps);
+                superRoadmaps = (await fetch("http://127.0.0.1:8000/")).json()
                 setError(null);
             } catch (err) {
                 console.error(err);
@@ -30,23 +29,14 @@ function Home() {
             }
         };
 
-      void  loadRoadmaps();
+      void loadRoadmaps();
     }, []);
-
-
-
 
     return (
         <div>
-            {roadmaps.map((item) => (
+            {superRoadmaps.map((item) => (
                 <Roadmap key={item.id} roadmap={item}/>
             ))}
-
         </div>
     );
-
-
-
 }
-
-export default Home
