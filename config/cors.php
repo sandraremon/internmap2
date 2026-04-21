@@ -23,6 +23,6 @@ return [
 
     'allowed_headers' => ['*'],
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];

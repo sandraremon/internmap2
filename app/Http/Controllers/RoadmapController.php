@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\Roadmap\Roadmap;
 
@@ -9,53 +10,58 @@ class RoadmapController extends Controller
 {
     public function index()
     {
-        $roadmaps = Roadmap::all();
-        return view('roadmap.view', ['roadmaps' => $roadmaps]);
+        return response()->json(Roadmap::all());
         // this returns all roadmaps
     }
 
-    public function create()
-    {
-        return view('roadmap.form');
-        //this returns the HTML form to make a roadmap
-    }
+//    public function create()
+//    {
+//        return view('roadmap.form');
+//        //this returns the HTML form to make a roadmap
+//    }
 
     public function store(Request $request)
     {
-        $roadmap = $request->validate([
-                'name' => 'required'
+        $user = auth()->user();
+
+        if ($user->role !== UserRole::ADMIN->value) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
         ]);
 
-        Roadmap::create($roadmap);
-        return redirect("/");
-        //this fetches the data and saves it in database
+        $roadmap = Roadmap::create($validated);
+
+        return response()->json($roadmap, 201);
     }
 
-    public function show(string $id)
+    public function show(Roadmap $roadmap)
     {
-        return Roadmap::find($id);
+        return response()->json($roadmap);
     }
 
-    public function edit(string $id)
-    {
-        $roadmap = Roadmap::find($id);
-        return view('roadmap.form', ['roadmap' => $roadmap]);
-        // idk what to put in here
-    }
+//    public function edit(string $id)
+//    {
+//        $roadmap = Roadmap::find($id);
+//        return view('roadmap.form', ['roadmap' => $roadmap]);
+//        // idk what to put in here
+//    }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Roadmap $roadmap)
     {
         $data = $request->validate([
             'name' => 'required'
         ]);
-        $roadmap = Roadmap::find($id);
         $roadmap->update($data);
-         return view('roadmap.view', ['roadmap' => $roadmap]);
+        return response()->json($roadmap);
+//         return view('roadmap.view', ['roadmap' => $roadmap]);
     }
 
-    public function destroy(string $id)
+    public function destroy(Roadmap $roadmap)
     {
-        Roadmap::destroy($id);
-        return view('index');
+        $roadmap->delete();
+        return response()->json(null, 204);
     }
 }

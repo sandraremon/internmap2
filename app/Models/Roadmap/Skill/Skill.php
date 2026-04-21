@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+/**
+ * @method static create(array $array)
+ * @method static find(string $id)
+ * @method createToken(string $string)
 
+ *
+ */
 class Skill extends Model
 {
 

@@ -93,3 +93,4 @@ Route::get('/JobPostingForm', function () {
 
 // Add this to handle the form submission
 Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
+Route::post('/register', [AuthController::class, 'register']);
