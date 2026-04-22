@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import Welcome from "~/FrontendWebpages/Welcome";
+import JobPosting from "~/FrontendWebpages/JobPosting";
 import Loading from "~/FrontendWebpages/fragments/Loading";
 
 export function meta({}: Route.MetaArgs) {
@@ -10,15 +10,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
+    const jobPostingsRes = await fetch("http://localhost:8050/api/jobposting/jobform");
+    const data = await jobPostingsRes.json();
 
-    const [roadmapsRes, jobPostingsRes] = await Promise.all([
-        fetch("http://localhost:8050/REST"),
-        fetch("http://localhost:8050/REST/jobpostings"),
-    ]);
+    console.log("API response:", data);
 
     return {
-        roadmaps: await roadmapsRes.json(),
-        jobPostings: await jobPostingsRes.json(),
+        jobPostings: data,  // ✅ use the already-parsed data, not .json() again cool
     };
 }
 
@@ -27,7 +25,7 @@ export function HydrateFallback() {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-    const { roadmaps, jobPostings } = loaderData;
+    const {  jobPostings } = loaderData;
 
-    return <Welcome roadmaps={roadmaps} jobPostings={jobPostings} />;
+    return <JobPosting  jobPostings={jobPostings} />;
 }

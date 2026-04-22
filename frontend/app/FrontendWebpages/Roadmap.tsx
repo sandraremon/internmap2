@@ -6,7 +6,14 @@ import {Card} from "@heroui/react";
 function Roadmap({roadmap}: {roadmap: Roadmap} ){
 return(
     <div>
-        <h1>{roadmap.name}</h1>
+        <Card>
+            <Card.Header>
+                <Card.Title>
+                    {roadmap.name}
+                </Card.Title>
+            </Card.Header>
+
+    </Card>
     </div>
 );
 }

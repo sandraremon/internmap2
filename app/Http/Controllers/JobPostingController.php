@@ -16,7 +16,7 @@ class JobPostingController extends Controller
 
     public function create()
     {
-        return view('JobPostingForm');//returns job posting form
+//        return view('JobPostingForm');//returns job posting form
     }
 
     public function store(Request $request)
