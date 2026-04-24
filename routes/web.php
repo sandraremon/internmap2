@@ -52,10 +52,11 @@ Route::post('/student/register', [StudentController::class, 'store'])->name('stu
 
 Route::get('/recruiter/register', [RecruiterController::class, 'create']);
 
-Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
+Route::post('/recruiter/register', [RecruiterController::class, 'store']);
 
 //Route::get('/company/register', function () {return view('CompanyRegister');});
-Route::post('/company/register', [CompanyController::class, 'store']);
+// routes/api.php
+Route::middleware('auth:sanctum')->post('/company/register', [CompanyController::class, 'store']);
 
 Route::get('/recruiter/jobpostings', function () {
     return view('recruiter-jobpostings');

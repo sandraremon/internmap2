@@ -1,48 +1,51 @@
-import React, {use, useEffect, useState} from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router";
 import {Alert, CloseButton, Spinner} from "@heroui/react";
 
 export default function Login() {
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null as string | null);
     const [loading, setLoading] = useState(false);
 
-    async function handleForm(e: React.SubmitEvent) {
-        e.preventDefault()
-
-        await handleLogin()
-    }
-
-    async function handleLogin() {
+    async function handleLogin(e: React.SubmitEvent) {
+        e.preventDefault();
         setErrorMessage(null);
         setLoading(true);
 
-        const response = await fetch("http://localhost:8050/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        });
+        try {
+            const response = await fetch("http://127.0.0.1:8000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-        setLoading(false);
+            const data = await response.json();
 
-        if (response.status === 502) {
-            setErrorMessage("Email and password is not valid.")
-            return
+            if (!response.ok) {
+                console.log(data);
+                setErrorMessage(data.message || "Login failed");
+                return;
+            }
+
+            localStorage.setItem("token", data.access_token);
+            navigate("/");
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("Server error or connection issue");
+        } finally {
+            setLoading(false);
         }
-
-        const data = await response.json();
-
-        localStorage.setItem("token", data.token);
-
-        window.location.href = "/";
     }
 
     return (
         <div className="centered">
-            <a href="/frontend/public" style={{ borderRadius: "200px" }}>
+            <a href="/" style={{ borderRadius: "200px" }}>
                 <img
                     src="/images/navi/Navi%20Unique.png"
                     alt="Logo"
@@ -51,7 +54,7 @@ export default function Login() {
             </a>
             <br/>
 
-            <form className="container" onSubmit={handleForm}>
+            <form className="container" onSubmit={handleLogin}>
 
                 {errorMessage && (
                     <>
@@ -62,9 +65,9 @@ export default function Login() {
                             </Alert.Indicator>
                             <Alert.Content>
                                 <Alert.Title>
-                                    <p className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
-                                        Your Email &/or Password may be incorrect
-                                    </p>
+    <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+        Your Email &/or Password may be incorrect
+    </span>
                                 </Alert.Title>
                             </Alert.Content>
                             <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
@@ -81,15 +84,11 @@ export default function Login() {
 
                 <label>Email:</label>
                 <input
-                    id="email"
                     className="text-sm"
                     type="email"
                     value={email}
                     placeholder="Craig@Internmap.co"
                     onChange={(e) => setEmail(e.target.value)}
-                    onInput={() => {setErrorMessage(null)}}
-                    autoFocus={true}
-                    onKeyDownCapture={(e) => {if (e.key === 'Enter') { if (password.length > 0) {return handleLogin()} else { document.getElementById("password")?.focus() }}}}
                     required
                 />
 
@@ -97,20 +96,17 @@ export default function Login() {
 
                 <label>Password:</label>
                 <input
-                    id="password"
                     className="text-sm"
                     type="password"
                     value={password}
                     placeholder="Anything"
                     onChange={(e) => setPassword(e.target.value)}
-                    onInput={() => {setErrorMessage(null)}}
-                    onKeyDownCapture={(e) => {if (e.key === 'Enter') { if (email.length > 0) {return handleLogin()} else { document.getElementById("email")?.focus()} }}}
                     required
                 />
 
                 <br />
 
-                { loading ? <Spinner size="lg" color="current" /> : <><br /> <input className="text-lg" type="submit" onKeyDownCapture={(e) => {if (e.key === 'Enter') {return handleLogin()}}} value="Log In" /></>}
+                { loading ? <Spinner size="lg" color="current" /> : <><br /> <input className="text-lg" type="submit" value="Log In" /></>}
 
                 <br />
 

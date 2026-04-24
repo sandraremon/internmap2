@@ -30,16 +30,19 @@ class CompanyController extends Controller
             'name' => 'required|string',
             'websiteurl' => 'required|string|url'
         ]);
-        //company() is the collection of companies not just 1
-        //$company = $recruiter->company()->create($validated);
-        $company=Company::create($validated);
-        $recruiter->company()->attach($company->id);
 
+        $company=Company::create($validated);
+
+        if (!$company->id) {
+            return response()->json(['error' => 'Database failed to save company record.'], 500);
+        }
+        $recruiter->company()->attach($company->id);
         return response()->json([
             'message' => 'Company created and linked successfully',
             'company' => $company
         ], 200);
     }
+
     public function show(string $id){ return Company::find($id); }
 
    // public function edit(string $id){}

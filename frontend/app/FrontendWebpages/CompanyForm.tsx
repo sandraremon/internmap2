@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import {IndexFooter, IndexHeader} from "~/FrontendWebpages/fragments/IndexHeaderAndFooter";
-import {Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, Label, TextField} from "@heroui/react";
+import {Alert, CloseButton, Spinner} from "@heroui/react";
 
 // @ts-ignore
-export default function RegisterCompany({company}) {
-    const [form, setForm] = useState({
-        name: "",
-        industry: "",
-        website_url: "",
-        location_hq: "",
-    });
-    const [success, setSuccess] = useState("");
-    const [errors, setErrors] = useState([]);
+export default function RegisterCompany() {
+    //const [success, setSuccess] = useState("");
+    //const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState(null as string | null);
 
@@ -20,177 +14,148 @@ export default function RegisterCompany({company}) {
     // @ts-ignore
     async function handleSubmit(e) {
         e.preventDefault();
+        setErrorMessage(null);
+        setLoading(true);
 
         const formData = new FormData(e.currentTarget);
 
-        const params = new URLSearchParams({
-
+        const payload = {
             industry: formData.get("industry") as string,
             location_ofhq: formData.get("location_ofhq") as string,
             name: formData.get("name") as string,
-            websiteurl: formData.get("website") as string,
-        });
-        const res = await fetch(
-            "http://127.0.0.1:8000/company/register",
-            {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
+            websiteurl: formData.get("websiteurl") as string,
+        };
+        try{
+            const token = localStorage.getItem("token");
+            const res = await fetch(
+                "http://127.0.0.1:8000/company/register",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.log(data);
+                setErrorMessage(data.message || "Regitration failed");
+                return;
+            }else{
+                navigate("/");
             }
-        );
+        }catch (error) {
+            console.error(error);
+            setErrorMessage("Server error or connection issue");
+        } finally {
+            setLoading(false);
+        }
+
+
 
     }
 
     return (
-        // <div className="form-container">
-        //     <h2 className="form-title">Create a Company</h2>
-        //
-        //     {success && (
-        //         <div style={{ color: "#155724", background: "#d4edda", border: "1px solid #c3e6cb", padding: "12px", marginBottom: "20px", borderRadius: "8px" }}>
-        //             {success}
-        //         </div>
-        //     )}
-        //
-        //     {errors.length > 0 && (
-        //         <div style={{ color: "#721c24", background: "#f8d7da", border: "1px solid #f5c6cb", padding: "12px", marginBottom: "20px", borderRadius: "8px" }}>
-        //             <ul style={{ margin: 0, paddingLeft: "16px" }}>
-        //                 {errors.map((err, i) => <li key={i}>{err}</li>)}
-        //             </ul>
-        //         </div>
-        //     )}
-        //
-        //     <form onSubmit={handleSubmit}>
-        //         <div className="form-row">
-        //             <div className="form-group">
-        //                 <input
-        //                     type="text"
-        //                     name="name"
-        //                     className="form-input"
-        //                     value={form.name}
-        //                     placeholder="Company Name"
-        //                     required
-        //                 />
-        //             </div>
-        //             <div className="form-group">
-        //                 <input
-        //                     type="text"
-        //                     name="industry"
-        //                     className="form-input"
-        //                     value={form.industry}
-        //                     placeholder="Industry"
-        //                 />
-        //             </div>
-        //             <div className="form-group">
-        //                 <input
-        //                     type="url"
-        //                     name="website_url"
-        //                     className="form-input"
-        //                     value={form.website_url}
-        //                     placeholder="Company's website"
-        //                 />
-        //             </div>
-        //             <div className="form-group">
-        //                 <input
-        //                     type="text"
-        //                     name="location_hq"
-        //                     className="form-input"
-        //                     value={form.location_hq}
-        //                     placeholder="Office address"
-        //                 />
-        //             </div>
-        //         </div>
-        //
-        //         <button type="submit" className="form-submit">
-        //             Create Company
-        //         </button>
-        //     </form>
-        //
-        //     <p className="form-link">
-        //         Already registered your company?{" "}
-        //         <a href="/recruiter/register">Back to recruiter registration</a>
-        //     </p>
-        // </div>
-        <>
-            <IndexHeader/>
-            <div className="wrapper">
-                <div  align="center" >
+        <div className="centered">
+            <a href="/" style={{ borderRadius: "200px" }}>
+                <img
+                    src="/images/navi/Navi%20Unique.png"
+                    alt="Logo"
+                    style={{ width: "100px", height: "100px" }}
+                />
+            </a>
+            <br/>
 
-                    <Form method="post" className="w-full max-w-96" onSubmit={handleSubmit}>
-                        {/*<input*/}
-                        {/*    type="hidden"*/}
-                        {/*    name="jobId"*/}
-                        {/*    value={new URL(window.location.href).searchParams.get("jobId") ?? ""}*/}
-                        {/*/>*/}
-                        <Fieldset>
-                            <Description>Add company</Description>
-                            <FieldGroup>
-                                <TextField
-                                    isRequired
-                                    name="industry"
-                                    validate={(value) => {
-                                        if (value.length < 3) {
-                                            return "Name must be at least 3 characters";
-                                        }
-                                        return null;
-                                    }}>
+            <form className="container" onSubmit={handleSubmit}>
+
+                {errorMessage && (
+                    <>
+                        <br/>
+                        <Alert className="dark rounded-4xl" style={{background: "var(--secondary-background-color)"}} status="danger">
+                            <Alert.Indicator className="pr-0">
+                                <img src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Logo" style={{width: "20px", height: "20px"}}/>
+                            </Alert.Indicator>
+                            <Alert.Content>
+                                <Alert.Title>
+    <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+        Registration failed
+    </span>
+                                </Alert.Title>
+                            </Alert.Content>
+                            <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
+                        </Alert>
+                        <br/>
+                    </>
+                )}
+
+                {!errorMessage && (
+                    <>
+                        <h1 className="font-bold text-3xl m-2" style={{paddingTop: "12px"}}>Sign in</h1>
+                    </>
+                )}
+
+                <label>Company name:</label>
+                <input
+                    className="text-sm"
+                    type="text"
+                    name="name"
+                    placeholder="eg.Orange"
+                //    onChange={(e) => set(e.target.value)}
+                    required
+                />
+
+                <br/>
+                <br/>
+
+                <label>industry:</label>
+                <input
+                    className="text-sm"
+                    type="text"
+                    placeholder="eg.tech"
+                    name="industry"
+                    //onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+
+                <br />
+                <br/>
+
+                <label>Location:</label>
+                <input
+                    className="text-sm"
+                    type="text"
+                    name="location_ofhq"
+                    placeholder="eg.Cairo"
+                    //onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+
+                <br />
+                <br/>
+
+                <label>Website:</label>
+                <input
+                    className="text-sm"
+                    type="url"
+                    name="websiteurl"
+                    placeholder="eg.https:/orange.com"
+                    //onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+
+                <br />
 
 
-                                    <Label>industry</Label>
-                                    <Input placeholder="eg. tech" />
-                                    <FieldError />
-                                </TextField>
-                                <TextField
-                                    isRequired
-                                    name="location_ofhq"
-                                    validate={(value) => {
-                                        if (value.length < 3) {
-                                            return "Name must be at least 3 characters";
-                                        }
-                                        return null;
-                                    }}>
+                { loading ? <Spinner size="lg" color="current" /> : <><br /> <input className="text-lg" type="submit" value="Register Company" /></>}
 
-                                    <Label>location</Label>
-                                    <Input placeholder="cairo" />
-                                    <FieldError />
-                                </TextField>
-                                <TextField
-                                    isRequired
-                                    name="name"
-                                    validate={(value) => {
-                                        if (value.length < 3) {
-                                            return "Name must be at least 3 characters";
-                                        }
-                                        return null;
-                                    }}>
+                <br />
 
-
-                                    <Label>company name:</Label>
-                                    <Input placeholder="eg. apple " />
-                                    <FieldError />
-                                </TextField>
-                                <TextField isRequired name="website">
-                                    <Label>website</Label>
-                                    <Input placeholder="www.apple.com" />
-                                    <FieldError />
-                                </TextField>
-
-                            </FieldGroup>
-                            <Fieldset.Actions>
-                                <Button type="submit" onSubmit={handleSubmit} >
-                                    Create Company
-
-                                </Button>
-                                {/*<Button type="reset" variant="secondary">*/}
-                                {/*    Reset*/}
-                                {/*</Button>*/}
-                            </Fieldset.Actions>
-                        </Fieldset>
-                    </Form>
-                </div>
-            </div>
-
-            <IndexFooter/>
-        </>
+                <br/>
+            </form>
+        </div>
     );
 }

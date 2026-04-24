@@ -25,9 +25,11 @@ class RecruiterController extends Controller
         $user = app(UserController::class)->store($request);
         $recData['id'] = $user->id;
         Recruiter::create($recData);
+        $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             'user' => $user,
-            'title' => $recData['title']
+            'title' => $recData['title'],
+            'token' => $token,
         ], 200);
     }
     public function show(string $id)
