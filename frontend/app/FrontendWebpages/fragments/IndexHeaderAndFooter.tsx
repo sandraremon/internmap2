@@ -10,7 +10,7 @@ import {
     Toast,
     useOverlayState
 } from "@heroui/react";
-import {notification} from "~/FrontendWebpages/fragments/Notification";
+
 import {useLocation} from "react-router";
 
 export function IndexHeader() {
@@ -46,7 +46,7 @@ export function IndexHeader() {
 
     }, []);
 
-    notification()
+
 
     return (
         <header className="header">

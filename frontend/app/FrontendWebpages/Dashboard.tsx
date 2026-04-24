@@ -1,8 +1,7 @@
-import "~/CSS/jobPosting.css"
-import "~/CSS/InternMapHomepage.css";
+import "../CSS/jobPosting.css"
+import "../CSS/InternMapHomepage.css";
 import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Checkbox, Tabs, Toast} from "@heroui/react";
-import {notification} from "~/FrontendWebpages/fragments/Notification";
 import { Table } from '@heroui/react';
 import {useState} from "react";
 import {Button , Alert} from "@heroui/react";

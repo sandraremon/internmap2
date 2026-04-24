@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
-import Welcome from "~/FrontendWebpages/Welcome";
-import Loading from "~/FrontendWebpages/fragments/Loading";
+import Welcome from "../FrontendWebpages/Welcome";
+import Loading from "../FrontendWebpages/fragments/Loading";
 
 export function meta({}: Route.MetaArgs) {
     return [

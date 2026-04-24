@@ -1,14 +1,14 @@
-import "~/CSS/jobPosting.css"
-import "~/CSS/Roadmap.css";
+import "../CSS/jobPosting.css"
+import "../CSS/Roadmap.css";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, ComboBox, Disclosure, Input, ListBox, SearchField} from "@heroui/react";
 import React, {useState} from "react";
-import type {Key} from "node:readline";
+
 
 let constJobPostings: JobPosting[] = [];
 let constRoadmaps: Roadmap[] = [];
 
-// @ts-ignore
+
 export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], jobPostings: JobPosting[]}) {
 
     constRoadmaps = roadmaps.slice(0, roadmaps.length);

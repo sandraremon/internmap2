@@ -54,7 +54,7 @@ Route::get('/recruiter/register', [RecruiterController::class, 'create']);
 
 Route::post('/recruiter/register', [RecruiterController::class, 'store'])->name('recruiter.register.submit');
 
-Route::get('/company/register', function () {return view('CompanyRegister');});
+//Route::get('/company/register', function () {return view('CompanyRegister');});
 Route::post('/company/register', [CompanyController::class, 'store']);
 
 Route::get('/recruiter/jobpostings', function () {
