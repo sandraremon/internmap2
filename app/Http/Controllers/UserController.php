@@ -23,7 +23,9 @@ class UserController extends Controller
             'l_name'   => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'role'     => 'nullable|string'
+            'role'     => 'nullable|string',
+
+
         ]);
 
         $validated['password'] = Hash::make($validated['password']); // never store plain text

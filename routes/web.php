@@ -38,7 +38,7 @@ Route::get('/test-db/recruiters', function () {
 //               ]);
 //})->name('home');
 
-Route::get('/JobPostings', [JobPostingController::class, 'index']);
+Route::post('/JobPostings/store', [JobPostingController::class, 'store']);
 
 //Route::get('/login', function () {return view('login');});
 Route::post('/login', [AuthController::class, 'login']);

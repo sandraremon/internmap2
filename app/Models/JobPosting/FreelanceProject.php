@@ -2,7 +2,10 @@
 
 namespace App\Models\JobPosting;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+/**
+ * @method static create(array $validated)
+ * @method static find(string $id)
+ */
 class FreelanceProject extends JobPosting {
 
     protected $table = 'freelance_project';

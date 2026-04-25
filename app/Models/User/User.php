@@ -16,6 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Recruiter $recruiter = $recruiter
  * @property UserRole $role=$role
  * @property Student $student = $student
+ * @property Admin $admin = $admin
  *
  */
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\Application;
-use App\Models\JobPosting\JobPosting;
+use App\Models\JobPosting;
 use App\Models\User\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

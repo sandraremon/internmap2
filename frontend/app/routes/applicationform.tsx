@@ -11,6 +11,7 @@ export function meta() {
     ];
 }
 
+//@ts-ignore
 export async function clientLoader({ request }) {
     const url = new URL(request.url);
     const jobId = url.searchParams.get("jobId");

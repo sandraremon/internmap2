@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\Company;
-use App\Models\JobPosting\JobPosting;
+use App\Models\JobPosting;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User\Recruiter;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

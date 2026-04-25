@@ -3,6 +3,8 @@
 namespace App\Models\JobPosting;
 use App\Models\Company\Company;
 use App\Models\User\Recruiter;
+use App\Models\User\Student;
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +13,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * @method static create(array $validated)
  * @method static find(string $id)
+ * @property Internship $internship = $internship
+ * @property JobPostingType $type=$type
+ * @property FreelanceProject $freelanceProject = $freelanceProject
+ * @property FreelanceProject $fullTime = $fullTime
  */
 class JobPosting extends Model
 {
@@ -20,7 +26,10 @@ class JobPosting extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $primaryKey = 'id';
-    protected $fillable = ['recruiter_id', 'company_id', 'job_description', 'job_name', 'job_requirements', 'date_posted'];
+    protected $fillable = ['recruiter_id', 'company_id', 'job_description', 'job_name', 'job_requirements', 'date_posted','type'];
+    protected $casts = [
+        'type' => JobPostingType::class,
+    ];
     public $timestamps = false;
 
     public function recruiter(): BelongsTo
@@ -33,17 +42,17 @@ class JobPosting extends Model
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function internship(): HasOne
+    public function Internship(): HasOne
     {
-        return $this->hasOne(Internship::class, 'id_internship');
+        return $this->hasOne(Internship::class, 'id');
     }
 
-    public function fullTime(): HasOne
+    public function FullTime(): HasOne
     {
         return $this->hasOne(FullTime::class,'id');
     }
 
-    public function freelanceProject(): HasOne
+    public function FreelanceProject(): HasOne
     {
         return $this->hasOne(FreelanceProject::class,'id');
     }

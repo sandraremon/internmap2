@@ -4,7 +4,10 @@ namespace App\Models\JobPosting;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+/**
+ * @method static create(array $validated)
+ * @method static find(string $id)
+ */
 class FullTime extends JobPosting{
 
     protected $table = 'full_time';
