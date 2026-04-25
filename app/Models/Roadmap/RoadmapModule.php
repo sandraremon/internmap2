@@ -17,16 +17,17 @@ class RoadmapModule extends Model
 
     protected $table = 'roadmap_module';
 
-    protected $primaryKey = 'roadmap_module_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = ['name' , 'description'];
+    public $timestamps = false;
 
     public function roadmaps(): BelongsToMany
     {
         return $this->belongsToMany(
             Roadmap::class,
             'roadmap_roadmap_modules',
-            'roadmap_module_id',
+            'roadmap_modules_id',
             'roadmap_id'
         );
     }
@@ -34,6 +35,6 @@ class RoadmapModule extends Model
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class, 'roadmap_module_skills', 'roadmap_module_id', 'skill_id');
+        return $this->belongsToMany(Skill::class, 'roadmap_module_skills', 'roadmap_module_id', 'skills_id');
     }
 }

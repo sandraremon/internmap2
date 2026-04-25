@@ -1,4 +1,4 @@
-class Skill {
+export class Skill {
 
     name: String;
     id: bigint;

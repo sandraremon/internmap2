@@ -1,4 +1,6 @@
-class Module {
+import {Skill} from "./Skill";
+
+export class Module {
 
     name: String;
     id: bigint;

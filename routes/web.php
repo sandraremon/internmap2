@@ -87,7 +87,7 @@ Route::get('/new', function () {
    return view('roadmap.form');
 });
 
-
+Route::post('/roadmap/create', [RoadmapController::class, 'store']);
 
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');

@@ -21,6 +21,7 @@ class Roadmap extends Model
     protected $primaryKey ='id';
 
     protected $fillable = ['name'];
+    public $timestamps = false;
 
     public function modules(): BelongsToMany
     {
@@ -28,7 +29,7 @@ class Roadmap extends Model
             RoadmapModule::class,
             'roadmap_roadmap_modules',   // pivot table
             'roadmap_id',                // FK on pivot for roadmap
-            'roadmap_module_id'          // FK on pivot for module
+            'roadmap_modules_id'          // FK on pivot for module
         );
     }
 }

@@ -1,4 +1,5 @@
-class Roadmap {
+import {Module} from './Module';
+export class Roadmap {
 
     id: bigint;
     name: String;

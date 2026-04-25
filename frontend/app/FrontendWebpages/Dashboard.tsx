@@ -1,4 +1,4 @@
-import "../CSS/jobPosting.css"
+/* import "../CSS/jobPosting.css"
 import "../CSS/InternMapHomepage.css";
 import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Checkbox, Tabs, Toast} from "@heroui/react";
@@ -307,4 +307,4 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
             <IndexFooter/>
         </>
     );
-}
+}*/

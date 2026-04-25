@@ -25,7 +25,7 @@ class Skill extends Model
         return $this->belongsToMany(
             RoadmapModule::class,
             'roadmap_module_skills',
-            'skill_id',
+            'skills_id',
             'roadmap_module_id');
     }
 
