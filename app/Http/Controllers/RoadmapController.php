@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Roadmap\RoadmapModule;
 use App\Models\Roadmap\Skill\Skill;
-use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\Roadmap\Roadmap;
 use Illuminate\Support\Facades\DB;
@@ -18,28 +17,6 @@ class RoadmapController extends Controller
         // this returns all roadmaps
     }
 
-//    public function create()
-//    {
-//        return view('roadmap.form');
-//        //this returns the HTML form to make a roadmap
-//    }
-
-//    public function store(Request $request)
-//    {
-//        $user = auth()->user();
-//
-//        if ($user->role !== UserRole::ADMIN->value) {
-//            abort(403);
-//        }
-//
-//        $validated = $request->validate([
-//            'name' => 'required|string|max:255'
-//        ]);
-//
-//        $roadmap = Roadmap::create($validated);
-//
-//        return response()->json($roadmap, 201);
-//    }
     /**
      * @throws Throwable
      */

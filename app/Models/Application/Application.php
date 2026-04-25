@@ -1,10 +1,19 @@
 <?php
 
 namespace App\Models\Application;
-use App\Models\JobPosting;
+use App\Models\JobPosting\JobPosting;
 use App\Models\User\Student;
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @method static create(array $array)
+ * @method createToken(string $string)
+ * @property UserRole $role=$role
+ * @property Student $student = $student
+ * @property JobPosting $jobPosting = $jobPosting
+ */
 class Application extends Model
 {
 
@@ -19,7 +28,6 @@ class Application extends Model
     {
         //the link between them is here by belongsTo
         return $this->belongsTo(Student::class, 'id', 'id');
-        // , 'id','id'
     }
 
     public function jobPosting(): BelongsTo

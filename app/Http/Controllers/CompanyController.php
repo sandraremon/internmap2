@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company\Company;
-use App\Models\User\Recruiter;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller

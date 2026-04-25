@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CvController;
 use App\Http\Controllers\JobPostingController;
@@ -11,9 +12,9 @@ use App\Models\User\Student;
 use App\Models\User\Admin;
 use App\Models\User\Recruiter;
 use App\Models\Roadmap\Roadmap;
-use \App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
-use Inertia\Inertia;
+
 
 Route::get('/test-db/users', function () {
     return User::all();
@@ -83,11 +84,10 @@ Route::get('/viewApplicationDetails', function () {
     return view('ViewApplicationDetail');
 });
 
-Route::get('/new', function () {
-   return view('roadmap.form');
-});
+
 
 Route::post('/roadmap/create', [RoadmapController::class, 'store']);
+Route::post('/application/create', [ApplicationController::class, 'store']);
 
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');
@@ -95,5 +95,5 @@ Route::get('/JobPostingForm', function () {
 
 // Add this to handle the form submission
 Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
-Route::post('/register', [AuthController::class, 'register']);
+//Route::post('/register', [AuthController::class, 'register']);
 Route::get('/',          [RoadmapController::class, 'index']);
