@@ -45,14 +45,10 @@ class RoadmapController extends Controller
      */
     public function store(Request $request)
     {
-        // ── Auth check ─────────────────────────────────────────────────────────
 //        $user = auth()->user();
-
 //        if ($user->role !== UserRole::ADMIN->value) {
 //            abort(403, 'Unauthorized');
 //        }
-
-        // ── Validate everything at once ────────────────────────────────────────
         $validated = $request->validate([
             'name'                              => 'required|string|max:255',
 
@@ -67,44 +63,40 @@ class RoadmapController extends Controller
             'modules.*.skills.*.description'    => 'required|string|max:255',
         ]);
 
-        // ── Wrap everything in a transaction ───────────────────────────────────
+        // wrap in a transaction
         // If anything fails, ALL of it gets rolled back — no broken data in DB
         $roadmap = DB::transaction(function () use ($validated) {
-
-            // Step 1: Create the roadmap
+            //create roadmap
             $roadmap = Roadmap::create([
                 'name'        => $validated['name'],
             ]);
-            // Step 2: Loop over each module
+            //loop over each module to create it
             foreach ($validated['modules'] as $moduleData) {
 
-                // Create the module
+                //create the module
                 $module = RoadmapModule::create([
                     'name'        => $moduleData['name'],
                     'description' => $moduleData['description'],
                 ]);
 
-                // Attach module to roadmap (writes to pivot table)
+                //attach module to roadmap (writes to pivot table)
                 $roadmap->modules()->attach($module->id);
 
-                // Step 3: Loop over each skill inside this module
+                //loop over each skill inside this module
                 foreach ($moduleData['skills'] as $skillData) {
 
-                    // Create the skill
+                    //create the skill
                     $skill = Skill::create([
                         'name'        => $skillData['name'],
                         'description' => $skillData['description'],
                     ]);
 
-                    // Attach skill to module (writes to pivot table)
+                    //attach skill to module (writes to pivot table)
                     $module->skills()->attach($skill->id);
                 }
             }
-
             return $roadmap;
         });
-
-        // ── Return the full roadmap with its modules and skills ────────────────
         return response()->json([
             'message' => 'Roadmap created successfully',
             'data'    => $roadmap->load('modules.skills'),
@@ -116,12 +108,7 @@ class RoadmapController extends Controller
         return response()->json($roadmap);
     }
 
-//    public function edit(string $id)
-//    {
-//        $roadmap = Roadmap::find($id);
-//        return view('roadmap.form', ['roadmap' => $roadmap]);
-//        // idk what to put in here
-//    }
+//    public function edit(string $id) {}
 
     public function update(Request $request, Roadmap $roadmap)
     {
