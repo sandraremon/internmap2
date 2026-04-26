@@ -1,13 +1,14 @@
-/* import "../CSS/jobPosting.css"
+ import "../CSS/jobPosting.css"
 import "../CSS/InternMapHomepage.css";
 import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
-import {Checkbox, Tabs, Toast} from "@heroui/react";
+import {Checkbox, type Key, Tabs, Toast} from "@heroui/react";
 import { Table } from '@heroui/react';
 import {useState} from "react";
 import {Button , Alert} from "@heroui/react";
-import type {Key} from "node:readline";
+
 import {useFetcher} from "react-router";
 import {AlertDialog} from "@heroui/react";
+ import type {Roadmap} from "../../Model/Roadmap";
 
 
 export default function Dashboard({users , roadmaps}: {users : User[], roadmaps : Roadmap[]}) {
@@ -92,7 +93,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                                 <Table.Row key={user.id} id={user.email}>
                                                                     <Table.Cell className="pr-0">
                                                                         <Checkbox
-                                                                            aria-label={`Select ${user.name}`}
+                                                                            aria-label={`Select ${user.fname}`}
                                                                             slot="selection"
                                                                             variant="secondary"
                                                                         >
@@ -101,8 +102,8 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                                             </Checkbox.Control>
                                                                         </Checkbox>
                                                                     </Table.Cell>
-                                                                    <Table.Cell>{user.fname}</Table.Cell>
-                                                                    <Table.Cell>{user.lname}</Table.Cell>
+                                                                    <Table.Cell>{user.f_name}</Table.Cell>
+                                                                    <Table.Cell>{user.l_name}</Table.Cell>
 
                                                                     <Table.Cell>{user.role}</Table.Cell>
                                                                     <Table.Cell>{user.id}</Table.Cell>
@@ -155,7 +156,8 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                     <Button slot="close" variant="danger"   onPress={() => {
 
                                                         const selectedUsers =
-                                                            selectedKeys === "all" ? users : users.filter(u => (selectedKeys as Set<string>).has(u.email));
+                                                            selectedKeys === "all" ? users : users.filter(u => (selectedKeys as Set<string>).has(u.id));
+
                                                         if(selectedUsers.some (u => u.role === "ADMIN")) {
                                                             setShowAdminError(true);
                                                             setTimeout(() => {
@@ -164,13 +166,10 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                             return;
                                                         }
 
-                                                        const selectedEmails = selectedKeys === "all"
-                                                            ? users.map(u => <u className="email"></u>)
-                                                            : Array.from(selectedKeys as Set<string>);
-
-                                                        const formData = new FormData();
-                                                        selectedEmails.forEach(email => formData.append("emails", email));
-                                                        fetcher.submit(formData, { method: "POST" });
+                                                        fetcher.submit(
+                                                            { users: JSON.stringify(selectedUsers) },
+                                                            { method: "POST", encType: "application/json" }
+                                                        );
 
                                                         setSelectedKeys(new Set())
                                                     }}>
@@ -307,4 +306,4 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
             <IndexFooter/>
         </>
     );
-}*/
+}

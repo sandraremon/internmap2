@@ -14,7 +14,9 @@ class UserController extends Controller
 {
 
     //public function __construct(){ }
-    public function index(){ return User::all(); }
+    public function index(){
+        return User::all();
+    }
 
     public function store(Request $request)
     {
@@ -54,6 +56,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // return anything , confirmation and homePage
+        $user->delete();
     }
 }

@@ -29,12 +29,15 @@ type Pages = {
   "/cv/create": {
     params: {};
   };
+  "/dashboard": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create";
+    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -60,6 +63,10 @@ type RouteFiles = {
     id: "routes/cv";
     page: "/cv/create";
   };
+  "routes/dashboard.tsx": {
+    id: "routes/dashboard";
+    page: "/dashboard";
+  };
 };
 
 type RouteModules = {
@@ -70,4 +77,5 @@ type RouteModules = {
   "routes/recRegister": typeof import("./app/routes/recRegister.tsx");
   "routes/roadMapCreate": typeof import("./app/routes/roadMapCreate.tsx");
   "routes/cv": typeof import("./app/routes/cv.tsx");
+  "routes/dashboard": typeof import("./app/routes/dashboard.tsx");
 };

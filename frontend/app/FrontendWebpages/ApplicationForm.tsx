@@ -31,9 +31,9 @@ export default function ApplicationForm({ jobPostings}) {
             phone: formData.get("phone") as string,
             email: formData.get("email") as string,
         });
-
+            // ?${params}
         const res = await fetch(
-            `http://localhost:8050/api/application/apply/submit?${params}`,
+            `http://localhost:8000/api/application/new/`,
             {
                 method: "POST",
                 headers: {

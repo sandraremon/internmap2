@@ -168,7 +168,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                             <div className="unordered-list" id="details-specifics">
                                 <ul>
                                     <li>Email: <span>{posting.recruiter.user.email}</span></li>
-                                    <li>Company: <span>{posting.company.name}</span></li>
+                                    <li>Company: <span>{posting.company?.name ?? "No company assigned"}</span></li>
                                     {/*// <!--                    <li>Posting Type: <span th:text="${job.jobPostingType}">Full Time</span></li>-->*/}
                                     {/*@ts-ignore*/}
                                     <li>Posted <span>{((Date.now() - Date.parse(posting.datePosted).valueOf()) / 1000 / 60 / 60 / 24).toFixed(0)}</span> days ago</li>

@@ -7,6 +7,7 @@ use App\Http\Controllers\CvController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\RoadmapController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User\User;
 use App\Models\User\Student;
@@ -27,7 +28,9 @@ Route::post('/api/student/register', [StudentController::class, 'store']);
 Route::post('/api/admin/register', [AdminController::class, 'store']);
 Route::post('/api/recruiter/register', [RecruiterController::class, 'store']);
 Route::get('/api/student/', [StudentController::class, 'index']);
-
+Route::get('/api/users/', [UserController::class, 'index']);
+Route::delete('/users/{user}', [UserController::class, 'destroy']);
+Route::delete('/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
 Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 
 //company

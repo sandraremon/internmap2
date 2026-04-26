@@ -1,4 +1,4 @@
-import Dashboard from "~/FrontendWebpages/Dashboard";
+import Dashboard from "../FrontendWebpages/Dashboard";
 import type { Route } from "../+types/root";
 import {useLoaderData} from "react-router";
 //  step one delete whatever the first line was
@@ -14,17 +14,19 @@ export function meta() {
 
 export async function clientLoader() {
 
-    const idk = await fetch("http://localhost:8050/api/admin/dashboard", {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-    });
 
-    if(!idk.ok) {
-        throw new Response("Failed to fetch dashboard data", { status: idk.status });
-    }
 
-    return await idk.json()
+    const [roadmapsRes,usersRes] = await Promise.all([
+        fetch("http://localhost:8000/api/roadmap"),
+        fetch("http://localhost:8000/api/users/"),
+    ]);
+
+    const roadmaps = await roadmapsRes.json();
+    const users = await usersRes.json();
+
+    console.log(users);  // check the console
+
+    return { roadmaps, users };
 }
 
 // @ts-ignore
@@ -35,21 +37,21 @@ export async function clientAction({ request }) {
 
     if (emails.length > 0) {
         for (const email of emails) {
-            const response = await fetch(`http://localhost:8050/api/admin/dashboard/delete?email=${email}`, {
+            const response = await fetch(`http://localhost:8000/api/users/{user}`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
-            if (!response.ok) throw new Response(`Failed to delete user: ${email}`, { status: response.status });
+            if (!response.ok) throw new Response(`Failed to delete user`, { status: response.status });
         }
     }
 
     if (roadmaps.length > 0) {
         for (const id of roadmaps) {
-            const response = await fetch(`http://localhost:8050/api/admin/dashboard/delete/roadmap?id=${id}`, {
+            const response = await fetch(`http://localhost:8000/api/roadmap/{roadmap]`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
-            if (!response.ok) throw new Response(`Failed to delete roadmap: ${id}`, { status: response.status });
+            if (!response.ok) throw new Response(`Failed to delete roadmap`, { status: response.status });
         }
     }
 
