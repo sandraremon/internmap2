@@ -17,9 +17,10 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
 
 //login
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);//done with front
 //jobPosting
 Route::post('/api/jobposting/new', [JobPostingController::class, 'store']);
+Route::get('/api/jobposting/', [JobPostingController::class, 'index']);
 
 //this is for creating users
 Route::post('/api/student/register', [StudentController::class, 'store']);
@@ -32,8 +33,8 @@ Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 //company
 Route::post('/api/company/new', [CompanyController::class, 'store']);
 //roadmap
-Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);
-Route::get('/api/roadmap/', [RoadmapController::class, 'index']);
+Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);//done with front
+Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with front
 //application
 Route::post('/api/application/new', [ApplicationController::class, 'store']);
 

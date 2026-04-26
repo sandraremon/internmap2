@@ -13,7 +13,8 @@ class JobPostingController extends Controller
 {
     public function index()
     {
-        return response()->json(JobPosting::all());
+//        return response()->json(JobPosting::all());
+        return response()->json(JobPosting::with(['recruiter.user', 'company'])->get());
     }
 
     public function create()

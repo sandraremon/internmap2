@@ -13,8 +13,9 @@ class RoadmapController extends Controller
 {
     public function index()
     {
-        return response()->json(Roadmap::all());
-        // this returns all roadmaps
+        $roadmaps = Roadmap::with('modules.skills.skill_resource_links')->get();
+
+        return response()->json($roadmaps);
     }
 
     /**

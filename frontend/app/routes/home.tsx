@@ -10,16 +10,17 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-
     const [roadmapsRes, jobPostingsRes] = await Promise.all([
-        fetch("http://localhost:8000/REST"),
-        fetch("http://localhost:8050/REST/jobpostings"),
+        fetch("http://localhost:8000/api/roadmap"),
+        fetch("http://localhost:8000/api/jobposting"),
     ]);
 
-    return {
-        roadmaps: await roadmapsRes.json(),
-        jobPostings: await jobPostingsRes.json(),
-    };
+    const roadmaps = await roadmapsRes.json();
+    const jobPostings = await jobPostingsRes.json();
+
+    console.log(jobPostings);  // check the console
+
+    return { roadmaps, jobPostings };
 }
 
 export function HydrateFallback() {
@@ -27,7 +28,7 @@ export function HydrateFallback() {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-    const { roadmaps, jobPostings } = loaderData;
-
+    const { roadmaps } = loaderData;
+    const {jobPostings  } = loaderData;
     return <Welcome roadmaps={roadmaps} jobPostings={jobPostings} />;
 }

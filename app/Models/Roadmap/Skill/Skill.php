@@ -20,7 +20,7 @@ class Skill extends Model
     protected $fillable = ['description', 'name'];
     public $timestamps = false;
 
-    public function RoadmapModule() :BelongsToMany
+    public function roadmapModules() :BelongsToMany
     {
         return $this->belongsToMany(
             RoadmapModule::class,
@@ -29,14 +29,14 @@ class Skill extends Model
             'roadmap_module_id');
     }
 
-    public function student(): BelongstoMany
+    public function student(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'skill');
     }
 
     public function skill_resource_links(): HasMany
     {
-        return $this->HasMany(skill_resource_links::class, 'id');
+        return $this->hasMany(skill_resource_links::class, 'skill_id');
     }
 
 }
