@@ -90,7 +90,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                         </Table.Header>
                                                         <Table.Body>
                                                             {users.map((user) => (
-                                                                <Table.Row key={user.id} id={user.email}>
+                                                                <Table.Row key={user.id} id={String(user.id)}>
                                                                     <Table.Cell className="pr-0">
                                                                         <Checkbox
                                                                             aria-label={`Select ${user.fname}`}

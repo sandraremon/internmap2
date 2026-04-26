@@ -31,25 +31,31 @@ export async function clientLoader() {
 
 // @ts-ignore
 export async function clientAction({ request }) {
-    const formData = await request.formData();
-    const emails = formData.getAll("emails");
-    const roadmaps = formData.getAll("roadmaps");
+    const body = await request.json();
+    const users = body.users ?? [];
+    const roadmaps = body.roadmaps ?? [];
 
-    if (emails.length > 0) {
-        for (const email of emails) {
-            const response = await fetch(`http://localhost:8000/api/users/{user}`, {
-                method: "POST",
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    if (users.length > 0) {
+        for (const user of users) {
+            const response = await fetch(`http://localhost:8000/api/users/${user.id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                },
             });
             if (!response.ok) throw new Response(`Failed to delete user`, { status: response.status });
         }
     }
 
     if (roadmaps.length > 0) {
-        for (const id of roadmaps) {
-            const response = await fetch(`http://localhost:8000/api/roadmap/{roadmap]`, {
-                method: "POST",
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        for (const roadmap of roadmaps) {
+            const response = await fetch(`http://localhost:8000/api/roadmap/${roadmap.id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                },
             });
             if (!response.ok) throw new Response(`Failed to delete roadmap`, { status: response.status });
         }
