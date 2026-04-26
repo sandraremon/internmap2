@@ -13,7 +13,7 @@ class JobPostingController extends Controller
 {
     public function index()
     {
-        return view('JobPosting');
+        return response()->json(JobPosting::all());
     }
 
     public function create()
@@ -33,6 +33,7 @@ class JobPostingController extends Controller
         }
 
         $rec = $user->recruiter;
+        //review this
         $company = $rec->company()->first();
 
 //        if (!$company) {

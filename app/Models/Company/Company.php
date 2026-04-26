@@ -17,7 +17,7 @@ class Company extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl'];
+    protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl', 'recruiter_id'];
     public $timestamps = false;
 
     public function JobPosting(): HasMany

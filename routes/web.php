@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CvController;
@@ -15,58 +16,34 @@ use App\Models\Roadmap\Roadmap;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
 
-
-Route::get('/test-db/users', function () {
-    return User::all();
-});
-
-Route::get('/test-db/students', function () {
-    return Student::all();
-});
-
-Route::get('/test-db/admins', function () {
-    return Admin::all();
-});
-
-Route::get('/test-db/recruiters', function () {
-    return Recruiter::all();
-});
-
-//Route::get('/', function () {
-//    $roadmaps = Roadmap::all();
-//    return view('index',[
-//                   'roadmaps' => $roadmaps
-//               ]);
-//})->name('home');
-
-Route::post('/JobPostings/store', [JobPostingController::class, 'store']);
-
-//Route::get('/login', function () {return view('login');});
+//login
 Route::post('/login', [AuthController::class, 'login']);
+//jobPosting
+Route::post('/api/jobposting/new', [JobPostingController::class, 'store']);
 
-Route::get('/signup-choice', function () {
-    return view('InternMapSignUpChoice');
-});
+//this is for creating users
+Route::post('/api/student/register', [StudentController::class, 'store']);
+Route::post('/api/admin/register', [AdminController::class, 'store']);
+Route::post('/api/recruiter/register', [RecruiterController::class, 'store']);
+Route::get('/api/student/', [StudentController::class, 'index']);
 
-Route::get('/student/register', [StudentController::class, 'create'])->name('student.register');
-Route::post('/student/register', [StudentController::class, 'store'])->name('student.register.submit');
+Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 
-Route::get('/recruiter/register', [RecruiterController::class, 'create']);
-
-Route::post('/recruiter/register', [RecruiterController::class, 'store']);
+//company
+Route::post('/api/company/new', [CompanyController::class, 'store']);
+//roadmap
+Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);
+//application
+Route::post('/api/application/new', [ApplicationController::class, 'store']);
 
 //Route::get('/company/register', function () {return view('CompanyRegister');});
 // routes/api.php
-Route::middleware('auth:sanctum')->post('/company/register', [CompanyController::class, 'store']);
-
-Route::get('/recruiter/jobpostings', function () {
-    return view('recruiter-jobpostings');
-});
+//Route::middleware('auth:sanctum')->post('/company/register', [CompanyController::class, 'store']);
 
 
-Route::get('/admin/register', function () {
-    return view('AdminRegister');
-});
+
+
+
 
 Route::get('/profile', function () {
     return view('profile');
@@ -86,14 +63,11 @@ Route::get('/viewApplicationDetails', function () {
 
 
 
-Route::post('/roadmap/create', [RoadmapController::class, 'store']);
-Route::post('/application/create', [ApplicationController::class, 'store']);
-
 Route::get('/JobPostingForm', function () {
     return view('JobPostingForm');
 });
 
 // Add this to handle the form submission
-Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
-//Route::post('/register', [AuthController::class, 'register']);
+//Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
+
 Route::get('/',          [RoadmapController::class, 'index']);

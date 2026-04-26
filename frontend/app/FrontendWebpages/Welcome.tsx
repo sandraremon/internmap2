@@ -3,6 +3,7 @@ import "../CSS/Roadmap.css";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, ComboBox, Disclosure, Input, ListBox, SearchField} from "@heroui/react";
 import React, {useState} from "react";
+import type {Roadmap} from "../../Model/Roadmap";
 
 
 let constJobPostings: JobPosting[] = [];

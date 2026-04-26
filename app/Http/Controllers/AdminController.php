@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User\Student;
 use App\Models\User\User;
 
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\User\Admin;
 
@@ -37,18 +39,21 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validated = $request->validate([
             'f_name' => 'required',
             'l_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'role' => 'required'
+            'permission_level' => 'required'
         ]);
-
-        $data['password'] = bcrypt($data['password']);
-
-        // Create the user
-        User::create($data);
+        $request->merge(['role' => UserRole::ADMIN->value]);
+        $user = app(UserController::class)->store($request);
+        $validated['id'] = $user->id;
+        Admin::create($validated);
+        return response()->json(['message' => 'admin created successfully',
+            'user' => $user,
+            'permission_level' => $validated['permission_level'],
+        ], 201);
 
 
     }

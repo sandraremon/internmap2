@@ -26,8 +26,8 @@ export default function ApplicationForm({ jobPostings}) {
 
         const params = new URLSearchParams({
             jobId: jobId ?? "",
-            fname: formData.get("fname") as string,
-            lname: formData.get("lname") as string,
+            fname: formData.get("f_name") as string,
+            lname: formData.get("l_name") as string,
             phone: formData.get("phone") as string,
             email: formData.get("email") as string,
         });
