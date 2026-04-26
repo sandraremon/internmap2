@@ -27,13 +27,14 @@ class CvController extends Controller
                 'past_experiences'=>'required|string',
                 'projects'=>'required|string'
         ]);
+        $validated['student_id'] = $student->id;
         $cv= cv::create($validated);
-        $cv['student_id']= $student->id;
         return response()->json([
             'message' => 'CV created and linked to student successfully',
             'CV' => $cv,
             'belongs to student' => $user
         ], 200);
+
     }
     public function show(cv $cv)
     {

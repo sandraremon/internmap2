@@ -43,7 +43,7 @@ class Student extends Model
     }
 
     public function cv(): HasOne {
-        return $this->hasOne(cv::class, 'cv_id', 'cv_cv_id');
+        return $this->hasOne(cv::class, 'student_id', 'id');
     }
 
 }

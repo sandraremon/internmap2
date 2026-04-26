@@ -19,9 +19,7 @@ class Application extends Model
 
     protected $table = 'application';
     public $timestamps = true;
-
     protected $primaryKey = 'id';
-
     protected $fillable=['email', 'f_name', 'l_name', 'phone_number'];
 
     public function Student(): BelongsTo

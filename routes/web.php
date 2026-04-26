@@ -72,8 +72,8 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/CV', function () {return view('CV');});
-Route::post('/CV', [CvController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/cv/create', [CvController::class,'store']);
+
 
 Route::get('/application', function () {
 

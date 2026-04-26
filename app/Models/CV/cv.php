@@ -17,14 +17,12 @@ class cv extends Model
     protected $primaryKey = 'cv_id';
     public $incrementing = true;
 
-    protected $fillable = ['description', 'past_experiences', 'projects'];
+    protected $fillable = ['student_id','description', 'past_experiences', 'projects'];
     public $timestamps = false;
 
-    public function Student(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class , 'id');
+        return $this->belongsTo(Student::class , 'student_id','id');
     }
-
-
 
 }
