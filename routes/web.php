@@ -33,6 +33,7 @@ Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 Route::post('/api/company/new', [CompanyController::class, 'store']);
 //roadmap
 Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);
+Route::get('/api/roadmap/', [RoadmapController::class, 'index']);
 //application
 Route::post('/api/application/new', [ApplicationController::class, 'store']);
 
