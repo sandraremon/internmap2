@@ -32,6 +32,9 @@ type Pages = {
   "/dashboard": {
     params: {};
   };
+  "/jobposting": {
+    params: {};
+  };
   "/logout": {
     params: {};
   };
@@ -40,7 +43,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/logout";
+    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/jobposting" | "/logout";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -70,6 +73,10 @@ type RouteFiles = {
     id: "routes/dashboard";
     page: "/dashboard";
   };
+  "routes/jobPosting.tsx": {
+    id: "routes/jobPosting";
+    page: "/jobposting";
+  };
   "routes/logout.tsx": {
     id: "routes/logout";
     page: "/logout";
@@ -85,5 +92,6 @@ type RouteModules = {
   "routes/roadMapCreate": typeof import("./app/routes/roadMapCreate.tsx");
   "routes/cv": typeof import("./app/routes/cv.tsx");
   "routes/dashboard": typeof import("./app/routes/dashboard.tsx");
+  "routes/jobPosting": typeof import("./app/routes/jobPosting.tsx");
   "routes/logout": typeof import("./app/routes/logout.tsx");
 };
