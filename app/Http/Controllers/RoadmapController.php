@@ -100,7 +100,19 @@ class RoadmapController extends Controller
 
     public function destroy(Roadmap $roadmap)
     {
-        $roadmap->delete();
-        return response()->json(null, 204);
+        try {
+            // 1. Delete from pivot table directly
+            DB::table('roadmap_roadmap_modules')
+                ->where('roadmap_id', $roadmap->id)
+                ->delete();
+
+            // 2. Now delete the roadmap
+            $roadmap->delete();
+
+            return response()->json(['message' => 'Deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
+
 }

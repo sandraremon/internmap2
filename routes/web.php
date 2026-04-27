@@ -16,9 +16,13 @@ use App\Models\User\Recruiter;
 use App\Models\Roadmap\Roadmap;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
+//done
+//login,homepage,dashboard,roadmap form,logout
+//todo:creating users,jobposting,company,application,viewing applications
 
 //login
-Route::post('/login', [AuthController::class, 'login']);//done with front
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);//done with front
 //jobPosting
 Route::post('/api/jobposting/new', [JobPostingController::class, 'store']);
 Route::get('/api/jobposting/', [JobPostingController::class, 'index']);
@@ -29,8 +33,8 @@ Route::post('/api/admin/register', [AdminController::class, 'store']);
 Route::post('/api/recruiter/register', [RecruiterController::class, 'store']);
 Route::get('/api/student/', [StudentController::class, 'index']);
 Route::get('/api/users/', [UserController::class, 'index']);
-Route::delete('/users/{user}', [UserController::class, 'destroy']);
-Route::delete('/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
+Route::delete('/api/users/{user}', [UserController::class, 'destroy']);
+Route::delete('/api/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
 Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 
 //company
@@ -40,6 +44,8 @@ Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);//done with
 Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with front
 //application
 Route::post('/api/application/new', [ApplicationController::class, 'store']);
+
+
 
 //Route::get('/company/register', function () {return view('CompanyRegister');});
 // routes/api.php
@@ -75,4 +81,4 @@ Route::get('/JobPostingForm', function () {
 // Add this to handle the form submission
 //Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
 
-Route::get('/',          [RoadmapController::class, 'index']);
+//Route::get('/',          [RoadmapController::class, 'index']);

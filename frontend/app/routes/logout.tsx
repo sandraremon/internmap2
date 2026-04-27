@@ -1,10 +1,8 @@
 import type { Route } from "./+types/login";
-import Loading from "~/FrontendWebpages/fragments/Loading";
+import Loading from "../FrontendWebpages/fragments/Loading";
 
 export async function clientLoader({request}: { request: Request}) {
-
     localStorage.removeItem("token");
-
     history.go(-1)
 }
 

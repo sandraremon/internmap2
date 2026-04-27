@@ -90,7 +90,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                         </Table.Header>
                                                         <Table.Body>
                                                             {users.map((user) => (
-                                                                <Table.Row key={user.id} id={String(user.id)}>
+                                                                <Table.Row key={user.id} id={user.email}>
                                                                     <Table.Cell className="pr-0">
                                                                         <Checkbox
                                                                             aria-label={`Select ${user.fname}`}
@@ -156,7 +156,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                     <Button slot="close" variant="danger"   onPress={() => {
 
                                                         const selectedUsers =
-                                                            selectedKeys === "all" ? users : users.filter(u => (selectedKeys as Set<string>).has(u.id));
+                                                            selectedKeys === "all" ? users : users.filter(u => (selectedKeys as Set<string>).has(u.email));
 
                                                         if(selectedUsers.some (u => u.role === "ADMIN")) {
                                                             setShowAdminError(true);
@@ -165,6 +165,9 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                             }, 3000);
                                                             return;
                                                         }
+                                                        console.log("selectedKeys:", selectedKeys);        // what keys are selected
+                                                        console.log("selectedUsers:", selectedUsers);      // are users found?
+                                                        console.log("all users:", users);                  // what does users array look like?
 
                                                         fetcher.submit(
                                                             { users: JSON.stringify(selectedUsers) },
@@ -276,12 +279,14 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
 
                                                     <Button slot="close" variant="danger" onPress={() => {
                                                         const selectedRoadmaps = selectedRoadmapKeys === "all"
-                                                            ? roadmaps.map(r => String(r.id))
-                                                            : Array.from(selectedRoadmapKeys as Set<string>);
+                                                            ? roadmaps
+                                                            : roadmaps.filter(r => (selectedRoadmapKeys as Set<string>).has(String(r.id)));
 
-                                                        const formData = new FormData();
-                                                        selectedRoadmaps.forEach(id => formData.append("roadmaps", id));
-                                                        fetcher.submit(formData, { method: "POST" });
+                                                        fetcher.submit(
+                                                            { users: "[]", roadmaps: JSON.stringify(selectedRoadmaps) }
+                                                            ,
+                                                            { method: "POST", encType: "application/json" }
+                                                        );
 
                                                         setSelectedRoadmapKeys(new Set());
                                                     }}>

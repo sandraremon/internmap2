@@ -32,9 +32,10 @@ export async function clientLoader() {
 // @ts-ignore
 export async function clientAction({ request }) {
     const body = await request.json();
-    const users = body.users ?? [];
-    const roadmaps = body.roadmaps ?? [];
-
+    const users = typeof body.users === "string" ? JSON.parse(body.users) : body.users ?? [];
+    const roadmaps = typeof body.roadmaps === "string" ? JSON.parse(body.roadmaps) : body.roadmaps ?? [];
+    console.log("users:", users);      // should now be an array of objects
+    console.log("roadmaps:", roadmaps);
     if (users.length > 0) {
         for (const user of users) {
             const response = await fetch(`http://localhost:8000/api/users/${user.id}`, {
@@ -57,6 +58,7 @@ export async function clientAction({ request }) {
                     "Content-Type": "application/json"
                 },
             });
+            console.log(`Deleting roadmap with ID: ${roadmap.id}, Response status: ${response.status}`);  // log the response status
             if (!response.ok) throw new Response(`Failed to delete roadmap`, { status: response.status });
         }
     }

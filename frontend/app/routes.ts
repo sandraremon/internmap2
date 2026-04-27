@@ -7,6 +7,7 @@ export default [
     route("/recruiter/register", "routes/recRegister.tsx"),
     route("/roadmap/create", "routes/roadMapCreate.tsx"),
     route("/cv/create", "routes/cv.tsx"),
-    route("/dashboard","routes/dashboard.tsx")
+    route("/dashboard","routes/dashboard.tsx"),
+    route("/logout","routes/logout.tsx")
     // route("/", "routes/home.tsx"),
 ];
