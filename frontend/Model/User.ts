@@ -1,18 +1,23 @@
 class User {
 
     email: String;
-    fname: String;
-    lname: String;
+    f_name: String;
+    l_name: String;
     role: String;
     id: bigint;
-    dateCreated: Date
+    created_at: Date
+    student: Student;
+    recruiter: Recruiter
 
-    constructor(email: String, fname: String, lname: String, role: String, id: bigint, dateCreated: Date) {
+
+    constructor(email: String, f_name: String, l_name: String, role: String, id: bigint, created_at: Date, student: Student, recruiter: Recruiter) {
         this.email = email;
-        this.fname = fname;
-        this.lname = lname;
+        this.f_name = f_name;
+        this.l_name = l_name;
         this.role = role;
         this.id = id;
-        this.dateCreated = dateCreated;
+        this.created_at = created_at;
+        this.student=student;
+        this.recruiter=recruiter;
     }
 }

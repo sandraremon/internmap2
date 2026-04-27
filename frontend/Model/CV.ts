@@ -1,14 +1,15 @@
 class CV {
 
-    cvId: bigint;
+    cv_id: bigint;
     description: String;
-    pastExperiences: String;
+    past_experiences: String;
     projects: String;
 
-    constructor(cvId: bigint, description: String, pastExperiences: String, projects: String) {
-        this.cvId = cvId;
+
+    constructor(cv_id: bigint, description: String, past_experiences: String, projects: String) {
+        this.cv_id = cv_id;
         this.description = description;
-        this.pastExperiences = pastExperiences;
+        this.past_experiences = past_experiences;
         this.projects = projects;
     }
 }

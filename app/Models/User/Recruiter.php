@@ -2,8 +2,7 @@
 
 namespace App\Models\User;
 use App\Models\Company\Company;
-use App\Models\JobPosting;
-use App\Models\User\User;
+use App\Models\JobPosting\JobPosting;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
     font-family: Inter, system-ui;
     outline: none;
@@ -6,7 +8,7 @@
 :root {
     --primary-color: #1582ef;
     --primary-color-hover: #0771dc;
-    --form-background-color: linear-gradient(0deg, #f6f6f6, #f7f7f7);
+    --form-background-color: linear-gradient(0deg, #ffffff, #ffffff);
     --background-color: #ffffff;
     --background-color-st: rgba(255, 255, 255, 0.7);
     --secondary-background-color: rgba(172, 180, 184, 0.11);
@@ -31,6 +33,7 @@
 }
 
 header[class="header"] {
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -49,7 +52,8 @@ footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 8px 10%;
+        margin: 0 10%;
+        padding: 10px;
     }
 
     .small-text {
@@ -150,6 +154,12 @@ input[type=password], input[type=email], input[type=text] {
     color: var(--text-color);
 }
 
+img[class=theme-adaptive-icon] {
+    @media (prefers-color-scheme: dark) {
+        filter: invert(1);
+    }
+}
+
 input[type=submit] {
     width: 100%;
     background-color: var(--primary-color);
@@ -241,7 +251,7 @@ input[type=submit] {
 .container-full-width {
     border-radius: 55px;
 
-    background-image: var(--form-background-color);
+    background: var(--form-background-color);
     padding: 0 25px;
     gap: 1px;
 
@@ -268,6 +278,31 @@ input[type=submit] {
 
     justify-content: center;
 
+}
+
+.container-label {
+    padding-left: 70px;
+    font-weight: bold;
+    font-size: var(--text-3xl);
+}
+
+.container-padded {
+    display: flex;
+    margin: 0 50px;
+    padding: 24px;
+    height: fit-content;
+    min-height: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 40px;
+
+    background: var(--form-background-color);
+
+    @media (prefers-color-scheme: light) {
+        box-shadow: 0 0 80px rgba(206, 206, 206, 0.962);
+    }
 }
 
 /* Makes an element centered */
@@ -298,6 +333,22 @@ input[type=submit] {
     border-radius: 12px;
     border-color: var(--border-color);
     padding: 10px;
+}
+
+.label-placeholder {
+
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-content: center;
+
+    font-size: 32px;
+    font-weight: bold;
+    @apply text-gray-400
+
 }
 
 .label-large {
