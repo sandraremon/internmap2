@@ -24,7 +24,7 @@ export default function RecruiterRegister() {
 
         try {
             // Replace with your actual testing endpoint
-            const res = await fetch("http://127.0.0.1:8000/recruiter/register", {
+            const res = await fetch("http://127.0.0.1:8000/api/recruiter/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

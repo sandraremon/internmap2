@@ -1,4 +1,4 @@
-import RoadMapView from "~/FrontendWebpages/RoadMapView";
+import RoadMapView from "../FrontendWebpages/RoadMapView";
 import type { Route } from "../+types/root";
 import {useLoaderData} from "react-router";
 
@@ -13,27 +13,24 @@ export function meta() {
     ];
 }
 
-export async function clientLoader() {
-
-    const idk = await fetch("http://localhost:8050/api/roadmap/roadmaps", {
+export async function clientLoader({ params }) {
+    const res = await fetch(`http://localhost:8000/api/roadmap/${params.id}`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
     });
 
-    if(!idk.ok) {
-        throw new Response("Failed to fetch dashboard data", { status: idk.status });
+    if (!res.ok) {
+        throw new Response("Failed to fetch roadmap", { status: res.status });
     }
 
-    return await idk.json()
+    return await res.json();
 }
 
 // @ts-ignore
 
 
-export default function roadMapView({ }: Route.ComponentProps) {
-    const loaderData = useLoaderData();
-
-    return (
-        <RoadMapView roadmaps={loaderData} />
-    );}
+export default function roadMapView({}: Route.ComponentProps) {
+    const roadmap = useLoaderData();
+    return <RoadMapView roadmap={roadmap} />;
+}

@@ -39,6 +39,8 @@ class RoadmapController extends Controller
             'modules.*.skills'                  => 'required|array|min:1',
             'modules.*.skills.*.name'           => 'required|string|max:255',
             'modules.*.skills.*.description'    => 'required|string|max:255',
+            'modules.*.skills.*.links'   => 'nullable|array',
+            'modules.*.skills.*.links.*' => 'nullable|url'
         ]);
 
         // wrap in a transaction
@@ -71,6 +73,15 @@ class RoadmapController extends Controller
 
                     //attach skill to module (writes to pivot table)
                     $module->skills()->attach($skill->id);
+
+                    foreach ($skillData['links'] ?? [] as $link) {
+                        if ($link) {
+                            DB::table('skill_resource_links')->insert([
+                                'skill_id'       => $skill->id,
+                                'resource_links' => $link,
+                            ]);
+                        }
+                    }
                 }
             }
             return $roadmap;
@@ -83,10 +94,10 @@ class RoadmapController extends Controller
 
     public function show(Roadmap $roadmap)
     {
-        return response()->json($roadmap);
+        return response()->json(
+            $roadmap->load('modules.skills.skill_resource_links')
+        );
     }
-
-//    public function edit(string $id) {}
 
     public function update(Request $request, Roadmap $roadmap)
     {
