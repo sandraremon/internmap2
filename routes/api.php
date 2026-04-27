@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoadmapController;
 use Illuminate\Support\Facades\Route;
 //
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 ////    Route::delete('/posts/{post}',[PostController::class, 'destroy']);
 //
 //});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/company/new', [CompanyController::class, 'store']);
+});

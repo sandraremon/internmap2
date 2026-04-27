@@ -1,18 +1,18 @@
 class Student extends User {
 
-    graduatingYear: number;
-    studentMajor: String;
+    graduating_year: number;
+    student_major: String;
     faculty: String;
-    uniName: String;
+    uni_name: String;
     cv: CV;
     applications: Application[];
 
-    constructor(email: String, fname: String, lname: String, role: String, id: bigint, dateCreated: Date, graduatingYear: number, studentMajor: String, faculty: String, uniName: String, cv: CV, applications: Application[]) {
-        super(email, fname, lname, role, id, dateCreated);
-        this.graduatingYear = graduatingYear;
-        this.studentMajor = studentMajor;
+    constructor(email: String, f_name: String, l_name: String, role: String, id: bigint, created_at: Date, graduating_year: number, student_major: String, faculty: String, uni_name: String, cv: CV, applications: Application[]) {
+        super(email, f_name, l_name, role, id, created_at) ;
+        this.graduating_year = graduating_year;
+        this.student_major = student_major;
         this.faculty = faculty;
-        this.uniName = uniName;
+        this.uni_name = uni_name;
         this.cv = cv;
         this.applications = applications;
     }

@@ -12,10 +12,7 @@ class CompanyController extends Controller
     {
         return Company::all();
     }
-    public function create()
-    {
-        return view('CompanyRegister');
-    }
+
 
 //    public function store(Request $request)
 //    {
@@ -48,10 +45,18 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
         $recruiter = $user->recruiter;
 
         if (!$recruiter) {
-            return response()->json(['error' => 'Recruiter not found'], 404);
+            return response()->json([
+                'error' => 'Recruiter profile not found for this user',
+                'user_id' => $user->id  // remove this after debugging
+            ], 404);
         }
 
         $validated = $request->validate([
@@ -60,9 +65,17 @@ class CompanyController extends Controller
             'location_ofhq' => 'required|string',
             'websiteurl' => 'required|string',
         ]);
-
+//        $job = JobPosting::create([
+//            ...$validated,
+//            'company_id' => $company?->id, // ✅ safe access
+////            'company_id' => $company->id,
+//            'recruiter_id' => $rec->id,
+//        ]);
         // 1. Create company
-        $company = Company::create($validated);
+        $company =
+            Company::create(
+                $validated,
+            );
 
         // 2. Attach recruiter (pivot table)
         $recruiter->company()->attach($company->id);

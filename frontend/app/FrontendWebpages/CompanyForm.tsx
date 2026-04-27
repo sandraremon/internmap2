@@ -28,7 +28,7 @@ export default function RegisterCompany() {
         try{
             const token = localStorage.getItem("token");
             const res = await fetch(
-                "http://127.0.0.1:8000/company/register",
+                "http://127.0.0.1:8000/api/company/new",
                 {
                     method: "POST",
                     headers: {
@@ -40,6 +40,7 @@ export default function RegisterCompany() {
                 }
             );
             const data = await res.json();
+
 
             if (!res.ok) {
                 console.log(data);
