@@ -53,14 +53,18 @@ export default function Profile({userDetails}: { userDetails: User}) {
                             <Chip style={{gap: "4px"}} size="lg">
                                 <img src="/images/assets/person.fill@4x.png" alt="person"
                                      style={{width: "15px", filter: "invert(0.8)"}}/>
-                                <Chip.Label>{userDetails.role.charAt(0) + userDetails.role.toLowerCase().substring(1, userDetails.role.length)}</Chip.Label>
+                                <Chip.Label>
+                                    {userDetails?.role
+                                        ? userDetails.role.charAt(0).toUpperCase() + userDetails.role.slice(1).toLowerCase()
+                                        : "N/A"}
+                                </Chip.Label>
                             </Chip>
 
                             {userDetails.role == "RECRUITER" && (
                                 <Chip style={{gap: "4px"}} size="lg">
                                     <img src="/images/assets/suitcase.fill@4x.png" alt="suitcase"
                                          style={{width: "15px", filter: "invert(0.8)"}}/>
-                                    <Chip.Label className="auto-capitalise">{(userDetails as Recruiter).title}</Chip.Label>
+                                    <Chip.Label className="auto-capitalise">{userDetails.recruiter.title}</Chip.Label>
                                 </Chip>
                             )}
                         </div>
@@ -138,7 +142,7 @@ export default function Profile({userDetails}: { userDetails: User}) {
 
                         <div className="container-padded">
                             <div className="full-width" style={{display: "grid", justifyContent: "start", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 0.2fr))", gap: "50px"}}>
-                                {userDetails?.student?.applications?.length || 0 ? (
+                                {userDetails?.student?.applications?.length || 0 ?  (
                                     <h2 className="text-xl font-bold text-gray-400">You haven't applied for anything.</h2>
                                 ): (
                                     applicationList.map((application: Application) => {
@@ -175,7 +179,8 @@ export default function Profile({userDetails}: { userDetails: User}) {
 
                         <div className="container-padded">
                             {/*// <!-- If a recruiter has one or more companies -->*/}
-                            {(userDetails as Recruiter).companies && (userDetails as Recruiter).companies.length > 0 ? (
+
+                            {userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (
                                 <>
                                     <Table variant="secondary">
                                         <Table.ResizableContainer>

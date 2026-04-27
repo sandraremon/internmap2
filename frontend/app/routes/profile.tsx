@@ -24,9 +24,9 @@ export async function clientLoader() {
     if (!data.ok) {
         return Response.redirect("/login", 302);
     }
-
     const json = await data.json();
     console.log("Response:", json);
+
     return json;
 }
 

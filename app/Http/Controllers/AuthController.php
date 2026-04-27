@@ -48,7 +48,7 @@ class AuthController extends Controller
                 $user->load(['student.Application.jobPosting.company', 'student.cv']);
                 break;
             case UserRole::RECRUITER:
-                $user->load('company');
+                $user->load('recruiter.company');
                 break;
             case UserRole::ADMIN:
                 throw new \Exception('To be implemented');
