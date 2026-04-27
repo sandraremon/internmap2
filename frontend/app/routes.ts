@@ -8,6 +8,7 @@ export default [
     route("/roadmap/create", "routes/roadMapCreate.tsx"),
     route("/cv/create", "routes/cv.tsx"),
     route("/dashboard","routes/dashboard.tsx"),
-    route("/logout","routes/logout.tsx")
+    route("/logout","routes/logout.tsx"),
+    route("/profile","routes/profile.tsx")
     // route("/", "routes/home.tsx"),
 ];
