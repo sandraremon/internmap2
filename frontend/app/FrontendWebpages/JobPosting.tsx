@@ -1,5 +1,5 @@
-import "~/CSS/jobPosting.css"
-import "~/CSS/InternMapHomepage.css";
+import "../CSS/jobPosting.css"
+import "../CSS/InternMapHomepage.css";
 import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {
     Button,
@@ -18,7 +18,7 @@ import { Dropdown, Header   } from "@heroui/react";
 import {useState} from "react";
 // @ts-ignore
 export default function JobPosting({ jobPostings }) {
-    const [selected, setSelected] = useState<Selection>(new Set(["apple"]));
+    const [selected, setSelected] = useState<Selection>(new Set([""]));
 
     async function handleSubmit(e) {
 
@@ -27,17 +27,17 @@ export default function JobPosting({ jobPostings }) {
         const body = {
             jobType: Array.from(selected)[0],
             jobPosting: {
-                jobName: formData.get("jobtitle"),
-                jobDescription: formData.get("JobDisc"),
-                jobRequirements: formData.get("Jobrec"),
+                jobName: formData.get("job_name"),
+                jobDescription: formData.get("job_description"),
+                jobRequirements: formData.get("job_requirements"),
             },
             company: {
-                name: formData.get("CompanyN"),
+                name: formData.get("company"),
             }
         };
 
         try {
-            const res = await fetch(`http://localhost:8050/api/jobposting/jobform/Create`, {
+            const res = await fetch(`http://localhost:8000/api/jobposting/new`, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: {

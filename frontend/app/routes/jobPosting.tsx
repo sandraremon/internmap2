@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
-import JobPosting from "~/FrontendWebpages/JobPosting";
-import Loading from "~/FrontendWebpages/fragments/Loading";
+import JobPosting from "../FrontendWebpages/JobPosting";
+import Loading from "../FrontendWebpages/fragments/Loading";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -10,7 +10,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-    const jobPostingsRes = await fetch("http://localhost:8050/api/jobposting/jobform");
+    const jobPostingsRes = await fetch("http://localhost:8000/api/jobposting/new");
     const data = await jobPostingsRes.json();
 
     console.log("API response:", data);
