@@ -1,28 +1,26 @@
 class JobPosting {
 
     id: bigint;
-    jobDescription: String;
-    jobRequirements: String;
+    job_description: String;
+    job_name: String;
     jobName: String;
+
 
     company: Company;
 
-    jobLocation: String;
-    payout: number;
-    duration: number;
-    postingDate: Date;
-    recruiterEmail: String;
+    locationOfHQ: String;
+    date_posted: Date;
+    recruiter: Recruiter;
 
-    constructor(id: bigint, jobDescription: String, jobRequirements: String, jobName: String, company: Company, jobLocation: String, payout: number, duration: number, postingDate: Date, recruiterEmail: String) {
+
+    constructor(id: bigint, job_description: String, job_name: String, jobName: String, job_requirements: String, company: Company, locationOfHQ: String, date_posted: Date, recruiter: Recruiter) {
         this.id = id;
-        this.jobDescription = jobDescription;
-        this.jobRequirements = jobRequirements;
+        this.job_description = job_description;
+        this.job_name = job_name;
         this.jobName = jobName;
         this.company = company;
-        this.jobLocation = jobLocation;
-        this.payout = payout;
-        this.duration = duration;
-        this.postingDate = postingDate;
-        this.recruiterEmail = recruiterEmail;
+        this.locationOfHQ = locationOfHQ;
+        this.date_posted = date_posted;
+        this.recruiter = recruiter;
     }
 }

@@ -21,7 +21,7 @@ class Student extends Model
     protected $primaryKey = 'id';
 //   laravel automatically increments the id in every class, but my user id and student id are the same
     public $incrementing = false;
-    public $timestamps = false;
+    public $timestamps = true;
 
 //   public $timestamps = false;
 //   'id' IS here because it's the "link" we have to save.

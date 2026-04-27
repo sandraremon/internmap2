@@ -44,40 +44,11 @@ Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);//done with
 Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with front
 //application
 Route::post('/api/application/new', [ApplicationController::class, 'store']);
+//profile
 
-
-
-//Route::get('/company/register', function () {return view('CompanyRegister');});
-// routes/api.php
-//Route::middleware('auth:sanctum')->post('/company/register', [CompanyController::class, 'store']);
-
-
-
-
-
-
-Route::get('/profile', function () {
-    return view('profile');
-});
-
+//cv
 Route::middleware('auth:sanctum')->post('/cv/create', [CvController::class,'store']);
-
-
-Route::get('/application', function () {
-
-    return view('Application');
-});
-
-Route::get('/viewApplicationDetails', function () {
-    return view('ViewApplicationDetail');
-});
-
-
-
-Route::get('/JobPostingForm', function () {
-    return view('JobPostingForm');
-});
-
+Route::middleware('auth:sanctum')->get('/api/profile', [AuthController::class,  'profile']);
 // Add this to handle the form submission
 //Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
 

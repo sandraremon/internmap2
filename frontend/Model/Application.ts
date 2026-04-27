@@ -1,20 +1,21 @@
 class Application {
 
     id: bigint
-    fName: string
-    lName: string
+    f_name: string
+    l_name: string
     email: string
-    phoneNumber: string
-    applicationDate: Date
+    phone_number: string
+    application_date: Date
     jobPosting: JobPosting
 
-    constructor(id: bigint, fName: string, lName: string, email: string, phoneNumber: string, applicationDate: Date, jobPosting: JobPosting) {
+
+    constructor(id: bigint, f_name: string, l_name: string, email: string, phone_number: string, application_date: Date, jobPosting: JobPosting) {
         this.id = id;
-        this.fName = fName;
-        this.lName = lName;
+        this.f_name = f_name;
+        this.l_name = l_name;
         this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.applicationDate = applicationDate;
+        this.phone_number = phone_number;
+        this.application_date = application_date;
         this.jobPosting = jobPosting;
     }
 }
