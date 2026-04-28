@@ -26,10 +26,10 @@ export default function Profile({userDetails}: { userDetails: User}) {
             //         applicationList.splice(j, 1);
             //     }
             if (
-                applicationList[i].jobPosting &&
-                applicationList[j].jobPosting &&
-                applicationList[i].jobPosting.job_name === applicationList[j].jobPosting.job_name &&
-                applicationList[i].jobPosting.company?.name === applicationList[j].jobPosting.company?.name
+                applicationList[i].job_posting &&
+                applicationList[j].job_posting &&
+                applicationList[i].job_posting.job_name === applicationList[j].job_posting.job_name &&
+                applicationList[i].job_posting.company?.name === applicationList[j].job_posting.company?.name
             ) {
                 applicationList.splice(j, 1);
             }
@@ -151,14 +151,13 @@ export default function Profile({userDetails}: { userDetails: User}) {
 
                         <div className="container-padded">
                             <div className="full-width" style={{display: "grid", justifyContent: "start", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 0.2fr))", gap: "50px"}}>
-                                {userDetails?.student?.applications?.length || 0 ?  (
+                                {!applicationList.length ? (
                                     <h2 className="text-xl font-bold text-gray-400">You haven't applied for anything.</h2>
-                                ): (
-                                    applicationList.map((application: Application) => {
-                                        if (!application.jobPosting) return null; // skip broken data
+                                ) : (
+                                    applicationList.map((application: Application, index: number) => {
+                                        if (!application.job_posting) return null;
                                         return (
-
-                                            <div style={{display: "grid", gap: "10px", background: "var(--secondary-background-color)", gridTemplateColumns: "repeat(2, 1fr)", padding: "20px", borderRadius: "25px"}}>
+                                            <div key={index} style={{display: "grid", gap: "10px", background: "var(--secondary-background-color)", gridTemplateColumns: "repeat(2, 1fr)", padding: "20px", borderRadius: "25px"}}>
                                                 <div>
                                                     <label className="label-small">Applied</label>
                                                     <p className="auto-capitalise">{application.application_date.toString().substring(0, 10)}</p>
@@ -166,7 +165,7 @@ export default function Profile({userDetails}: { userDetails: User}) {
 
                                                 <div className="mb-3">
                                                     <label className="label-small">Job Position</label>
-                                                    <p className="auto-capitalise">{application.jobPosting.jobName + " - " + application.jobPosting.company.name}</p>
+                                                    <p className="auto-capitalise">{application.job_posting.job_name + " - " + application.job_posting.company.name}</p>
                                                 </div>
 
                                                 <div className="mb-3">
@@ -174,8 +173,9 @@ export default function Profile({userDetails}: { userDetails: User}) {
                                                     <p className="auto-capitalise">{application.phone_number}</p>
                                                 </div>
                                             </div>
-                                        )}
-                                    ))}
+                                        )
+                                    })
+                                )}
                             </div>
                         </div>
                     </>

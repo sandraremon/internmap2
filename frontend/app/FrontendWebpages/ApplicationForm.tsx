@@ -38,7 +38,7 @@ export default function ApplicationForm() {
 
     return (
         <>
-
+<br/><br/><br/><br/><br/><br/>
             <div className="wrapper">
                 <div align="center">
                     <Form method="post" className="w-full max-w-96" onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@ export default function ApplicationForm() {
                     </Form>
                 </div>
             </div>
-          
+
         </>
     );
 }
