@@ -3,7 +3,7 @@ class JobPosting {
     id: bigint;
     job_description: String;
     job_name: String;
-    jobName: String;
+    // jobName: String;
 
 
     company: Company;
@@ -17,7 +17,7 @@ class JobPosting {
         this.id = id;
         this.job_description = job_description;
         this.job_name = job_name;
-        this.jobName = jobName;
+        // this.jobName = jobName;
         this.company = company;
         this.locationOfHQ = locationOfHQ;
         this.date_posted = date_posted;

@@ -307,6 +307,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                                         }}
                                     >
                                         Apply
+
                                     </button>
                                 </div>
                             </div>
@@ -314,6 +315,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                     ))}
                 </div>
             )}
+
         </>
     );
 }

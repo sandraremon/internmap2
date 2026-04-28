@@ -45,12 +45,15 @@ type Pages = {
       "id": string;
     };
   };
+  "/profile": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id";
+    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -92,6 +95,10 @@ type RouteFiles = {
     id: "routes/applicationForm";
     page: "/application/:id";
   };
+  "routes/profile.tsx": {
+    id: "routes/profile";
+    page: "/profile";
+  };
 };
 
 type RouteModules = {
@@ -106,4 +113,5 @@ type RouteModules = {
   "routes/logout": typeof import("./app/routes/logout.tsx");
   "routes/roadMapView": typeof import("./app/routes/roadMapView.tsx");
   "routes/applicationForm": typeof import("./app/routes/applicationForm.tsx");
+  "routes/profile": typeof import("./app/routes/profile.tsx");
 };

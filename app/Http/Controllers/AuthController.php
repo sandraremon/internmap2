@@ -9,6 +9,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // 1. Validate the input
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -34,28 +35,64 @@ class AuthController extends Controller
             'message' => 'Invalid login details'
         ], 401);
     }
+
     public function profile(Request $request)
     {
-        $user = $request->user(); // equivalent to principal.getName() lookup
-
+////        $user = $request->user();
+//         $user = Auth::user();
+        $user = $request->user();
         if (!$user) {
-            return response()->json(['error' => 'there is no user found '], 401);
-            // Spring returned "redirect:/" — you handle this redirect in clientLoader
+            return response()->json(['error' => 'No user found'], 401);
         }
 
         switch ($user->role) {
-            case UserRole::STUDENT:   // ✅ compare enum to enum
-                $user->load(['student.Application.jobPosting.company', 'student.cv']);
+//            case UserRole::STUDENT:
+//                if ($user->student) {
+//                    $user->load('student');
+//
+//                    if ($user->student->relationLoaded('applications')) {
+//                        $user->load('student.applications');
+//                    }
+//
+//                    $user->load([
+//                        'student.cv',
+//                        'student.applications.jobPosting.company'
+//                    ]);
+//                }
+//            case UserRole::STUDENT:   // ✅ compare enum to enum
+//                $$user->load(['student.applications.jobPosting.company', 'student.cv']);
+//                break;
+            case UserRole::STUDENT:
+                if ($user->student) {
+                    $user->load([
+                        'student.cv',
+                        'student.applications.jobPosting.company'
+                    ]);
+                }
                 break;
-            case UserRole::RECRUITER:
-                $user->load('recruiter.company');
-                break;
-            case UserRole::ADMIN:
-                throw new \Exception('To be implemented');
-        }
-        return response()->json($user);
 
+            case UserRole::RECRUITER:
+                if ($user->recruiter) {
+                    $user->load('recruiter.company');
+                }
+                break;
+
+            case UserRole::ADMIN:
+                return response()->json(['error' => 'Not implemented'], 501);
+        }
+
+        return response()->json($user);
     }
+//    public function profile(Request $request)
+//    {
+//        $user = Auth::user();
+//
+//        if (!$user) {
+//            return response()->json(['error' => 'No user found'], 401);
+//        }
+//
+//        return response()->json($user);
+//    }
     public function logout()
     {
         Auth::logout();

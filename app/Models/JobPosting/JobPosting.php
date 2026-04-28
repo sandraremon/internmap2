@@ -39,7 +39,8 @@ class JobPosting extends Model
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id');
+//        'company_id'
+        return $this->belongsTo(Company::class);
     }
 
     public function Internship(): HasOne

@@ -5,8 +5,9 @@ import "../CSS/Universal.css";
 
 export default function Profile({userDetails}: { userDetails: User}) {
     console.log(userDetails);
-    let applicationList: Application[] = (userDetails as Student).applications ? (userDetails as Student).applications : [];
-
+    // let applicationList: Application[] = (userDetails as Student).applications ? (userDetails as Student).applications : [];
+    let applicationList: Application[] =
+        userDetails?.student?.applications ?? [];
     if (applicationList != null) {
         applicationList.sort((e, f) => {
             if (e.application_date < f.application_date) {
@@ -19,11 +20,19 @@ export default function Profile({userDetails}: { userDetails: User}) {
         });
 
         for (let i = 0; i < applicationList.length; i++) {
-            for (let j = applicationList.length - 1; j > i; j--) {
-                if (applicationList[i].jobPosting.jobName == applicationList[j].jobPosting.jobName &&
-                    applicationList[i].jobPosting.company.name == applicationList[j].jobPosting.company.name) {
-                    applicationList.splice(j, 1);
-                }
+           for (let j = applicationList.length - 1; j > i; j--) {
+            //     if (applicationList[i].jobPosting.jobName == applicationList[j].jobPosting.jobName &&
+            //         applicationList[i].jobPosting.company.name == applicationList[j].jobPosting.company.name) {
+            //         applicationList.splice(j, 1);
+            //     }
+            if (
+                applicationList[i].jobPosting &&
+                applicationList[j].jobPosting &&
+                applicationList[i].jobPosting.job_name === applicationList[j].jobPosting.job_name &&
+                applicationList[i].jobPosting.company?.name === applicationList[j].jobPosting.company?.name
+            ) {
+                applicationList.splice(j, 1);
+            }
             }
         }
     }
@@ -146,7 +155,7 @@ export default function Profile({userDetails}: { userDetails: User}) {
                                     <h2 className="text-xl font-bold text-gray-400">You haven't applied for anything.</h2>
                                 ): (
                                     applicationList.map((application: Application) => {
-
+                                        if (!application.jobPosting) return null; // skip broken data
                                         return (
 
                                             <div style={{display: "grid", gap: "10px", background: "var(--secondary-background-color)", gridTemplateColumns: "repeat(2, 1fr)", padding: "20px", borderRadius: "25px"}}>

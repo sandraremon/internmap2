@@ -33,9 +33,13 @@ class Student extends Model
         return $this->belongsTo(User::class, 'id', 'id');
     }
 
-    public function Application(): HasMany
+//    public function application(): HasMany
+//    {
+//        return $this->hasMany(Application::class, 'id');
+//    }
+    public function applications(): HasMany
     {
-        return $this->hasMany(Application::class, 'id');
+        return $this->hasMany(Application::class, 'student_id', 'id');
     }
 
     public function Skill(): BelongsToMany {

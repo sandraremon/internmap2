@@ -27,15 +27,25 @@ class Application extends Model
 
     protected $fillable= ['email', 'f_name', 'l_name', 'phone_number', 'job_id', 'student_id','application_date'];
 
-    public function Student(): BelongsTo
+//    public function Student(): BelongsTo
+//    {
+//        //the link between them is here by belongsTo
+//        return $this->belongsTo(Student::class, 'id', 'id');
+//        // , 'id','id'
+//    }
+//
+//    public function jobPosting(): BelongsTo
+//    {
+//        return $this->belongsTo(JobPosting::class, 'id', 'id');
+//    }
+    public function student(): BelongsTo
     {
-        //the link between them is here by belongsTo
-        return $this->belongsTo(Student::class, 'id', 'id');
-        // , 'id','id'
+        return $this->belongsTo(Student::class, 'student_id', 'id');
     }
 
     public function jobPosting(): BelongsTo
     {
-        return $this->belongsTo(JobPosting::class, 'id', 'id');
+//        'job_id', 'id'
+        return $this->belongsTo(JobPosting::class,'job_id');
     }
 }
