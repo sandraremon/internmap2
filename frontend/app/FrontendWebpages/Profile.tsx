@@ -5,9 +5,11 @@ import "../CSS/Universal.css";
 
 export default function Profile({userDetails}: { userDetails: User}) {
     console.log(userDetails);
-    // let applicationList: Application[] = (userDetails as Student).applications ? (userDetails as Student).applications : [];
-    let applicationList: Application[] =
-        userDetails?.student?.applications ?? [];
+    console.log(userDetails.student.applications);
+
+    let applicationList: Application[] = (userDetails.student.applications ? userDetails.student.applications : []);
+    //let applicationList: Application[] =
+        //userDetails?.student?.applications ?? [];
     if (applicationList != null) {
         applicationList.sort((e, f) => {
             if (e.application_date < f.application_date) {
