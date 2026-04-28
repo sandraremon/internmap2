@@ -2,11 +2,12 @@ import { IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, Chip, Table} from "@heroui/react";
 import "../app.css";
 import "../CSS/Universal.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile({userDetails}: { userDetails: User}) {
     console.log(userDetails);
     let applicationList: Application[] = (userDetails as Student).applications ? (userDetails as Student).applications : [];
-
+    const navigate = useNavigate();
     if (applicationList != null) {
         applicationList.sort((e, f) => {
             if (e.application_date < f.application_date) {
@@ -104,9 +105,12 @@ export default function Profile({userDetails}: { userDetails: User}) {
                         {/*// <!-- CV Section -->*/}
                         <div style={{display: "flex", flexDirection: "row", gap: "10px", alignItems: "center"}}>
                             <h4 className="container-label">Circulmn Vitae</h4>
-                            {(userDetails as Student).cv ? (<Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark" isIconOnly>
+                          {(userDetails as Student).cv ? (<Button  style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark"  >
+                          
                                 <img src="/images/assets/pencil@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="pencil"/>
-                            </Button>) : (<Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark" isIconOnly>
+
+                            </Button>) : (<Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark" isIconOnly  onClick={() => navigate("/cv/create")}
+                            >
                                 <img src="/images/assets/plus@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="pencil"/>
                             </Button>)}
 

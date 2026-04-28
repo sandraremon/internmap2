@@ -10,7 +10,7 @@ export default function ApplicationForm() {
     async function handleSubmit(e: any) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        console.log("job id is:", id); // ADD THIS
+        console.log("job id is:", id);
 
         const res = await fetch(`http://localhost:8000/api/application/new/${id}`, {
             method: "POST",

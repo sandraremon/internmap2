@@ -20,12 +20,13 @@ export async function clientLoader() {
             Accept: "application/json",
         },
     });
-
-    if (!data.ok) {
-        return Response.redirect("/login", 302);
-    }
     const json = await data.json();
-    console.log("Response:", json);
+    if (!data.ok) {
+        //return Response.redirect("/login", 302);
+        console.log("Response:", json);
+    }
+
+
 
     return json;
 }

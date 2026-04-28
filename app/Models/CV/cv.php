@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static create(array $validated)
+ * @method static where(string $string, mixed $id)
+ * @method static updateOrCreate(array $array, array $validated)
  */
 class cv extends Model
 {

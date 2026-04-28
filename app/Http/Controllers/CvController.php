@@ -28,7 +28,10 @@ class CvController extends Controller
                 'projects'=>'required|string'
         ]);
         $validated['student_id'] = $student->id;
-        $cv= cv::create($validated);
+        $cv = Cv::updateOrCreate(
+            ['student_id' => $student->id],
+            $validated
+        );
         return response()->json([
             'message' => 'CV created and linked to student successfully',
             'CV' => $cv,
@@ -41,9 +44,21 @@ class CvController extends Controller
         return $cv;
     }
 
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
+        $user = auth()->user();
+        $student = $user->student;
 
+        $validated = $request->validate([
+            'description'      => 'required|string',
+            'past_experiences' => 'required|string',
+            'projects'         => 'required|string',
+        ]);
+
+        $cv = Cv::where('student_id', $student->id)->firstOrFail();
+        $cv->update($validated);
+
+        return response()->json($cv);
     }
 
     public function update(Request $request, string $id)

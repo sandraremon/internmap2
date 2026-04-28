@@ -15,6 +15,7 @@ export default function CreateCv() {
         setErrorMessage(null);
         setLoading(true);
 
+
         const formData = new FormData(e.currentTarget);
 
         const payload = {
@@ -43,7 +44,7 @@ export default function CreateCv() {
                 setErrorMessage(data.message || "CV creation failed");
                 return;
             }else{
-                navigate("/");
+                navigate("/profile");
             }
         }catch (error) {
             console.error(error);
@@ -68,7 +69,7 @@ export default function CreateCv() {
                 </a>
             <br/>
 
-            <form  onSubmit={handleSubmit}>
+            <form  onSubmit={handleSubmit}  >
 
                 {errorMessage && (
                     <>
