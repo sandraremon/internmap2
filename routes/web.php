@@ -36,11 +36,12 @@ Route::get('/api/users/', [UserController::class, 'index']);
 Route::delete('/api/users/{user}', [UserController::class, 'destroy']);
 Route::delete('/api/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
 Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
+Route::get('/api/jopostings/{jobposting}', [RoadmapController::class, 'show']);
 
 
 //roadmaps
 Route::get('/api/roadmap/{roadmap}', [RoadmapController::class, 'show']);
-//company
+//companyo
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/company/new', [CompanyController::class, 'store']);
 });
@@ -48,12 +49,13 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/api/roadmap/new', [RoadmapController::class, 'store']);//done with front
 Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with front
 //application
-Route::post('/api/application/new', [ApplicationController::class, 'store']);
+Route::post('/api/application/new/{jobposting}', [ApplicationController::class, 'store']);
 //profile
 
 //cv
 Route::middleware('auth:sanctum')->post('/cv/create', [CvController::class,'store']);
 Route::middleware('auth:sanctum')->get('/api/profile', [AuthController::class,  'profile']);
+Route::middleware('auth:sanctum')->post('/application/new/{jobposting}', [ApplicationController::class, 'store']);
 
 // Add this to handle the form submission
 //Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');

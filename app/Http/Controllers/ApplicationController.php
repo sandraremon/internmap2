@@ -28,9 +28,43 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+//    public function store(Request $request,JobPosting $job)
+//    {
+//        $user = auth()->user();
+//
+//        if ($user->role !== UserRole::STUDENT) {
+//            return response()->json([
+//                'error' => 'Only students can apply',
+//                'your_role' => $user->role
+//            ], 403);
+//        }
+//
+//        $student = $user->student;
+//
+////        $company = $rec->company()->first();
+//        $validated = $request->validate([
+//            'f_name' => 'required|string',
+//            'l_name' => 'required|string',
+//            'phone_number' => 'required|string',
+//            'email'=>'required|email',
+//            'application_date' => 'required|date',
+////            'job_id' => 'required|exists:job_posting,id',
+//        ]);
+//
+//        $app = Application::create([
+//            ...$validated,
+//            'job_id' => $job->id, // ✅ safe access
+//            'student_id' => $student->id,
+//        ]);
+//        return response()->json($app);
+//    }
+    public function store(Request $request, JobPosting $job)
     {
-        $user = auth()->user();
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
 
         if ($user->role !== UserRole::STUDENT) {
             return response()->json([
@@ -40,22 +74,22 @@ class ApplicationController extends Controller
         }
 
         $student = $user->student;
-        $job=$request->jobPosting;
-//        $company = $rec->company()->first();
+
         $validated = $request->validate([
             'f_name' => 'required|string',
             'l_name' => 'required|string',
             'phone_number' => 'required|string',
-            'email'=>'required|email',
+            'email' => 'required|email',
             'application_date' => 'required|date',
             'job_id' => 'required|exists:job_posting,id',
         ]);
 
         $app = Application::create([
             ...$validated,
-//            'job_id' => $job->id, // ✅ safe access
+
             'student_id' => $student->id,
         ]);
+
         return response()->json($app);
     }
 

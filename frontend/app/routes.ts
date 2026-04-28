@@ -9,6 +9,9 @@ export default [
     route("/cv/create", "routes/cv.tsx"),
     route("/dashboard","routes/dashboard.tsx"),
     route("/logout","routes/logout.tsx"),
-    route("/roadmaps/:id", "routes/roadMapView.tsx")
+    route("/roadmaps/:id", "routes/roadMapView.tsx"),
+    route("/application/:id", "routes/applicationForm.tsx"),
+    // route("/apply/:id", "routes/apply.tsx"),  // ADD THIS
+
     // route("/", "routes/home.tsx"),
 ];

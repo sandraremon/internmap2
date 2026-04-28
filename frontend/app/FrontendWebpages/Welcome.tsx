@@ -6,13 +6,15 @@ import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
 // @ts-ignore
 import type {JobPosting} from "../../Model/JobPosting/JobPosting";
+import { useNavigate } from 'react-router-dom';
 
 let constJobPostings: JobPosting[] = [];
 let constRoadmaps: Roadmap[] = [];
 
 // @ts-ignore
 export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], jobPostings: JobPosting[]}) {
-
+// inside your component:
+    const navigate = useNavigate();
     constRoadmaps = roadmaps.slice(0, roadmaps.length);
     constJobPostings = jobPostings.slice(0, jobPostings.length);
 
@@ -154,27 +156,159 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                 </>
             ) : (
 
-                <div style={{display: "grid", justifyContent: "start", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: "50px", borderRadius: "50px"}}>
+                // <div style={{display: "grid", justifyContent: "start", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: "50px", borderRadius: "50px"}}>
 
+
+                // <div style={{
+                //     width: '100%',
+                //     background: 'var(--Container-Secondary, rgba(255,255,255,0.85))',
+                //     boxShadow: '0px 0px 40px rgba(0,0,0,0.17)',
+                //     borderRadius: 45,
+                //     backdropFilter: 'blur(20px)',
+                //     padding: '18px 24px',
+                //     display: 'flex',
+                //     flexDirection: 'column',
+                //     gap: '12px'
+                // }}>
+                //     <img style={{width: '10%', height: '100%', borderRadius: 200}} src="/images/jinx.png" />
+                //     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                //         <div>
+                //             <div style={{fontSize: 22, fontWeight: 700}}>idk?</div>
+                //             <div style={{fontSize: 15, fontWeight: 600, color: 'rgba(0,0,0,0.4)'}}>Bread</div>
+                //         </div>
+                //     </div>
+                //
+                //     <div>
+                //         <div style={{fontSize: 24, fontWeight: 750}}>BEO</div>
+                //         <div style={{fontSize: 15, fontWeight: 500}}>We're looking for a new BEO...</div>
+                //     </div>
+                //
+                //     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                //         <div style={{fontSize: 13, color: 'rgba(138,138,138,0.67)'}}>7 hours ago</div>
+                //         <div style={{display: 'flex', gap: '8px'}}>
+                //             <button style={{width: 40, height: 40, borderRadius: 40, background: 'rgba(191,191,191,0.14)'}}>...</button>
+                //             <button style={{width: 93, height: 40, borderRadius: 75, background: '#0E81EC', color: 'white', fontSize: 18, fontWeight: 750}}>Apply</button>
+                //         </div>
+                //     </div>
+                // </div>
+                <div
+                    style={{
+                        display: "grid",
+                        justifyContent: "start",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
+                        gap: "50px",
+                    }}
+                >
                     {jobPostings.map((posting: JobPosting) => (
-                        // <div className="container">
-                            <div key={posting.id} className="container">
-                            <div>{posting.jobName}</div>
-                            <h2 style={{lineClamp: 1, display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden"}}>
-                                {posting.jobDescription}
-                            </h2>
-                            <Separator className="border-1" />
-                            <div id="details" /*style="font-weight: bold; font-size: 20px;"*/>Details</div>
-                            <div className="unordered-list" id="details-specifics">
-                                <ul>
-                                    <li>Email: <span>{posting.recruiter.user.email}</span></li>
-                                    <li>Company: <span>{posting.company?.name ?? "No company assigned"}</span></li>
-                                    {/*// <!--                    <li>Posting Type: <span th:text="${job.jobPostingType}">Full Time</span></li>-->*/}
-                                    {/*@ts-ignore*/}
-                                    <li>Posted <span>{((Date.now() - Date.parse(posting.datePosted).valueOf()) / 1000 / 60 / 60 / 24).toFixed(0)}</span> days ago</li>
-                                    <li>Requirements: <span>{posting.jobRequirements}</span></li>
-                                    {/*<li>Job ID: <span>UUID</span></li>*/}
-                                </ul>
+                        <div
+                            key={posting.id}
+                            style={{
+                                width: "100%",
+                                background: "var(--Container-Secondary, rgba(255,255,255,0.85))",
+                                boxShadow: "0px 0px 40px rgba(0,0,0,0.17)",
+                                borderRadius: 45,
+                                backdropFilter: "blur(20px)",
+                                padding: "24px 32px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "16px",
+                            }}
+                        >
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+
+                                {/* Left - image + name */}
+                                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                    <img style={{ width: 40, height: 40, borderRadius: 200, objectFit: "cover" }}
+                                         src="http://localhost:8000/images/jinx.png" />
+                                    <div>
+                                        <div style={{ fontSize: 22, fontWeight: 700 }}>
+                                            <a href={`/postings/${posting.id}`}>{posting.recruiter?.user?.f_name}</a>
+                                        </div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, color: "rgba(0,0,0,0.4)" }}>
+                                            <a href={`/postings/${posting.id}`}>{posting.company?.name}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right - tag */}
+                                <div style={{
+                                    padding: '4px 12px',
+                                    background: 'linear-gradient(180deg, rgba(8, 109, 250, 0.52) 0%, rgba(27, 155, 254, 0.52) 100%)',
+                                    borderRadius: 75,
+                                    outline: '2px rgba(255, 255, 255, 0.20) solid',
+                                    outlineOffset: '-2px',
+                                    backdropFilter: 'blur(20px)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                <span style={{ color: 'white', fontSize: 13, fontFamily: 'Inter', fontWeight: '800', whiteSpace: 'nowrap' }}>
+                                    <a href={`/postings/${posting.id}`}>
+                                        {posting.type}
+                                    </a>
+
+                                </span>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div style={{ fontSize: 24, fontWeight: 700 }} key={posting.id}>
+                                    <a href={`/posting/${posting.id}`}>
+                                    {posting.job_name}
+                                </a>
+                                </div>
+                                <div style={{ fontSize: 15, fontWeight: 500 }} >
+                                    <a href={`/posting/${posting.id}`}>
+                                        {posting.job_description}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <div style={{ fontSize: 13, fontWeight: 600 }}>
+                                    <a href={`/postings/${posting.id}`}>
+                                        {posting.name}
+                                    </a>
+                                </div>
+
+
+                                <div style={{ display: "flex", gap: "8px" }}>
+                                    <button style={{ width: 40, height: 40, borderRadius: 40 }}>
+                                        <img style={{ width: 20 }} src="http://localhost:8000/images/jinx.png"/>
+                                    </button>
+
+                                    {/*<button*/}
+                                    {/*    style={{*/}
+                                    {/*        width: 93,*/}
+                                    {/*        height: 40,*/}
+                                    {/*        borderRadius: 75,*/}
+                                    {/*        background: "#0E81EC",*/}
+                                    {/*        color: "white",*/}
+                                    {/*        fontSize: 18,*/}
+                                    {/*        fontWeight: 700,*/}
+                                    {/*        border: "none",*/}
+                                    {/*    }}*/}
+                                    {/*>*/}
+                                    {/*    Apply*/}
+                                    {/*</button>*/}
+                                    <button
+                                        onClick={() => navigate(`/application/${posting.id}`)}
+                                        style={{
+                                            width: 93,
+                                            height: 40,
+                                            borderRadius: 75,
+                                            background: "#0E81EC",
+                                            color: "white",
+                                            fontSize: 18,
+                                            fontWeight: 700,
+                                            border: "none",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Apply
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

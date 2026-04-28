@@ -114,9 +114,24 @@ class JobPostingController extends Controller
             'details' => $details,
         ], 201);
     }
-    public function show(string $id)
+    public function show(JobPosting $jobPosting)
     {
-        return JobPosting::find($id);
+        $jobPosting->load('recruiter.user'); // <-- add .user here
+        $jobPosting->load('company');
+
+        switch ($jobPosting->type) {
+            case 'Internship':
+                $jobPosting->load('internship');
+                break;
+            case 'FreelanceProject':
+                $jobPosting->load('freelanceProject');
+                break;
+            case 'FullTime':
+                $jobPosting->load('fullTime');
+                break;
+        }
+
+        return response()->json($jobPosting);
     }
 
     //we dont have an edit
