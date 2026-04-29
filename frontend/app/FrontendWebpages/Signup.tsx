@@ -1,10 +1,141 @@
 import {Tabs} from "@heroui/react";
+// import { useNavigate } from 'react-router-dom';
+import {useState} from "react";
+import {redirect} from "react-router";
 
 export default function Signup() {
 
-    if (localStorage.getItem("token") != null) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null as string | null);
+    const [loading, setLoading] = useState(false);
 
+    async function handleRecruiterRegister( e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setErrorMessage(null);
+        setLoading(true);
+        const formData = new FormData(e.currentTarget);
+
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/recruiter/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    f_name: formData.get("f_name"),
+                    l_name: formData.get("l_name"),
+                    password: formData.get("password"),
+                    email: formData.get("email"),
+                    title: formData.get("title"),
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.log(data);
+                setErrorMessage(data.message || "Login failed");
+                return;
+            }
+
+            localStorage.setItem("token", data.access_token);
+            redirect("/login");
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("Server error or connection issue");
+        } finally {
+            setLoading(false);
+        }
     }
+        async function handleStudentRegister( e: React.FormEvent<HTMLFormElement>) {
+            e.preventDefault();
+            setErrorMessage(null);
+            setLoading(true);
+            const formData = new FormData(e.currentTarget);
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api/student/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                    },
+                    body: JSON.stringify({
+                        f_name: formData.get("f_name"),
+                        l_name: formData.get("l_name"),
+                        password: formData.get("password"),
+                        email: formData.get("email"),
+                        faculty: formData.get("faculty"),
+                        student_major: formData.get("student_major"),
+                        graduating_year: formData.get("graduating_year"),
+                        uni_name:formData.get("uni_name"),
+                    }),
+                });
+
+                const data = await response.json();
+
+
+                if (!response.ok) {
+                    console.log(data);
+                    setErrorMessage(data.message || "Login failed");
+                    return;
+                }
+
+                localStorage.setItem("token", data.access_token);
+                redirect("/login");
+
+            } catch (error) {
+                console.error(error);
+                setErrorMessage("Server error or connection issue");
+            } finally {
+                setLoading(false);
+            }
+        }
+        async function handleAdminRegister( e: React.FormEvent<HTMLFormElement>) {
+            e.preventDefault();
+            setErrorMessage(null);
+            setLoading(true);
+            const formData = new FormData(e.currentTarget);
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api/admin/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                    },
+                    body: JSON.stringify({
+                        f_name: formData.get("f_name"),
+                        l_name: formData.get("l_name"),
+                        password: formData.get("password"),
+                        email: formData.get("email"),
+                        permission_level:"0",
+
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.log(data);
+                    setErrorMessage(data.message || "Login failed");
+                    return;
+                }
+
+                localStorage.setItem("token", data.access_token);
+                redirect("/login");
+
+            } catch (error) {
+                console.error(error);
+                setErrorMessage("Server error or connection issue");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+
 
     return (
         <div className="centered">
@@ -45,7 +176,7 @@ export default function Signup() {
                     <Tabs.Panel id="admin" style={{padding: 0}}>
 
                         {/*ADMIN Sign in VIEW*/}
-                        <form className="full-width" action="http://localhost:8050/admin/register}" method="post">
+                        <form className="full-width" onSubmit={handleAdminRegister} method="post">
 
                             <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: "20px"}}>
                                 <label htmlFor="admin-first-name">First Name:</label>
@@ -53,9 +184,9 @@ export default function Signup() {
                             </div>
 
                             <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: "20px"}}>
-                                <input type="text" id="admin-first-name" className="text-sm" name="*{FName}"
+                                <input type="text" id="admin-first-name" className="text-sm" name="f_name"
                                        placeholder="First name" required autoComplete="given-name"/>
-                                <input type="text" id="admin-last-name" className="text-sm" name="*{LName}"
+                                <input type="text" id="admin-last-name" className="text-sm" name="l_name"
                                        placeholder="Last name" required autoComplete="family-name"/>
                             </div>
                             <br/><br/>
@@ -78,7 +209,7 @@ export default function Signup() {
                     <Tabs.Panel id="student" style={{padding: 0}}>
 
                         {/*STUDENT Sign in VIEW*/}
-                        <form className="full-width" action="http://localhost:8050/api/student/register" method="post">
+                        <form className="full-width" onSubmit={handleStudentRegister} method="post">
 
                             <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: "20px"}}>
                                 <label htmlFor="student-first-name">First Name:</label>
@@ -86,9 +217,9 @@ export default function Signup() {
                             </div>
 
                             <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: "20px"}}>
-                                <input className="text-sm" type="text" id="student-first-name" name="FName" placeholder="Intern" required
+                                <input className="text-sm" type="text" id="student-first-name" name="f_name" placeholder="Intern" required
                                        autoComplete="given-name"/>
-                                <input className="text-sm" type="text" id="student-last-name" name="LName" placeholder="Map" required
+                                <input className="text-sm" type="text" id="student-last-name" name="l_name" placeholder="Map" required
                                        autoComplete="family-name"/>
                             </div>
                             <br/><br/>
@@ -104,16 +235,16 @@ export default function Signup() {
                             <br/><br/>
 
                             <label htmlFor="graudating-year">Graduating Year:</label>
-                            <input className="text-sm" type="text" id="graudating-year" name="graduatingYear" placeholder="2094"
+                            <input className="text-sm" type="text" id="graudating-year" name="graduating_year" placeholder="2094"
                                    required/>
                             <br/><br/>
 
                             <label htmlFor="university">University:</label>
-                            <input className="text-sm" type="text" id="university" name="uniName" placeholder="Harvard" required/>
+                            <input className="text-sm" type="text" id="university" name="uni_name" placeholder="Harvard" required/>
                             <br/><br/>
 
                             <label htmlFor="major">Major:</label>
-                            <input className="text-sm" type="text" id="major" name="studentMajor" placeholder="Major" required/>
+                            <input className="text-sm" type="text" id="major" name="student_major" placeholder="Major" required/>
                             <br/><br/>
 
                             <label htmlFor="faculty">Faculty:</label>
@@ -128,7 +259,7 @@ export default function Signup() {
                     <Tabs.Panel id="recruiter" style={{padding: 0}}>
 
                         {/*RECRUITER Sign in VIEW*/}
-                        <form className="full-width" action="http://localhost:8050/api/recruiter/register" method="post">
+                        <form className="full-width" onSubmit={handleRecruiterRegister} method="post">
 
                             <div style={{display: "grid", gridGap: "20px", gridTemplateColumns: "1fr 1fr"}}>
                                 <label htmlFor="recruiter-first-name">First Name:</label>
@@ -136,30 +267,30 @@ export default function Signup() {
                             </div>
 
                             <div style={{display: "grid", gridGap: "20px", gridTemplateColumns: "1fr 1fr", gap: "20px"}}>
-                                <input className="text-sm" type="text" id="recruiter-first-name" name="*user.FName" placeholder="Intern"
+                                <input className="text-sm" type="text" id="recruiter-first-name" name="f_name" placeholder="Intern"
                                        required autoComplete="given-name"/>
-                                <input className="text-sm" type="text" id="recruiter-last-name" name="user.LName" placeholder="Map"
+                                <input className="text-sm" type="text" id="recruiter-last-name" name="l_name" placeholder="Map"
                                        required autoComplete="family-name"/>
                             </div>
                             <br/><br/>
 
                             <label htmlFor="recruiter-email">Email:</label>
-                            <input className="text-sm" type="email" id="recruiter-email" name="*{user.email}"
+                            <input className="text-sm" type="email" id="recruiter-email" name="email"
                                    placeholder="example@intern.com" required autoComplete="email"/>
                             <br/><br/>
 
                             <label htmlFor="recruiter-password">Password:</label>
-                            <input className="text-sm" type="password" id="recruiter-password" name="*{user.password}"
+                            <input className="text-sm" type="password" id="recruiter-password" name="password"
                                    placeholder="Enter your password" required autoComplete="new-password"/>
                             <br/><br/>
 
                             <label htmlFor="Title">Job Title:</label>
-                            <input className="text-sm" type="text" id="Title" name="*{user.title}" placeholder="Chief Executive Officer"
+                            <input className="text-sm" type="text" id="Title" name="title" placeholder="Chief Executive Officer"
                                    required/>
                             <br/><br/>
 
-                            <label htmlFor="Company's Name">Company's Name:</label>
-                            <input className="text-sm" type="text" id="Company's Name" name="*{company.name}" placeholder="InternMap"/>
+                            {/*<label htmlFor="Company's Name">Company's Name:</label>*/}
+                            {/*<input className="text-sm" type="text" id="Company's Name" name="*{company.name}" placeholder="InternMap"/>*/}
                             <br/><br/>
 
                             <input type="submit" className="form-submit" value="Create Account"/>
@@ -177,5 +308,5 @@ export default function Signup() {
                 <br/>
             </div>
         </div>
-    )
+    );
 }

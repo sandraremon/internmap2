@@ -20,6 +20,9 @@ type Pages = {
   "/company/register": {
     params: {};
   };
+  "/signup": {
+    params: {};
+  };
   "/recruiter/register": {
     params: {};
   };
@@ -53,7 +56,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile";
+    page: "/" | "/login" | "/company/register" | "/signup" | "/recruiter/register" | "/roadmap/create" | "/cv/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -66,6 +69,10 @@ type RouteFiles = {
   "routes/companyForm.tsx": {
     id: "routes/companyForm";
     page: "/company/register";
+  };
+  "routes/signup.tsx": {
+    id: "routes/signup";
+    page: "/signup";
   };
   "routes/recRegister.tsx": {
     id: "routes/recRegister";
@@ -106,6 +113,7 @@ type RouteModules = {
   "routes/home": typeof import("./app/routes/home.tsx");
   "routes/login": typeof import("./app/routes/login.tsx");
   "routes/companyForm": typeof import("./app/routes/companyForm.tsx");
+  "routes/signup": typeof import("./app/routes/signup.tsx");
   "routes/recRegister": typeof import("./app/routes/recRegister.tsx");
   "routes/roadMapCreate": typeof import("./app/routes/roadMapCreate.tsx");
   "routes/cv": typeof import("./app/routes/cv.tsx");

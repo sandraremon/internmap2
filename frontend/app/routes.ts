@@ -4,6 +4,7 @@ export default [
     index("routes/home.tsx"),
     route("/login", "routes/login.tsx"),
     route("/company/register", "routes/companyForm.tsx"),
+    route("/signup", "routes/signup.tsx"),
     route("/recruiter/register", "routes/recRegister.tsx"),
     route("/roadmap/create", "routes/roadMapCreate.tsx"),
     route("/cv/create", "routes/cv.tsx"),
