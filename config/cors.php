@@ -15,14 +15,15 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'login', 'signup', '*'],
+    'paths' => ['api/*', 'login', 'signup', '*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'http://127.0.0.1:5173'], // allow React
+    'allowed_origins' => ['http://localhost:5173'], // allow React
 
     'allowed_headers' => ['*'],
 
     'supports_credentials' => true,
+
 
 ];

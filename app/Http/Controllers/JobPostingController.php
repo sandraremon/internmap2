@@ -24,18 +24,25 @@ class JobPostingController extends Controller
 
     public function store(Request $request)
     {
-        $user = auth()->user();
+        try {
+            \Log::info('Hit store method', $request->all());
+            $user = auth()->user();
 
-        if ($user->role !== UserRole::RECRUITER) {
-            return response()->json([
-                'error' => 'Only recruiters can post jobs',
-                'your_role' => $user->role
-            ], 403);
-        }
 
-        $rec = $user->recruiter;
-        //review this
-        $company = $rec->company()->first();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
+
+//        if ($user->role !== UserRole::RECRUITER) {
+//            return response()->json([
+//                'error' => 'Only recruiters can post jobs',
+//                'your_role' => $user->role
+//            ], 403);
+//        }
+
+            $rec = $user->recruiter;
+            //review this
+            $company = $rec->company()->first();
 
 //        if (!$company) {
 //            return response()->json([
@@ -43,76 +50,83 @@ class JobPostingController extends Controller
 //            ], 404);
 //        }
 
-        // ✅ full validation
-        $validated = $request->validate([
-            'date_posted' => 'required|date',
-            'job_description' => 'required|string',
-            'job_name' => 'required|string',
-            'job_requirements' => 'required|string',
-            'type' => 'required|in:Internship,FreelanceProject,FullTime',
-            // 👇 ADD THIS
-            'benefits' => 'nullable|string',
-            'duration'=> 'nullable|string',
-            'job_location'=>'nullable|string',
-            'payout'=>'nullable|string'
+            // ✅ full validation
+            $validated = $request->validate([
+                'date_posted' => 'date',
+                'job_description' => 'required|string',
+                'job_name' => 'required|string',
+                'job_requirements' => 'required|string',
+                'type' => 'required|in:Internship,FreelanceProject,FullTime',
+                // 👇 ADD THIS
+                'benefits' => 'nullable|string',
+                'duration' => 'nullable|string',
+                'job_location' => 'nullable|string',
+                'payout' => 'nullable|string'
 
-        ]);
+            ]);
 
 //        // ✅ merge extra fields
 //        $validated['nullable|exists:company_id'] = $company->id;
 //        $validated['recruiter_id'] = $rec->id;
-        $job = JobPosting::create([
-            ...$validated,
-            'company_id' => $company?->id, // ✅ safe access
+            $job = JobPosting::create([
+                ...$validated,
+                'company_id' => $company?->id, // ✅ safe access
 //            'company_id' => $company->id,
-            'recruiter_id' => $rec->id,
-        ]);
+                'recruiter_id' => $rec->id,
+            ]);
 
 //        // ✅ now $job is a MODEL
 //        $job = JobPostingModal::create($validated);
 
-        // ✅ correct logic
-        switch ($validated['type']) {
+            // ✅ correct logic
+            switch ($validated['type']) {
 
-            case 'Internship':
-                $job->internship()->create([
-                    'duration' => $validated['duration'],
-                    'job_location' => $validated['job_location'],
-                ]);
-                break;
+                case 'Internship':
+                    $job->internship()->create([
+                        'duration' => $validated['duration'],
+                        'job_location' => $validated['job_location'],
+                    ]);
+                    break;
 
-            case 'FreelanceProject':
-                $job->freelanceProject()->create([
-                    'duration' => $validated['duration'],
-                    'payout' => $validated['payout'],
-                    'job_location' => $validated['job_location'],
-                ]);
-                break;
+                case 'FreelanceProject':
+                    $job->freelanceProject()->create([
+                        'duration' => $validated['duration'],
+                        'payout' => $validated['payout'],
+                        'job_location' => $validated['job_location'],
+                    ]);
+                    break;
 
-            case 'FullTime':
-                $job->fullTime()->create([
-                    'benefits' => $validated['benefits'],
-                ]);
-                break;
-        }
+                case 'FullTime':
+                    $job->fullTime()->create([
+                        'benefits' => $validated['benefits'],
+                    ]);
+                    break;
+            }
 
 //        return response()->json(
 //            $job->load(['Internship', 'FreelanceProject', 'FullTime']),
 //            201
 //        );
-        $details = match ($job->type) {
-            JobPostingType::Internship => $job->internship,
-            JobPostingType::FreeLanceProject => $job->freelanceProject,
-            JobPostingType::FullTime => $job->fullTime,
-        };
+            $details = match ($job->type) {
+                JobPostingType::Internship => $job->internship,
+                JobPostingType::FreeLanceProject => $job->freelanceProject,
+                JobPostingType::FullTime => $job->fullTime,
+            };
 
-        return response()->json([
-            'id' => $job->id,
-            'date_posted' => $job->date_posted,
-            'job_name' => $job->job_name,
-            'type' => $job->type,
-            'details' => $details,
-        ], 201);
+            return response()->json([
+                'id' => $job->id,
+                'date_posted' => $job->date_posted,
+                'job_name' => $job->job_name,
+                'type' => $job->type,
+                'details' => $details,
+            ], 201);
+        }catch(\Throwable $e){
+                return response()->json([
+                    'error'   => $e->getMessage(),
+                    'file'    => $e->getFile(),
+                    'line'    => $e->getLine(),
+                ], 500);
+            }
     }
     public function show(JobPosting $jobPosting)
     {

@@ -23,8 +23,7 @@ use App\Http\Controllers\AuthController;
 //login
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);//done with front
-//jobPosting
-Route::post('/api/jobposting/new', [JobPostingController::class, 'store']);
+
 Route::get('/api/jobposting/', [JobPostingController::class, 'index']);
 
 //this is for creating users
@@ -37,6 +36,7 @@ Route::delete('/api/users/{user}', [UserController::class, 'destroy']);
 Route::delete('/api/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
 Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 Route::get('/api/jopostings/{jobposting}', [RoadmapController::class, 'show']);
+//Route::middleware('auth:sanctum')->post('/api/jobposting/new', [JobPostingController::class, 'store']);
 
 
 //roadmaps

@@ -1,7 +1,7 @@
 import "../CSS/jobPosting.css"
 import "../CSS/Roadmap.css";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
-import {Button, ComboBox, Disclosure, Input, ListBox, SearchField} from "@heroui/react";
+import {Button, ComboBox, Disclosure, Input, ListBox, SearchField, useOverlayState} from "@heroui/react";
 import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
 import JobPostingModal from "./JobPostingModal";
@@ -26,7 +26,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
 
     const [isAllExpanded, setAllExpanded] = useState(true);
     const [isRecentsExpanded, setRecentsExpanded] = useState(true);
-    const [isJobModalActive, setJobModal] = useState(false);
+    const jobPostingFormOverlayState = useOverlayState({defaultOpen: false});
 
     let recentRoadmaps: Roadmap[] = [];
 
@@ -205,7 +205,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                     }}
                 >
                     <button
-                        onClick={() => setJobModal(true)}
+                        onClick={() => jobPostingFormOverlayState.toggle()}
                         style={{
                             width: 93,
                             height: 40,
@@ -355,7 +355,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                 </div>
             )}
 
-            <JobPostingModal isActive={isJobModalActive}  />
+            <JobPostingModal overlayState={jobPostingFormOverlayState}  />
         </>
     );
 }

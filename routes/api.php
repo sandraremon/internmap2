@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\RoadmapController;
 use Illuminate\Support\Facades\Route;
 //
@@ -25,4 +26,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/company/new', [CompanyController::class, 'store']);
     Route::post('/application/new/{jobposting}', [ApplicationController::class, 'store']);
     Route::get('/profile',[AuthController::class, 'profile']);
+    Route::post('/jobposting/new', [JobPostingController::class, 'store']);
 });
