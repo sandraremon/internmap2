@@ -28,7 +28,7 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-//    public function store(Request $request,JobPosting $job)
+//    public function store(Request $request,JobPostingModal $job)
 //    {
 //        $user = auth()->user();
 //

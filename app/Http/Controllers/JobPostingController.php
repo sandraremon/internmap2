@@ -13,7 +13,7 @@ class JobPostingController extends Controller
 {
     public function index()
     {
-//        return response()->json(JobPosting::all());
+//        return response()->json(JobPostingModal::all());
         return response()->json(JobPosting::with(['recruiter.user', 'company'])->get());
     }
 
@@ -69,7 +69,7 @@ class JobPostingController extends Controller
         ]);
 
 //        // ✅ now $job is a MODEL
-//        $job = JobPosting::create($validated);
+//        $job = JobPostingModal::create($validated);
 
         // ✅ correct logic
         switch ($validated['type']) {

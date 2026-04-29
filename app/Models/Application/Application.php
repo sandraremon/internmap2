@@ -36,7 +36,7 @@ class Application extends Model
 //
 //    public function jobPosting(): BelongsTo
 //    {
-//        return $this->belongsTo(JobPosting::class, 'id', 'id');
+//        return $this->belongsTo(JobPostingModal::class, 'id', 'id');
 //    }
     public function student(): BelongsTo
     {

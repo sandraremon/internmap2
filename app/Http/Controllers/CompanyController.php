@@ -65,7 +65,7 @@ class CompanyController extends Controller
             'location_ofhq' => 'required|string',
             'websiteurl' => 'required|string',
         ]);
-//        $job = JobPosting::create([
+//        $job = JobPostingModal::create([
 //            ...$validated,
 //            'company_id' => $company?->id, // ✅ safe access
 ////            'company_id' => $company->id,

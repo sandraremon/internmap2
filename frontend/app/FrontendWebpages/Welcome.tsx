@@ -1,18 +1,20 @@
 import "../CSS/jobPosting.css"
 import "../CSS/Roadmap.css";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
-import {Button, ComboBox, Disclosure, Input, ListBox, SearchField, Separator} from "@heroui/react";
+import {Button, ComboBox, Disclosure, Input, ListBox, SearchField} from "@heroui/react";
 import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
+import JobPostingModal from "./JobPostingModal";
+
 // @ts-ignore
-import type {JobPosting} from "../../Model/JobPosting/JobPosting";
+import type { JobPosting as job } from "../../Model/JobPostingModal/JobPostingModal";
 import { useNavigate } from 'react-router-dom';
 
 let constJobPostings: JobPosting[] = [];
 let constRoadmaps: Roadmap[] = [];
 
 // @ts-ignore
-export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], jobPostings: JobPosting[]}) {
+export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], jobPostings: JobPostingModal[]}) {
 // inside your component:
     const navigate = useNavigate();
     constRoadmaps = roadmaps.slice(0, roadmaps.length);
@@ -20,9 +22,11 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
 
     roadmaps = constRoadmaps;
     jobPostings = constJobPostings;
+    let activeJobPosting: JobPosting | null = null;
 
     const [isAllExpanded, setAllExpanded] = useState(true);
     const [isRecentsExpanded, setRecentsExpanded] = useState(true);
+    const [isJobModalActive, setJobModal] = useState(false);
 
     let recentRoadmaps: Roadmap[] = [];
 
@@ -42,6 +46,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
     return (
 
         <>
+
             <IndexHeader/>
 
             <div className="flex flex-col items-center justify-center gap-3">
@@ -199,7 +204,41 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                         gap: "50px",
                     }}
                 >
-                    {jobPostings.map((posting: JobPosting) => (
+                    <button
+                        onClick={() => setJobModal(true)}
+                        style={{
+                            width: 93,
+                            height: 40,
+                            borderRadius: 75,
+                            background: "#0E81EC",
+                            color: "white",
+                            fontSize: 18,
+                            fontWeight: 700,
+                            border: "none",
+                            cursor: "pointer",
+                        }}
+                    >
+                        create Job Posting
+
+                    </button>
+                    {/*<button*/}
+                    {/*    onClick={() => navigate(`/jobposting/new`)}*/}
+                    {/*    style={{*/}
+                    {/*        width: 93,*/}
+                    {/*        height: 40,*/}
+                    {/*        borderRadius: 75,*/}
+                    {/*        background: "#0E81EC",*/}
+                    {/*        color: "white",*/}
+                    {/*        fontSize: 18,*/}
+                    {/*        fontWeight: 700,*/}
+                    {/*        border: "none",*/}
+                    {/*        cursor: "pointer",*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    jobpostingForm*/}
+
+                    {/*</button>*/}
+                    {jobPostings.map((posting: job) => (
                         <div
                             key={posting.id}
                             style={{
@@ -316,6 +355,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                 </div>
             )}
 
+            <JobPostingModal isActive={isJobModalActive}  />
         </>
     );
 }
