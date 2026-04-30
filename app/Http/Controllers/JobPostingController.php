@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company\Company;
 use App\Models\JobPosting\JobPosting;
 use App\Models\JobPosting\JobPostingType;
 use App\Models\User\User;
@@ -42,7 +43,11 @@ class JobPostingController extends Controller
 
             $rec = $user->recruiter;
             //review this
-            $company = $rec->company()->first();
+            $companyName = $request->input('company_name');
+
+            $company = Company::firstOrCreate([
+                'name' => $companyName
+            ]);
 
 //        if (!$company) {
 //            return response()->json([
@@ -56,7 +61,7 @@ class JobPostingController extends Controller
                 'job_description' => 'required|string',
                 'job_name' => 'required|string',
                 'job_requirements' => 'required|string',
-                'type' => 'required|in:Internship,FreelanceProject,FullTime',
+                'type' => 'required|in:Internship,FreeLanceProject,FullTime',
                 // 👇 ADD THIS
                 'benefits' => 'nullable|string',
                 'duration' => 'nullable|string',

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static create(array $validated)
  * @method static find(string $id)
+ * @method static firstOrCreate(array $array)
  */
 class Company extends Model
 {

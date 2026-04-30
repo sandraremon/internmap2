@@ -4,6 +4,7 @@ import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, Lab
 import type { Selection } from "@heroui/react";
 import { Dropdown, Header } from "@heroui/react";
 import {useState} from "react";
+import {useNavigate} from "react-router";
 
 // @ts-ignore
 export default function JobPostingModal({overlayState}: {overlayState: UseOverlayStateReturn}) {
@@ -15,8 +16,9 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
     const labels: Record<string, string> = {
         intern: "Internship",
         fulltime: "Full Time",
-        freelance: "Freelance",
+        freelance: "FreeLanceProject",
     };
+    const navigate = useNavigate();
 
     async function handleSubmit(e: any) {
 
@@ -25,7 +27,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
         const typeMap: Record<string, string> = {
             intern: "Internship",
             fulltime: "FullTime",
-            freelance: "FreelanceProject",
+            freelance: "FreeLanceProject",
         };
 
         const body = {
@@ -38,22 +40,27 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
             job_location: formData.get("job_location"),
             benefits: formData.get("benefits"),
             payout: formData.get("payout"),
+            company_name: formData.get("company"), // ← flat, not nested
+
         };
 
-        try {
-            const res = await fetch(`http://localhost:8000/api/jobposting/new`, {
-                method: "POST",
-                body: JSON.stringify(body),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+        const res = await fetch(`http://localhost:8000/api/jobposting/new`, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
 
-                },
-            });
-            console.log("testing")
-
-        } catch (err) {
-            console.error("error:", err);
+        console.log("testing");
+        if (!res.ok) {
+            const errorBody = await res.json(); // ← ADD THIS
+            console.error("Submission failed:", res.status, errorBody);
+        } else {
+            const successBody = await res.json();
+            console.log("Success:", successBody);
+            navigate("/");
         }
     }
     console.log("selectedValue:", selectedValue);
@@ -202,9 +209,10 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                             {/* full time fields */}
                                             {selectedValue === "fulltime" && (
                                                 <>
-                                                    <Label>Benefits:</Label>
-                                                    <TextField  name="benefits" type="text"></TextField>
-                                                    <Input placeholder=" providing insurance" />
+                                                    <TextField name="benefits" type="text">
+                                                        <Label>Benefits:</Label>
+                                                        <Input placeholder="providing insurance" />
+                                                    </TextField>
                                                 </>
                                             )}
 
@@ -212,6 +220,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                         <Fieldset.Actions>
                                             <Button type="submit">
                                                 add
+
                                             </Button>
                                             <Button type="reset" variant="secondary">
                                                 Reset
