@@ -9,9 +9,11 @@ import JobPostingModal from "./JobPostingModal";
 // @ts-ignore
 import type { JobPosting as job } from "../../Model/JobPostingModal/JobPostingModal";
 import { useNavigate } from 'react-router-dom';
+import ApplicationForm from "./ApplicationForm";
 
 let constJobPostings: JobPosting[] = [];
 let constRoadmaps: Roadmap[] = [];
+
 
 // @ts-ignore
 export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], jobPostings: JobPostingModal[]}) {
@@ -23,10 +25,12 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
     roadmaps = constRoadmaps;
     jobPostings = constJobPostings;
     let activeJobPosting: JobPosting | null = null;
+    const [activePostingId, setActivePostingId] = useState<number | null>(null);
 
     const [isAllExpanded, setAllExpanded] = useState(true);
     const [isRecentsExpanded, setRecentsExpanded] = useState(true);
     const jobPostingFormOverlayState = useOverlayState({defaultOpen: false});
+    const ApplicationFormOverlayState = useOverlayState({defaultOpen: false});
 
     let recentRoadmaps: Roadmap[] = [];
 
@@ -332,7 +336,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                                     {/*    Apply*/}
                                     {/*</button>*/}
                                     <button
-                                        onClick={() => navigate(`/application/${posting.id}`)}
+                                        onClick={() =>{setActivePostingId(posting.id);  ApplicationFormOverlayState.toggle()}}
                                         style={{
                                             width: 93,
                                             height: 40,
@@ -356,6 +360,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
             )}
 
             <JobPostingModal overlayState={jobPostingFormOverlayState}  />
+            <ApplicationForm overlayState={ApplicationFormOverlayState} jobId={activePostingId} />
         </>
     );
 }
