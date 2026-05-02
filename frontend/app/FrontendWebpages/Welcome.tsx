@@ -10,6 +10,7 @@ import JobPostingModal from "./JobPostingModal";
 import type { JobPosting as job } from "../../Model/JobPostingModal/JobPostingModal";
 import { useNavigate } from 'react-router-dom';
 import ApplicationForm from "./ApplicationForm";
+import CVForm from "./CV";
 
 let constJobPostings: JobPosting[] = [];
 let constRoadmaps: Roadmap[] = [];
@@ -31,6 +32,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
     const [isRecentsExpanded, setRecentsExpanded] = useState(true);
     const jobPostingFormOverlayState = useOverlayState({defaultOpen: false});
     const ApplicationFormOverlayState = useOverlayState({defaultOpen: false});
+    const CVFormOverlayState = useOverlayState({defaultOpen: false});
 
     let recentRoadmaps: Roadmap[] = [];
 
@@ -361,6 +363,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
 
             <JobPostingModal overlayState={jobPostingFormOverlayState}  />
             <ApplicationForm overlayState={ApplicationFormOverlayState} jobId={activePostingId} />
+
         </>
     );
 }

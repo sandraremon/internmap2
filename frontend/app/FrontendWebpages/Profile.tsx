@@ -1,13 +1,16 @@
 import { IndexHeader} from "./fragments/IndexHeaderAndFooter";
-import {Button, Chip, Table} from "@heroui/react";
+import {Button, Chip, Table, useOverlayState} from "@heroui/react";
 import "../app.css";
 import "../CSS/Universal.css";
 import { useNavigate } from 'react-router-dom';
+import CVForm from "./CV";
+import React from "react";
 
 export default function Profile({userDetails}: { userDetails: User}) {
     console.log(userDetails);
     console.log(userDetails.student.applications);
     const navigate = useNavigate();
+    const CVFormOverlayState = useOverlayState({defaultOpen: false});
 
     let applicationList: Application[] = (userDetails.student.applications ? userDetails.student.applications : []);
     //let applicationList: Application[] =
@@ -121,10 +124,9 @@ export default function Profile({userDetails}: { userDetails: User}) {
                             {(userDetails as Student).cv ? (<Button  style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark"  >
 
                                 <img src="/images/assets/pencil@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="pencil"/>
-
-                            </Button>) : (<Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark" isIconOnly  onClick={() => navigate("/cv/create")}
-                            >
-                                <img src="/images/assets/plus@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="pencil"/>
+                                {/*const CVFormOverlayState = useOverlayState({defaultOpen: false});*/}
+                            </Button>) : (<Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark" isIconOnly  onClick={() => CVFormOverlayState.open()}>
+                                <img src="/images/assets/plus@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="plus"/>
                             </Button>)}
                         </div>
 
@@ -239,6 +241,7 @@ export default function Profile({userDetails}: { userDetails: User}) {
                 <br/><br/>
             </div>
             {/*<IndexFooter/>*/}
+            <CVForm overlayState={CVFormOverlayState}/>
         </>
     )
 }
