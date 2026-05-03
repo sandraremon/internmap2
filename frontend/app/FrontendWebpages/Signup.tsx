@@ -2,6 +2,7 @@ import {Tabs} from "@heroui/react";
 // import { useNavigate } from 'react-router-dom';
 import {useState} from "react";
 import {redirect} from "react-router";
+import {useNavigate} from "react-router";
 
 export default function Signup() {
 
@@ -9,7 +10,7 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null as string | null);
     const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate();
     async function handleRecruiterRegister( e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setErrorMessage(null);
@@ -41,7 +42,7 @@ export default function Signup() {
             }
 
             localStorage.setItem("token", data.access_token);
-            redirect("/login");
+            navigate("/login");
 
         } catch (error) {
             console.error(error);
@@ -84,7 +85,8 @@ export default function Signup() {
                 }
 
                 localStorage.setItem("token", data.access_token);
-                redirect("/login");
+                // redirect("/login");
+                navigate("/login");
 
             } catch (error) {
                 console.error(error);
@@ -125,7 +127,7 @@ export default function Signup() {
                 }
 
                 localStorage.setItem("token", data.access_token);
-                redirect("/login");
+                navigate("/login");
 
             } catch (error) {
                 console.error(error);
