@@ -78,7 +78,8 @@ class AuthController extends Controller
                 break;
 
             case UserRole::ADMIN:
-                return response()->json(['error' => 'Not implemented'], 501);
+                // Admin-specific data loading if needed
+                break;
         }
 
         return response()->json($user);
