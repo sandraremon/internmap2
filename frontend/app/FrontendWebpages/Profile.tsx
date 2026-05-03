@@ -8,13 +8,15 @@ import React from "react";
 
 export default function Profile({userDetails}: { userDetails: User}) {
     console.log(userDetails);
-    console.log(userDetails.student.applications);
+    // console.log(userDetails.student.applications);
     const navigate = useNavigate();
     const CVFormOverlayState = useOverlayState({defaultOpen: false});
 
-    let applicationList: Application[] = (userDetails.student.applications ? userDetails.student.applications : []);
-    //let applicationList: Application[] =
-        //userDetails?.student?.applications ?? [];
+    // let applicationList: Application[] = userDetails.role === "STUDENT" ? (userDetails.student.applications ? userDetails.student.applications : []);
+    const applicationList: Application[] =
+        userDetails.role === "STUDENT"
+            ? userDetails.student?.applications ?? []
+            : [];
     if (applicationList != null) {
         applicationList.sort((e, f) => {
             if (e.application_date < f.application_date) {
