@@ -41,7 +41,7 @@ Route::get('/api/jopostings/{jobposting}', [RoadmapController::class, 'show']);
 
 //roadmaps
 Route::get('/api/roadmap/{roadmap}', [RoadmapController::class, 'show']);
-//companyo
+//company
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/company/new', [CompanyController::class, 'store']);
 });

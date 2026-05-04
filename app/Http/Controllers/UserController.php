@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -56,6 +57,13 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+//        $user->delete();
+        // Delete related sessions first
+        DB::table('sessions')->where('user_id', $user->id)->delete();
+
+        // Then delete the user (cascades to other relations if set up)
         $user->delete();
+
+        return response()->json(['message' => 'User deleted successfully'], 200);
     }
 }
