@@ -52,7 +52,7 @@ Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with fro
 //application
 Route::post('/api/application/new/{jobposting}', [ApplicationController::class, 'store']);
 //profile
-Route::get('/api/user/{user}/role',[UserController::class, 'userRole']);
+Route::middleware('auth:sanctum')->get('/api/user/role',[UserController::class, 'userRole']);
 //cv
 Route::middleware('auth:sanctum')->post('/cv/create', [CvController::class,'store']);
 Route::middleware('auth:sanctum')->get('/api/profile', [AuthController::class,  'profile']);

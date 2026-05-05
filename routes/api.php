@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 //
 //});
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/company/new', [CompanyController::class, 'store']);
     Route::post('/application/new/{jobposting}', [ApplicationController::class, 'store']);

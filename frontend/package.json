@@ -22,6 +22,7 @@
         "@react-types/shared": "^3.34.0",
         "axios": "^1.15.0",
         "clsx": "^2.1.1",
+        "iconify": "^1.4.0",
         "isbot": "^5",
         "react": "^19.2.5",
         "react-aria-components": "^1.17.0",

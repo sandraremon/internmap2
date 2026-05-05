@@ -9,12 +9,17 @@
     --primary-color: #1582ef;
     --primary-color-hover: #0771dc;
     --form-background-color: linear-gradient(0deg, #ffffff, #ffffff);
-    --background-color: #ffffff;
-    --background-color-st: rgba(255, 255, 255, 0.7);
-    --secondary-background-color: rgba(172, 180, 184, 0.11);
-    --tertiary-background-color: var(--background-color);
+    --page-background: #ffffff;
+    --component-secondary: rgba(191, 191, 191, 0.058);
+    --container-secondary: rgba(255, 255, 255, 0.85);
+    --component-tertiary: var(--page-background);
+    --component-quaternary: rgba(220, 220, 220, 0.2);
     --border-color: #2c2c2c;
-    --text-color: #000000;
+    --text-primary: #000000;
+    --text-primary-inverted: #ffffff;
+    --text-secondary: rgba(0, 0, 0, 0.4);
+    --text-white: #ffffff;
+    --text-black: #000000;
     --text-color-2: #0771dc;
 }
 
@@ -23,11 +28,13 @@
         --primary-color: #1582ef;
         --primary-color-hover: #0771dc;
         --form-background-color: linear-gradient(180deg, #252525, #242424);
-        --background-color: #0c0c0c;
-        --background-color-st: rgba(50, 50, 50, 0.9);
-        --tertiary-background-color: var(--secondary-background-color);
+        --page-background: #101010;
+        --container-secondary: rgba(44, 44, 44, 0.5);
+        --component-tertiary: var(--component-secondary);
         --border-color: #ededed;
-        --text-color: #ffffff;
+        --text-primary: #ffffff;
+        --text-primary-inverted: #000000;
+        --text-secondary: rgba(212, 212, 212, 0.4);
         --text-color-2: #ffffff;
     }
 }
@@ -43,7 +50,7 @@ header[class="header"] {
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
+    background-color: var(--page-background);
 }
 
 footer {
@@ -57,13 +64,13 @@ footer {
     }
 
     .small-text {
-        color: var(--text-color);
+        color: var(--text-primary);
         text-decoration: none;
     }
 
     width: 100%;
     height: min-content;
-    background-color: var(--secondary-background-color);
+    background-color: var(--container-secondary);
 }
 
 label {
@@ -74,7 +81,7 @@ label {
 section.section {
     display: flex;
     align-items: center;
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 section.wide {
@@ -132,7 +139,7 @@ img.logo-mono {
 
     background: transparent;
     border: transparent;
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 .for-icon {
@@ -149,9 +156,9 @@ input[type=password], input[type=email], input[type=text] {
     border-radius: 45px;
     box-sizing: border-box;
 
-    background-color: var(--secondary-background-color);
+    background-color: var(--component-secondary);
 
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 img[class=theme-adaptive-icon] {
@@ -192,9 +199,9 @@ input[type=submit] {
     border-radius: 45px;
     box-sizing: border-box;
 
-    background-color: var(--background-color);
+    background-color: var(--page-background);
 
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 .submit-button {
@@ -217,7 +224,7 @@ input[type=submit] {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    color: var(--text-color);
+    color: var(--text-primary);
     font-size: 36px;
     font-weight: 700;
     line-height: normal;
@@ -245,7 +252,7 @@ input[type=submit] {
     height: fit-content;
     min-height: fit-content;
 
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 .container-full-width {
@@ -259,7 +266,7 @@ input[type=submit] {
         box-shadow: 0 0 80px rgba(206, 206, 206, 0.962);
     }
 
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 .full-width, .container-full-width {
@@ -386,27 +393,3 @@ input[type=submit] {
 .clickable {
     cursor: pointer;
 }
-
-/*form {*/
-/*    border-radius: 55px;*/
-
-/*    background-image: var(--form-background-color);*/
-/*    padding: 5px 25px 20px 25px;*/
-/*    gap: 1px;*/
-/*    @media (prefers-color-scheme: light) {*/
-/*        box-shadow: 0 0 80px rgba(206, 206, 206, 0.962);*/
-/*    }*/
-
-/*    width: 100%;*/
-/*    max-width: 500px;*/
-/*    height: fit-content;*/
-/*    min-height: fit-content;*/
-
-/*    display: flex;*/
-/*    flex-direction: column;*/
-
-/*    justify-content: center;*/
-/*    align-items: center;*/
-
-/*    color: var(--text-color);*/
-/*}*/

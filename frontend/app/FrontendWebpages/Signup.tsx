@@ -1,5 +1,4 @@
-import {Tabs} from "@heroui/react";
-// import { useNavigate } from 'react-router-dom';
+import {Alert, CloseButton, Tabs} from "@heroui/react";
 import {useState} from "react";
 import {redirect} from "react-router";
 import {useNavigate} from "react-router";
@@ -137,8 +136,6 @@ export default function Signup() {
             }
         }
 
-
-
     return (
         <div className="centered">
             <a href={"/"} style={{borderRadius: "200px"}} inert>
@@ -147,12 +144,30 @@ export default function Signup() {
             <br/>
 
             <div className="container">
-                <div /*th:if="${errorMessage}"*/
-                    style={{color: "red", border: "0 solid red", padding: "2px", marginBottom: "15px", fontWeight: "550"}}>
-                    <p /*th:text="${errorMessage}"*/></p>
-                </div>
+                {errorMessage && (
+                    <>
+                        <br/>
+                        <Alert className="dark rounded-4xl" style={{background: "var(--container-secondary)"}} status="danger">
+                            <Alert.Indicator>
+                                <img src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Logo" style={{width: "20px", height: "20px", aspectRatio: "1/1"}}/>
+                            </Alert.Indicator>
+                            <Alert.Content>
+                                <Alert.Title>
+                                    <p className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+                                        {errorMessage}
+                                    </p>
+                                </Alert.Title>
+                            </Alert.Content>
+                            <CloseButton style={{background: "var(--component-tertiary)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
+                        </Alert>
+                    </>
+                )}
 
-                <h1 className="font-bold text-3xl">Sign Up</h1>
+                {!errorMessage && (
+                    <>
+                        <h1 className="font-bold text-3xl" style={{paddingTop: "25px"}}>Sign in</h1>
+                    </>
+                )}
 
                 <br/><br/>
                 <Tabs className="full-width " style={{margin: "-20px"}} defaultSelectedKey={"student"}>
@@ -291,8 +306,8 @@ export default function Signup() {
                                    required/>
                             <br/><br/>
 
-                            {/*<label htmlFor="Company's Name">Company's Name:</label>*/}
-                            {/*<input className="text-sm" type="text" id="Company's Name" name="*{company.name}" placeholder="InternMap"/>*/}
+                            <label htmlFor="Company's Name">Company's Name:</label>
+                            <input className="text-sm" type="text" id="Company's Name" name="*{company.name}" placeholder="InternMap"/>
                             <br/><br/>
 
                             <input type="submit" className="form-submit" value="Create Account"/>

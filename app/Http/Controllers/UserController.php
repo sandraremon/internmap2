@@ -66,9 +66,16 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
-    public function userRole(User $user){
+
+    public function userRole(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json(['error' => 'No user found'], 401);
+        }
+
         return response()->json([
-            'role' => $user->role
+            'role' => $user->role->roleName()
         ]);
-}
+    }
 }

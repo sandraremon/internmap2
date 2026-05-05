@@ -53,7 +53,7 @@ class ProfileController extends Controller
 
         \Log::info('User after save:', $user->fresh()->toArray());
 
-        if ( $user->student) {
+        if ($user->student) {
             $student = $user->student;
             $student->student_major = $validated['student_major'] ?? $student->student_major;
             $student->graduating_year = $validated['graduating_year'] ?? $student->graduating_year;

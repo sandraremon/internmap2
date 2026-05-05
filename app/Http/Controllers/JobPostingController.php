@@ -10,7 +10,7 @@ use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 
-class JobPostingController extends Controller
+class   JobPostingController extends Controller
 {
     public function index()
     {

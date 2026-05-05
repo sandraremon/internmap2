@@ -1,7 +1,6 @@
 import "../CSS/jobPosting.css"
 import "../CSS/InternMapHomepage.css";
 import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, Label, Modal, TextField } from "@heroui/react";
-import type { Selection } from "@heroui/react";
 import { Dropdown, Header } from "@heroui/react";
 import {useState} from "react";
 import {useNavigate} from "react-router";
@@ -84,14 +83,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                     <Fieldset>
                                         <Description>Apply to Application!</Description>
                                         <FieldGroup>
-                                            <Dropdown
-                                                label="Job Type Selector"
-                                                selectedKeys={selected}
-                                                onSelectionChange={(keys) => {
-                                                    if (keys === "all") return;
-                                                    setSelected(new Set(Array.from(keys).map(String)));
-                                                }}
-                                            >
+                                            <Dropdown>
                                                 <Button aria-label="Menu" variant="secondary">
                                                     {labels[selectedValue as string] ?? "Select job type"}
                                                 </Button>

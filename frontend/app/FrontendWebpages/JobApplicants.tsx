@@ -96,11 +96,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                                         </span>
 
                                         {decided && (
-                                            <Chip
-                                                size="sm"
-                                                variant="flat"
-                                                color={status === "accepted" ? "success" : "danger"}
-                                            >
+                                            <Chip size="sm" variant="secondary" color={status === "accepted" ? "success" : "danger"}>
                                                 {status}
                                             </Chip>
                                         )}

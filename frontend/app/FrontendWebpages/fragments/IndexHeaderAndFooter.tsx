@@ -1,17 +1,7 @@
-import {useState, useEffect} from "react";
-import {
-    AlertDialog,
-    Button,
-    Dropdown,
-    Kbd,
-    Label,
-    Modal,
-    Separator,
-    Toast,
-    useOverlayState
-} from "@heroui/react";
-
+import React, {useState, useEffect} from "react";
+import {AlertDialog, Button, Dropdown, Header, Kbd, Label, Modal, Separator, toast, Toast, useOverlayState} from "@heroui/react";
 import {useLocation} from "react-router";
+import JobPostingModal from "../JobPostingModal";
 
 export function IndexHeader() {
 
@@ -32,7 +22,27 @@ export function IndexHeader() {
         onBoardingState.close()
     }
 
+    const jobPostingFormOverlayState = useOverlayState({defaultOpen: false});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [role, setRole] = useState("none");
+
+    async function fetchRole() {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/user/role`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Accept: "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setRole(data.role);
+            }
+        } catch (error) {
+            console.error("Error fetching role:", error);
+        }
+    }
 
     function logout() {
         location.href = "/logout";
@@ -44,17 +54,16 @@ export function IndexHeader() {
             setIsLoggedIn(true);
         }
 
+        fetchRole();
     }, []);
-
-
 
     return (
         <header className="header">
 
             <Modal isOpen={onBoardingState.isOpen}>
-                <Modal.Backdrop className="dark" variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
+                <Modal.Backdrop variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                     <Modal.Container>
-                        <Modal.Dialog className="sm:max-w-90 rounded-4xl">
+                        <Modal.Dialog>
                             <Modal.CloseTrigger onClick={() => closeOnboarding()} />
                             <Modal.Header>
                                 <img src="/images/navi/Navi%20Beta.png" alt="Logo" style={{height: "60px", width: "60px"}}/>
@@ -87,43 +96,72 @@ export function IndexHeader() {
                 <button className="button-prominant" onClick={() => location.href = '/signup'}>Sign up</button>
             </section> : <section className="section wide">
 
+                {role === "ROLE_RECRUITER" && (
+                    <>
+                        <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => jobPostingFormOverlayState.open()}>
+                            <img src="/images/assets/plus-black@4x.png" className="theme-adaptive-icon" style={{width: "20px"}} alt="add a job posting"/>
+                        </Button>
+                        <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => location.href = '/myJobpostings'}>
+                            <img src="/images/assets/list.bullet.clipboard.fill@4x.png" className="theme-adaptive-icon" style={{width: "20px"}} alt="all job postings"/>
+                        </Button>
+                    </>
+                )}
+
                 <Dropdown>
                     <Button isIconOnly aria-label="Menu" variant="ghost">
                         <img src="/images/assets/ellipsis@4x.png" className="theme-adaptive-icon" alt="ellipsis" style={{height: "5px"}}/>
                     </Button>
                     <Dropdown.Popover className="w-60">
-                        <Dropdown.Menu onAction={(key) => console.log(`Selected: ${key}`)}>
+                        <Dropdown.Menu>
+                            {!useLocation().pathname.includes("/profile") && (
+                                <Dropdown.Section>
+                                    <Dropdown.Item id="profile" textValue="Profile" onAction={() => location.href = '/profile' }>
+                                        <div className="">
+                                            <img src="/images/person_fill.png" style={{width: "14px", filter: "invert(1)"}} alt="Profile"/>
+                                        </div>
+                                        <div>
+                                            <Label>Profile</Label>
+                                        </div>
+                                    </Dropdown.Item>
+                                    <Separator/>
+                                </Dropdown.Section>
+                            )}
                             <Dropdown.Section>
-                                {!useLocation().pathname.includes("/profile") && (
-                                <Dropdown.Item id="profile" textValue="Profile" onAction={() => location.href = '/profile' }>
-                                    <div className="">
-                                        <img src="/images/person_fill.png" style={{width: "14px", filter: "invert(1)"}} alt="Profile"/>
-                                    </div>
-                                    <div>
-                                        <Label>Profile</Label>
-                                    </div>
-                                    <Kbd className="ms-auto" slot="keyboard" variant="light">
-                                        <Kbd.Abbr keyValue="command" />
-                                        <Kbd.Content>P</Kbd.Content>
-                                    </Kbd>
-                                </Dropdown.Item>
-                                    )}
+                                <Header>Debug</Header>
                                 <Dropdown.Item id="show-onboarding" textValue="Show onboarding" onAction={() => onBoardingState.open()}>
                                     <div>
                                         <img src="/images/Mono/Twisted%20Hero.png" style={{width: "16px"}} alt="Show onboarding"/>
                                     </div>
                                     <div>
-                                        <Label>Show Onboarding (Again)</Label>
+                                        <Label>Show Onboarding</Label>
                                     </div>
                                     <Kbd className="ms-auto" slot="keyboard" variant="light">
                                         <Kbd.Abbr keyValue="command" />
                                         <Kbd.Content>E</Kbd.Content>
                                     </Kbd>
                                 </Dropdown.Item>
+                                <Dropdown.Item id="Toast" textValue="toast" onAction={() => toast("Debug Toast", {
+                                    actionProps: {
+                                        children: "Dismiss",
+                                        onPress: () => toast.clear(),
+                                        variant: "tertiary",
+                                    },
+                                    indicator: <img src="/images/assets/bell.fill@4x.png" alt="Bell" width={15} height={15}/>,
+                                    description: "I'm only meant to be used for testing purposes",
+                                    variant: "default",
+                                })}>
+                                    <div>
+                                        <img src="/images/assets/inset.filled.topright.rectangle@4x.png" style={{width: "16px", filter: "invert(1)"}} alt="Show onboarding"/>
+                                    </div>
+                                    <div>
+                                        <Label>Toast</Label>
+                                    </div>
+                                </Dropdown.Item>
 
                             </Dropdown.Section>
                             <Separator />
                             <Dropdown.Section>
+                                <Header>Account</Header>
                                 <Dropdown.Item id="sign-out" textValue="Sign Out" variant="danger" onAction={() =>  signOutAlertState.open()}>
                                     <div>
                                         <img src="/images/assets/door.left.hand.open@4x.png" style={{width: "14px"}} alt="Exit"/>
@@ -142,10 +180,10 @@ export function IndexHeader() {
                     </Dropdown.Popover>
                 </Dropdown>
 
-                <AlertDialog isOpen={signOutAlertState.isOpen} >
+                <AlertDialog isOpen={signOutAlertState.isOpen}>
                     <AlertDialog.Backdrop variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                         <AlertDialog.Container>
-                            <AlertDialog.Dialog className="sm:max-w-100 rounded-4xl">
+                            <AlertDialog.Dialog>
                                 <AlertDialog.Header>
                                     <img className="w-8" src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Warn"/>
                                     <AlertDialog.Heading>Sign out?</AlertDialog.Heading>
@@ -179,8 +217,8 @@ export function IndexHeader() {
 
             </section>}
 
+            <JobPostingModal overlayState={jobPostingFormOverlayState} />
             <Toast.Provider placement="top end"/>
-
         </header>
     )
 }

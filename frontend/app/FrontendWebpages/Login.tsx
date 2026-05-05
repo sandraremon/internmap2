@@ -59,18 +59,18 @@ export default function Login() {
                 {errorMessage && (
                     <>
                         <br/>
-                        <Alert className="dark rounded-4xl" style={{background: "var(--secondary-background-color)"}} status="danger">
-                            <Alert.Indicator className="pr-0">
-                                <img src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Logo" style={{width: "20px", height: "20px"}}/>
+                        <Alert className="dark rounded-4xl" style={{background: "var(--container-secondary)"}} status="danger">
+                            <Alert.Indicator>
+                                <img src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Logo" style={{width: "20px", height: "20px", aspectRatio: "1/1"}}/>
                             </Alert.Indicator>
                             <Alert.Content>
                                 <Alert.Title>
-    <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
-        Your Email &/or Password may be incorrect
-    </span>
+                                    <p className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+                                        {errorMessage}
+                                    </p>
                                 </Alert.Title>
                             </Alert.Content>
-                            <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
+                            <CloseButton style={{background: "var(--component-tertiary)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
                         </Alert>
                         <br/>
                     </>

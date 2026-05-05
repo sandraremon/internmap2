@@ -23,7 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-    protected $primaryKey='id';
+    protected $primaryKey = 'id';
     protected $table = 'users';
 
     public $incrementing = true;
@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $keyType = 'int';
     public $timestamps = false;
 
-    protected $fillable = ['f_name','l_name', 'email', 'password','role'];
+    protected $fillable = ['f_name','l_name', 'email', 'password', 'role'];
 
     protected $casts = [
         'role' => UserRole::class,
