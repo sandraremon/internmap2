@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CvController;
 use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\RoadmapController;
 use App\Http\Controllers\UserController;
@@ -59,6 +60,7 @@ Route::middleware('auth:sanctum')->post('/application/new/{jobposting}', [Applic
 Route::middleware('auth:sanctum')->get('api/myJobPostings', [JobPostingController::class, 'myJobPostings']);
 Route::get('/api/job/{id}/applicants', [ApplicationController::class, 'getJobApplicants']);
 Route::patch('/api/application/{id}/status', [ApplicationController::class, 'updateApplicationStatus']);
+Route::middleware('auth:sanctum')->patch('/api/profile/update', [ProfileController::class, 'updateProfile']);
 // Add this to handle the form submission
 //Route::post('/JobPostingForm', [JobPostingController::class, 'store'])->name('job.store');
 //Route::get('/',          [RoadmapController::class, 'index']);

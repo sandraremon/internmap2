@@ -43,7 +43,56 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
     const [selectedRoadmapKeys, setSelectedRoadmapKeys] = useState<"all" | Set<Key>>(new Set());
     const [showAdminError, setShowAdminError] = useState(false);
     const [selectedRoadmapId, setSelectedRoadmapId] = useState<number | null>(null);
+    //edit part by shimaa
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [editForm, setEditForm] = useState({
+        f_name: String(userDetails.f_name ?? ""),
+        l_name: String(userDetails.l_name ?? ""),
+        email: String(userDetails.email ?? ""),
+        student_major: String(userDetails.student?.student_major ?? ""),
+        graduating_year: String(userDetails.student?.graduating_year ?? ""),
+        uni_name: String(userDetails.student?.uni_name ?? ""),
+        faculty: String(userDetails.student?.faculty ?? ""),
+        title: String(userDetails.recruiter?.title ?? ""),
+    });
+    const [editLoading, setEditLoading] = useState(false);
 
+    async function saveProfile() {
+        setEditLoading(true);
+
+        const payload: Record<string, string> = {
+            f_name: editForm.f_name,
+            l_name: editForm.l_name,
+            email: editForm.email,
+        };
+
+        if (userDetails.role === "STUDENT") {
+            payload.student_major = editForm.student_major;
+            payload.graduating_year = editForm.graduating_year;
+            payload.uni_name = editForm.uni_name;
+            payload.faculty = editForm.faculty;
+        }
+
+        if (userDetails.role === "RECRUITER") {
+            payload.title = editForm.title;
+        }
+
+        const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        const json = await response.json();
+        console.log(json);
+        setEditLoading(false);
+        setIsEditOpen(false);
+        window.location.reload();
+    }
+//-----
     const sortedUsers = useMemo(() => {
         return [...users].sort((a, b) => {
             const col = sortDescriptor.column as keyof User;
@@ -130,6 +179,14 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                             <p className="auto-capitalise text-3xl font-bold">{userDetails.f_name + " " + userDetails.l_name}</p>
                             <p>{userDetails.email}</p>
                         </section>
+                        <Button
+                            style={{ width: "32px", height: "32px", background: "var(--secondary-background-color)" }}
+                            className="dark"
+                            isIconOnly
+                            onClick={() => setIsEditOpen(true)}
+                        >
+                            <img src="/images/assets/pencil@4x.png" style={{ width: "16px", filter: "invert(0.3)" }} alt="pencil"/>
+                        </Button>
                         <div className="flex items-center gap-4 flex-row">
                             <Chip style={{gap: "4px"}} size="lg">
                                 <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px", filter: "invert(0.8)"}}/>
@@ -628,6 +685,108 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
 
                 <br/><br/>
             </div>
+
+            {/*-------------profile edit-----------------*/}
+            <AlertDialog isOpen={isEditOpen} onOpenChange={setIsEditOpen}>
+                <AlertDialog.Backdrop variant="blur" isDismissable={true}>
+                    <AlertDialog.Container>
+                        <AlertDialog.Dialog className="sm:max-w-100 rounded-4xl">
+                            <AlertDialog.CloseTrigger onClick={() => setIsEditOpen(false)}/>
+                            <AlertDialog.Header>
+                                <AlertDialog.Heading>Edit Profile</AlertDialog.Heading>
+                            </AlertDialog.Header>
+                            <AlertDialog.Body>
+                                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+
+                                    <div style={{ display: "flex", gap: "12px" }}>
+                                        <div style={{ flex: 1 }}>
+                                            <label className="label-small">First Name</label>
+                                            <input
+                                                className="input"
+                                                value={editForm.f_name}
+                                                onChange={e => setEditForm(p => ({ ...p, f_name: e.target.value }))}
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <label className="label-small">Last Name</label>
+                                            <input
+                                                className="input"
+                                                value={editForm.l_name}
+                                                onChange={e => setEditForm(p => ({ ...p, l_name: e.target.value }))}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="label-small">Email</label>
+                                        <input
+                                            className="input"
+                                            value={editForm.email}
+                                            onChange={e => setEditForm(p => ({ ...p, email: e.target.value }))}
+                                        />
+                                    </div>
+
+                                    {userDetails.role === "STUDENT" && (
+                                        <>
+                                            <div>
+                                                <label className="label-small">Major</label>
+                                                <input
+                                                    className="input"
+                                                    value={editForm.student_major}
+                                                    onChange={e => setEditForm(p => ({ ...p, student_major: e.target.value }))}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="label-small">Faculty</label>
+                                                <input
+                                                    className="input"
+                                                    value={editForm.faculty}
+                                                    onChange={e => setEditForm(p => ({ ...p, faculty: e.target.value }))}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="label-small">University</label>
+                                                <input
+                                                    className="input"
+                                                    value={editForm.uni_name}
+                                                    onChange={e => setEditForm(p => ({ ...p, uni_name: e.target.value }))}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="label-small">Graduating Year</label>
+                                                <input
+                                                    className="input"
+                                                    value={editForm.graduating_year}
+                                                    onChange={e => setEditForm(p => ({ ...p, graduating_year: e.target.value }))}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {userDetails.role === "RECRUITER" && (
+                                        <div>
+                                            <label className="label-small">Title</label>
+                                            <input
+                                                className="input"
+                                                value={editForm.title}
+                                                onChange={e => setEditForm(p => ({ ...p, title: e.target.value }))}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </AlertDialog.Body>
+                            <AlertDialog.Footer>
+                                <Button slot="close" variant="tertiary" onClick={() => setIsEditOpen(false)}>
+                                    Cancel
+                                </Button>
+                                <Button onClick={saveProfile} isDisabled={editLoading}>
+                                    {editLoading ? "Saving..." : "Save"}
+                                </Button>
+                            </AlertDialog.Footer>
+                        </AlertDialog.Dialog>
+                    </AlertDialog.Container>
+                </AlertDialog.Backdrop>
+            </AlertDialog>
 
             <CVForm overlayState={CVFormOverlayState}/>
             <RoadMapEdit overlayState={roadmapFormOverlayState} roadmapId={selectedRoadmapId} />
