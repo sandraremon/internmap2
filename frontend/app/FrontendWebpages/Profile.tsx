@@ -63,6 +63,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
         if (userDetails.role === "RECRUITER") {
             payload.title = editForm.title;
         }
+        console.log(userDetails.recruiter);
 
         const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
             method: "PATCH",
@@ -131,16 +132,19 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                             <p>{userDetails.email}</p>
                         </section>
                         <div className="flex items-center gap-4 flex-row">
-                            <Chip size="lg" >
-                                <img src="/images/assets/calendar@4x.png" alt="calendar"
-                                     style={{width: "17px"}}/>
-                                <Chip.Label>{userDetails.created_at.toString().substring(0, 4)}</Chip.Label>
+                            <Chip style={{gap: "4px"}} size="lg">
+                                <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px", filter: "invert(0.8)"}}/>
+                                <Chip.Label>{userDetails.created_at?.toString().substring(0, 4) ?? "N/A"}</Chip.Label>
                             </Chip>
-                            <Chip size="lg">
-                                <img className="icon" src="/images/assets/person.fill@4x.png" alt="person"
-                                     style={{width: "15px", filter: "invert(1)"}}/>
-                                <Chip.Label>{userDetails.role.charAt(0) + userDetails.role.toLowerCase().substring(1, userDetails.role.length)}</Chip.Label>
+                            <Chip style={{gap: "4px"}} size="lg">
+                                <img src="/images/assets/person.fill@4x.png" alt="person" style={{width: "15px", filter: "invert(0.8)"}}/>
+                                <Chip.Label>
+                                    {userDetails?.role
+                                        ? userDetails.role.charAt(0).toUpperCase() + userDetails.role.slice(1).toLowerCase()
+                                        : "N/A"}
+                                </Chip.Label>
                             </Chip>
+
                             {userDetails.role == "RECRUITER" && (
                                 <Chip size="lg">
                                     <img src="/images/assets/suitcase.fill@4x.png" alt="suitcase"
@@ -266,22 +270,44 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                         <h4 className="container-label">Works At</h4>
 
                         <div className="container-padded">
-                            {userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (
+                            {/*{userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (*/}
+                            {userDetails.recruiter?.company?.length > 0 ? (
                                 <Table variant="secondary">
                                     <Table.ResizableContainer>
                                         <Table.Content aria-label="Team members" className="min-w-[600px]">
                                             <Table.Header>
+                                                <Table.Column isRowHeader>Logo<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column isRowHeader>Name<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Industry<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Page<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Address<Table.ColumnResizer/></Table.Column>
                                             </Table.Header>
                                             <Table.Body>
-                                                {userDetails.recruiter.companies.map((company: Company, index: number) => (
+                                                {userDetails.recruiter.company.map((company: Company, index: number) => (
                                                     <Table.Row key={index}>
+                                                        <Table.Cell>
+                                                            {company.logo ? (
+                                                                <img
+                                                                    src={`http://127.0.0.1:8000/storage/${company.logo}`}
+                                                                    alt={company.name}
+                                                                    style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                                                                />
+                                                            ) : (
+                                                                <span className="text-gray-400">No logo</span>
+                                                            )}
+                                                        </Table.Cell>
                                                         <Table.Cell>{company.name}</Table.Cell>
                                                         <Table.Cell>{company.industry}</Table.Cell>
-                                                        <Table.Cell>{company.websiteurl.toString()}</Table.Cell>
+                                                        <Table.Cell>
+                                                            <a
+                                                                href={company.websiteurl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-blue-500 hover:underline"
+                                                            >
+                                                                {company.websiteurl}
+                                                            </a>
+                                                        </Table.Cell>
                                                         <Table.Cell>{company.location_ofhq}</Table.Cell>
                                                     </Table.Row>
                                                 ))}
