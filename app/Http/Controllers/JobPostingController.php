@@ -17,6 +17,14 @@ class JobPostingController extends Controller
 //        return response()->json(JobPostingModal::all());
         return response()->json(JobPosting::with(['recruiter.user', 'company'])->get());
     }
+    public function myJobPostings(Request $request) {
+        $user = $request->user();
+        $jobPostings = JobPosting::with(['recruiter.user', 'company'])
+            ->where('recruiter_id', $user->recruiter->id)
+            ->get();
+
+        return response()->json($jobPostings);
+    }
 
     public function create()
     {

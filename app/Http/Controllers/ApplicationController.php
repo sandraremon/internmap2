@@ -124,4 +124,30 @@ class ApplicationController extends Controller
     {
         //
     }
+    public function getJobApplicants(string $jobId)
+    {
+        $applications = Application::with(['student.user', 'student.cv'])
+            ->where('job_id', $jobId)
+            ->get();
+
+        return response()->json($applications);
+    }
+
+    public function updateApplicationStatus(Request $request, string $id)
+    {
+        $request->validate([
+            'status' => 'required|in:accepted,rejected',
+        ]);
+
+        $application = Application::find($id);
+
+        if (!$application) {
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+
+        $application->status = $request->status;
+        $application->save();
+
+        return response()->json($application);
+    }
 }

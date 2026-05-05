@@ -25,19 +25,9 @@ class Application extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable= ['email', 'f_name', 'l_name', 'phone_number', 'job_id', 'student_id','application_date'];
+    protected $fillable= ['email', 'f_name', 'l_name', 'phone_number', 'job_id', 'student_id','application_date','status'];
 
-//    public function Student(): BelongsTo
-//    {
-//        //the link between them is here by belongsTo
-//        return $this->belongsTo(Student::class, 'id', 'id');
-//        // , 'id','id'
-//    }
-//
-//    public function jobPosting(): BelongsTo
-//    {
-//        return $this->belongsTo(JobPostingModal::class, 'id', 'id');
-//    }
+
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class, 'student_id', 'id');
@@ -45,7 +35,6 @@ class Application extends Model
 
     public function jobPosting(): BelongsTo
     {
-//        'job_id', 'id'
         return $this->belongsTo(JobPosting::class,'job_id');
     }
 }
