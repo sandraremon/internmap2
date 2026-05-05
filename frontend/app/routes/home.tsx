@@ -11,8 +11,8 @@ export function meta({}: Route.MetaArgs) {
 
 export async function clientLoader() {
     const [roadmapsRes, jobPostingsRes] = await Promise.all([
-        fetch("http://localhost:8000/api/roadmap"),
-        fetch("http://localhost:8000/api/jobposting"),
+        fetch("http://127.0.0.1:8000/api/roadmap"),
+        fetch("http://127.0.0.1:8000/api/jobposting"),
     ]);
 
     const roadmaps = await roadmapsRes.json();

@@ -3,7 +3,6 @@ class JobPosting {
     id: bigint;
     job_description: String;
     job_name: String;
-    // jobName: String;
 
 
     company: Company;

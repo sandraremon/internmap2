@@ -12,7 +12,11 @@ export default [
     route("/logout","routes/logout.tsx"),
     route("/roadmaps/:id", "routes/roadMapView.tsx"),
     route("/application/:id", "routes/applicationForm.tsx"),
-    route("/profile", "routes/profile.tsx")
+    route("/profile", "routes/profile.tsx"),
+    route("/myJobPostings", "routes/myJobPostings.tsx"),
+    route("/job/:id/applicants", "routes/jobApplicants.tsx"),
+
+
     // route("/apply/:id", "routes/apply.tsx"),  // ADD THIS
 
     // route("/", "routes/home.tsx"),

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User\Recruiter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,17 +28,48 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function updateProfile(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        \Log::info('Request data:', $request->all());
+        \Log::info('Recruiter relation:', ['recruiter' => $user->recruiter]);
+
+        $validated = $request->validate([
+            'f_name' => 'sometimes|string',
+            'l_name' => 'sometimes|string',
+            'email' => 'sometimes|email',
+            'student_major' => 'sometimes|string',
+            'graduating_year' => 'sometimes|string',
+            'uni_name' => 'sometimes|string',
+            'faculty' => 'sometimes|string',
+            'title' => 'sometimes|string',
+        ]);
+
+        $user->f_name = $validated['f_name'] ?? $user->f_name;
+        $user->l_name = $validated['l_name'] ?? $user->l_name;
+        $user->email = $validated['email'] ?? $user->email;
+        $user->save();
+
+        \Log::info('User after save:', $user->fresh()->toArray());
+
+        if ( $user->student) {
+            $student = $user->student;
+            $student->student_major = $validated['student_major'] ?? $student->student_major;
+            $student->graduating_year = $validated['graduating_year'] ?? $student->graduating_year;
+            $student->uni_name = $validated['uni_name'] ?? $student->uni_name;
+            $student->faculty = $validated['faculty'] ?? $student->faculty;
+            $student->save();
         }
 
-        $request->user()->save();
+        if ($user->recruiter) {
+            $recruiter = $user->recruiter;
+            $recruiter->title = $validated['title'] ?? $recruiter->title;
+            $recruiter->save();
 
-        return Redirect::route('profile.edit');
+        }
+
+        return response()->json($user->fresh(['student', 'recruiter']));
     }
 
     /**

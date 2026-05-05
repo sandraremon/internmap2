@@ -12,6 +12,7 @@
     "dependencies": {
         "@heroui/react": "^3.0.3",
         "@heroui/styles": "^3.0.3",
+        "@iconify/react": "^6.0.2",
         "@react-aria/interactions": "^3.28.0",
         "@react-aria/ssr": "^3.10.0",
         "@react-aria/utils": "^3.34.0",
