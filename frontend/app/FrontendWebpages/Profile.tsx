@@ -1,4 +1,4 @@
-import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
+import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, Chip, Table, useOverlayState, cn, Modal} from "@heroui/react";
 import {useNavigate} from 'react-router-dom';
 import CVForm from "./CV";
@@ -430,6 +430,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                     </Modal.Container>
                 </Modal.Backdrop>
             </Modal>
+
 
             <CVForm overlayState={CVFormOverlayState}/>
             <RoadMapEdit overlayState={roadmapFormOverlayState} roadmapId={selectedRoadmapId} />

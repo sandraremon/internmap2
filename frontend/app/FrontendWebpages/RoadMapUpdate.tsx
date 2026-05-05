@@ -368,8 +368,6 @@ export default function RoadMapEdit({overlayState,roadmapId}:{overlayState:UseOv
 
     return (
         <>
-            <IndexHeader />
-
             <Modal isOpen={onRoadmapState.isOpen}>
                 <Modal.Backdrop className="dark" variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                     <Modal.Container>
@@ -535,9 +533,6 @@ export default function RoadMapEdit({overlayState,roadmapId}:{overlayState:UseOv
                     </Modal.Container>
                 </Modal.Backdrop>
             </Modal>
-
-
-            <IndexFooter />
         </>
     );
 }

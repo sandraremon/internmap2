@@ -1,5 +1,5 @@
 import { IndexHeader } from "./fragments/IndexHeaderAndFooter";
-import { Chip } from "@heroui/react";
+import {Button, Chip} from "@heroui/react";
 import "../app.css";
 import "../CSS/Universal.css";
 import { useNavigate } from 'react-router-dom';
@@ -29,8 +29,8 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
     return (
         <>
             <IndexHeader />
-            <div style={{padding: "35px", maxWidth: "720px" }}>
-                <h1 style={{ fontSize: "30px", fontWeight: 600, marginBottom: "4px" }}>
+            <div style={{padding: "35px"}}>
+                <h1 style={{fontSize: "30px", fontWeight: "bold", marginBottom: "4px" }}>
                     My Job Postings
                 </h1>
                 <p className="label-small" style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
@@ -46,20 +46,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                 ) : (
                     <div style={{padding: "0 35px"}}>
                         {jobPostings.map((job, idx) => (
-                        <div
-                            key={idx}
-                            style={{
-                                borderRadius: "30px",
-                                background: "rgba(44, 44, 44, 0.85)",
-                                boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)",
-                                backdropFilter: "blur(30px)",
-                                padding: "20px 24px",
-                                marginBottom: "12px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                gap: "16px",
-                            }}>
+                        <div key={idx} style={{borderRadius: "30px", background: "var(--form-container)", boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)", backdropFilter: "blur(30px)", padding: "20px 24px", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px"}}>
                             <div>
                                 <p style={{ fontWeight: 600, fontSize: "16px", margin: "0 0 6px" }}>
                                     {job.job_name}
@@ -71,21 +58,9 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
 
                                 </div>
                             </div>
-                            <button
-                                onClick={() => navigate(`/job/${job.id}/applicants`)}
-                                style={{
-                                    background: "rgba(44, 44, 44, 0.85)",
-                                    boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)",
-                                    borderRadius: "19px",
-                                    padding: "9px 16px",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    color: "var(--color-text-primary)",
-                                    backdropFilter: "blur(30px)",
-                                }}
-                            >
+                            <Button variant="secondary" onClick={() => navigate(`/job/${job.id}/applicants`)} style={{borderRadius: "20px", padding: "9px 16px", fontSize: "13px", fontWeight: 500, color: "var(--color-text-primary)", backdropFilter: "blur(30px)",}}>
                                 View Applicants
-                            </button>
+                            </Button>
                         </div>
                     ))}
                     </div>

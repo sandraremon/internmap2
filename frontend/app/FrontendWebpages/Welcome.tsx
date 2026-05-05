@@ -1,6 +1,6 @@
 import "../CSS/jobPosting.css"
 import "../CSS/Roadmap.css";
-import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
+import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, ComboBox, Disclosure, Input, ListBox, SearchField, useOverlayState} from "@heroui/react";
 import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
@@ -243,6 +243,8 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                     ))}
                 </div>
             )}
+
+            <IndexFooter/>
 
             <ApplicationForm overlayState={ApplicationFormOverlayState} jobId={activePostingId} />
 
