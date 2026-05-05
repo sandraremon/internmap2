@@ -252,12 +252,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                                                     <Table.Cell className="min-w-52">{user.role}</Table.Cell>
                                                                     <Table.Cell>
                                                                         <div className="flex items-center justify-end gap-1">
-                                                                            <Button isIconOnly size="sm" variant="tertiary">
-                                                                                <Icon className="size-4" icon="gravity-ui:eye"/>
-                                                                            </Button>
-                                                                            <Button isIconOnly size="sm" variant="tertiary">
-                                                                                <Icon className="size-4" icon="gravity-ui:pencil"/>
-                                                                            </Button>
+
                                                                             <Button isIconOnly size="sm" variant="danger-soft"
                                                                                     onPress={() => {
                                                                                         setUserToSmite(user);
@@ -398,9 +393,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                                                     <Table.Cell>{roadmap.id}</Table.Cell>
                                                                     <Table.Cell>
                                                                         <div className="flex items-center justify-end gap-1">
-                                                                            <Button isIconOnly size="sm" variant="tertiary">
-                                                                                <Icon className="size-4" icon="gravity-ui:eye"/>
-                                                                            </Button>
+
                                                                             <Button isIconOnly size="sm" variant="tertiary"
                                                                                     onPress={() => {
                                                                                         setSelectedRoadmapId(roadmap.id);
