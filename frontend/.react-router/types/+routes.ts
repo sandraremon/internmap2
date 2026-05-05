@@ -48,20 +48,12 @@ type Pages = {
   "/profile": {
     params: {};
   };
-  "/myJobPostings": {
-    params: {};
-  };
-  "/job/:id/applicants": {
-    params: {
-      "id": string;
-    };
-  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/signup" | "/recruiter/register" | "/roadmap/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile" | "/myJobPostings" | "/job/:id/applicants";
+    page: "/" | "/login" | "/company/register" | "/signup" | "/recruiter/register" | "/roadmap/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -107,14 +99,6 @@ type RouteFiles = {
     id: "routes/profile";
     page: "/profile";
   };
-  "routes/myJobPostings.tsx": {
-    id: "routes/myJobPostings";
-    page: "/myJobPostings";
-  };
-  "routes/jobApplicants.tsx": {
-    id: "routes/jobApplicants";
-    page: "/job/:id/applicants";
-  };
 };
 
 type RouteModules = {
@@ -130,6 +114,4 @@ type RouteModules = {
   "routes/roadMapView": typeof import("./app/routes/roadMapView.tsx");
   "routes/applicationForm": typeof import("./app/routes/applicationForm.tsx");
   "routes/profile": typeof import("./app/routes/profile.tsx");
-  "routes/myJobPostings": typeof import("./app/routes/myJobPostings.tsx");
-  "routes/jobApplicants": typeof import("./app/routes/jobApplicants.tsx");
 };
