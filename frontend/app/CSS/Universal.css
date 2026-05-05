@@ -97,12 +97,10 @@ img.icon {
     }
 
     width: 28px;
-    height: 28px;
 }
 
 img.logo {
     height: 70px;
-    width: 70px;
 }
 
 img.logo-mono {
@@ -361,11 +359,14 @@ input[type=submit] {
 .label-large {
     font-size: 20px;
     font-weight: 600;
+    color: var(--text-primary);
 }
 
 .label-small {
     font-size: 16px;
     font-weight: 600;
+
+    color: var(--text-primary);
 }
 
 .auto-capitalise {

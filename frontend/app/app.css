@@ -147,8 +147,14 @@ body {
     .combo-box {
         @apply rounded-4xl w-full max-w-46;
 
-        background-color: var(--component-secondary);
+        background: var(--component-secondary);
 
+        backdrop-filter: blur(38px);
+    }
+
+    .dropdown__trigger {
+        @apply rounded-4xl;
+        background-color: var(--component-secondary);
         backdrop-filter: blur(38px);
     }
 
@@ -250,6 +256,12 @@ body {
     .tabs__indicator {
         box-shadow: none;
         background-color: rgba(220, 220, 220, 0.2);
+    }
+
+    .modal__close-trigger {
+        height: 30px;
+        width: 30px;
+        border-radius: 80px;
     }
 }
 

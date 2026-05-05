@@ -1,7 +1,6 @@
-import "../CSS/jobPosting.css"
-import "../CSS/InternMapHomepage.css";
-import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, Label, Modal, TextField } from "@heroui/react";
-import { Dropdown, Header } from "@heroui/react";
+import "../CSS/Universal.css"
+import { Button, FieldError, FieldGroup, Fieldset, Form, Input, Label, Modal, TextField } from "@heroui/react";
+import { Dropdown } from "@heroui/react";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 
@@ -72,45 +71,41 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
             <Modal isOpen={onJobPostingState.isOpen}>
                 <Modal.Backdrop className="dark" variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                     <Modal.Container>
-                        <Modal.Dialog className="sm:max-w-90 rounded-4xl">
-                            <Modal.CloseTrigger onClick={() => onJobPostingState.close()} />
+                        <Modal.Dialog className="max-w-xl" style={{borderRadius: "40px"}}>
+                            <Modal.CloseTrigger style={{height: "35px", width: "35px", borderRadius: "80px"}} onClick={() => onJobPostingState.close()} />
                             <Modal.Header>
-                                <img src="/images/navi/Navi%20Beta.png" alt="Logo" style={{height: "60px", width: "60px"}}/>
-                                <Modal.Heading>Welcome to Internmap!</Modal.Heading>
+                                <Modal.Heading className="text-2xl font-bold">Compose a Job</Modal.Heading>
                             </Modal.Header>
-                            <Modal.Body>
-                                <Form method="post" className="w-full max-w-96" onSubmit={handleSubmit}>
+                            <Modal.Body className="space-y-4" style={{paddingTop: "20px"}}>
+                                <Form method="post" className="w-full" onSubmit={handleSubmit}>
                                     <Fieldset>
-                                        <Description>Apply to Application!</Description>
                                         <FieldGroup>
                                             <Dropdown>
-                                                <Button aria-label="Menu" variant="secondary">
-                                                    {labels[selectedValue as string] ?? "Select job type"}
+                                                <Button className="full-width p-4" style={{background: "var(--component-secondary)", marginBottom: "25px", color: "var(--text-primary)"}} variant="ghost">
+                                                    <div className="flex items-center justify-around gap-2.5">
+                                                        {labels[selectedValue as string] ?? "Job Type"}
+                                                        <img className="icon" src="/images/assets/chevron@4x.png" alt="chevron" style={{width: "10px", marginRight: "10px"}}/>
+                                                    </div>
                                                 </Button>
                                                 <Dropdown.Popover className="min-w-[256px]">
-
                                                     <Dropdown.Menu
                                                         aria-label="Job type"
                                                         selectedKeys={selected}
+                                                        defaultSelectedKeys={selected}
                                                         selectionMode="single"
                                                         onSelectionChange={(keys) => {
                                                             if (keys === "all") return;
                                                             setSelected(new Set(Array.from(keys).map(String)));
-                                                        }}
-                                                    >
+                                                        }}>
                                                         <Dropdown.Section>
-                                                            <Header>Select a fruit</Header>
                                                             <Dropdown.Item id="intern" textValue="Internship">
-                                                                <Dropdown.ItemIndicator />
-                                                                <Label>Internship</Label>
+                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="label-small font-semibold">Internship</h1>
                                                             </Dropdown.Item>
                                                             <Dropdown.Item id="fulltime" textValue="fulltime">
-                                                                <Dropdown.ItemIndicator />
-                                                                <Label>fullTime</Label>
+                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="font-semibold label-small">Full time</h1>
                                                             </Dropdown.Item>
                                                             <Dropdown.Item id="freelance" textValue="freelance">
-                                                                <Dropdown.ItemIndicator />
-                                                                <Label>Freelance</Label>
+                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="font-semibold label-small">Freelance</h1>
                                                             </Dropdown.Item>
                                                         </Dropdown.Section>
                                                     </Dropdown.Menu>
@@ -128,7 +123,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
 
 
                                                 <Label>Job Title</Label>
-                                                <Input placeholder="Professional pro player" />
+                                                <Input placeholder="ex. Software Engineer" />
                                                 <FieldError />
                                             </TextField>
 
@@ -144,7 +139,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
 
 
                                                 <Label>Job Description</Label>
-                                                <Input placeholder="Have no life" />
+                                                <Input placeholder="Create wonderful things" />
                                                 <FieldError />
                                             </TextField>
                                             <TextField
@@ -158,13 +153,13 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                                 }}>
 
 
-                                                <Label>Job Requirement</Label>
-                                                <Input placeholder="idk nothing" />
+                                                <Label>Job Requirements</Label>
+                                                <Input placeholder="2 Years experience with Laravel" />
                                                 <FieldError />
                                             </TextField>
                                             <TextField  name="company" type="text">
                                                 <Label>Company Name</Label>
-                                                <Input placeholder="RIOOOOOOOOOOOT" />
+                                                <Input placeholder="InternMap" />
                                                 <FieldError />
                                             </TextField>
                                             {/* Internship fields */}
@@ -176,7 +171,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                                     </TextField>
                                                     <TextField name="job_location" type="text">
                                                         <Label>Location:</Label>
-                                                        <Input placeholder="Cairo" />
+                                                        <Input placeholder="Remote, 123 street, etc." />
                                                     </TextField>
                                                 </>
                                             )}
@@ -189,10 +184,10 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                                     </TextField>
                                                     <TextField name="job_location" type="text">
                                                         <Label>Location:</Label>
-                                                        <Input placeholder="Cairo " />
+                                                        <Input placeholder="Cairo" />
                                                     </TextField>
                                                     <TextField name="payout" type="text">
-                                                        <Label>Pay out:</Label>
+                                                        <Label>Payout:</Label>
                                                         <Input placeholder="3000" />
                                                     </TextField>
                                                 </>
@@ -209,23 +204,12 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                             )}
 
                                         </FieldGroup>
-                                        <Fieldset.Actions>
-                                            <Button type="submit">
-                                                add
-
-                                            </Button>
-                                            <Button type="reset" variant="secondary">
-                                                Reset
-                                            </Button>
+                                        <Fieldset.Actions style={{marginTop: "20px"}}>
+                                            <Button className="full-width p-3 font-semibold" type="submit">Compose</Button>
                                         </Fieldset.Actions>
                                     </Fieldset>
                                 </Form>
                             </Modal.Body>
-                            <Modal.Footer>
-                                {/*<Button className="w-full" onClick={() => closeOnboarding() } slot="close">*/}
-                                {/*    Continue*/}
-                                {/*</Button>*/}
-                            </Modal.Footer>
                         </Modal.Dialog>
                     </Modal.Container>
                 </Modal.Backdrop>

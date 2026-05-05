@@ -167,11 +167,6 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                 ) : (
                 <div
                     style={{display: "grid", justifyContent: "start", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",}}>
-                    <button
-                        onClick={() => jobPostingFormOverlayState.toggle()}
-                        style={{width: 93, height: 40, borderRadius: 75, background: "#0E81EC", color: "white", fontSize: 18, border: "none", cursor: "pointer",}}>
-                        create Job Posting
-                    </button>
 
                     {jobPostings.map((posting: job) => (
                         <div key={posting.id} style={{width: "100%", background: "var(--Container-Secondary, rgba(255,255,255,0.85))", boxShadow: "0px 0px 40px rgba(0,0,0,0.17)", borderRadius: 45, backdropFilter: "blur(20px)", padding: "24px 32px", display: "flex", flexDirection: "column", gap: "16px",}}>

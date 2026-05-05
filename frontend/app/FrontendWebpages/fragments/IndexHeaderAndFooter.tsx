@@ -101,9 +101,10 @@ export function IndexHeader() {
                         <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => jobPostingFormOverlayState.open()}>
                             <img src="/images/assets/plus-black@4x.png" className="theme-adaptive-icon" style={{width: "20px"}} alt="add a job posting"/>
                         </Button>
+                        {!useLocation().pathname.includes("/myJobpostings") && (
                         <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => location.href = '/myJobpostings'}>
                             <img src="/images/assets/list.bullet.clipboard.fill@4x.png" className="theme-adaptive-icon" style={{width: "20px"}} alt="all job postings"/>
-                        </Button>
+                        </Button>)}
                     </>
                 )}
 
