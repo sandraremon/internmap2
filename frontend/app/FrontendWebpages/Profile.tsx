@@ -132,16 +132,19 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                             <p>{userDetails.email}</p>
                         </section>
                         <div className="flex items-center gap-4 flex-row">
-                            <Chip size="lg" >
-                                <img src="/images/assets/calendar@4x.png" alt="calendar"
-                                     style={{width: "17px"}}/>
-                                <Chip.Label>{userDetails.created_at.toString().substring(0, 4)}</Chip.Label>
+                            <Chip style={{gap: "4px"}} size="lg">
+                                <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px", filter: "invert(0.8)"}}/>
+                                <Chip.Label>{userDetails.created_at?.toString().substring(0, 4) ?? "N/A"}</Chip.Label>
                             </Chip>
-                            <Chip size="lg">
-                                <img className="icon" src="/images/assets/person.fill@4x.png" alt="person"
-                                     style={{width: "15px", filter: "invert(1)"}}/>
-                                <Chip.Label>{userDetails.role.charAt(0) + userDetails.role.toLowerCase().substring(1, userDetails.role.length)}</Chip.Label>
+                            <Chip style={{gap: "4px"}} size="lg">
+                                <img src="/images/assets/person.fill@4x.png" alt="person" style={{width: "15px", filter: "invert(0.8)"}}/>
+                                <Chip.Label>
+                                    {userDetails?.role
+                                        ? userDetails.role.charAt(0).toUpperCase() + userDetails.role.slice(1).toLowerCase()
+                                        : "N/A"}
+                                </Chip.Label>
                             </Chip>
+
                             {userDetails.role == "RECRUITER" && (
                                 <Chip size="lg">
                                     <img src="/images/assets/suitcase.fill@4x.png" alt="suitcase"
