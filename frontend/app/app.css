@@ -267,6 +267,11 @@ body {
     .modal__dialog {
         border-radius: 40px;
     }
+
+    .button--secondary {
+        background-color: var(--component-secondary);
+        color: var(--text-primary);
+    }
 }
 
 .module {

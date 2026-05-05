@@ -46,7 +46,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                 ) : (
                     <div style={{padding: "0 35px"}}>
                         {jobPostings.map((job, idx) => (
-                        <div key={idx} style={{borderRadius: "30px", background: "var(--form-container)", boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)", backdropFilter: "blur(30px)", padding: "20px 24px", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px"}}>
+                        <div key={idx} style={{borderRadius: "30px", background: "var(--container-secondary)", boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)", backdropFilter: "blur(30px)", padding: "20px 24px", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px"}}>
                             <div>
                                 <p style={{ fontWeight: 600, fontSize: "16px", margin: "0 0 6px" }}>
                                     {job.job_name}
@@ -58,7 +58,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
 
                                 </div>
                             </div>
-                            <Button variant="secondary" onClick={() => navigate(`/job/${job.id}/applicants`)} style={{borderRadius: "20px", padding: "9px 16px", fontSize: "13px", fontWeight: 500, color: "var(--color-text-primary)", backdropFilter: "blur(30px)",}}>
+                            <Button variant="secondary" onClick={() => navigate(`/job/${job.id}/applicants`)} style={{borderRadius: "20px", padding: "9px 16px", fontSize: "13px", fontWeight: 500,}}>
                                 View Applicants
                             </Button>
                         </div>
