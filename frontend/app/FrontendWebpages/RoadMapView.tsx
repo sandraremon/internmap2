@@ -1,5 +1,7 @@
-import "../CSS/jobPosting.css"
+import "../CSS/jobPosting.css";
+import "../CSS/Roadmap.css";
 import "../CSS/InternMapHomepage.css";
+import "../CSS/Universal.css";
 import {Button, Card, CardContent, Tabs} from "@heroui/react";
 import {useState} from "react";
 import { motion } from "framer-motion";
@@ -53,7 +55,7 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
     return (
         <>
         <IndexHeader/>
-        <div className="w-full min-h-screen bg-white flex justify-center py-10">
+        <div >
 
             <div className="container">
                 <br />     <br />      <br />
@@ -69,13 +71,13 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
                     <path
                         d={pathD}
                         fill="none"
-                        stroke="#9CA3AF"
+                        stroke="var(--stroke-color)"   // was #9CA3AF
                         strokeWidth="6"
                         strokeLinecap="round"
                         strokeDasharray="10 12"
                     />
                     {points.map((p, i) => (
-                        <circle key={i} cx={p.x} cy={p.y} r="7" fill="#111827" />
+                        <circle key={i} cx={p.x} cy={p.y} r="7" fill="var(--node-fill)" />  // was #111827
                     ))}
                 </svg>
 
@@ -83,6 +85,7 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
                     const { x, y } = points[i];
 
                     return (
+                        <>
                         <div
                             key={module.id ?? i}
                             className="absolute flex flex-col items-center overflow-visible"
@@ -91,25 +94,30 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
                             <motion.div
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
-                                className="bg-white shadow-xl rounded-2xl px-6 py-4 border"
+                                className="shadow-xl rounded-2xl px-6 py-4"
+                                style={{ backgroundColor: "var(--card-bg)", color: "var(--text-primary)" }}  // was bg-white
                             >
-
-                                <h2 className="font-semibold text-sm text-center">
-                                    {module.name}
-                                </h2>
+                                <div>{module.name}</div>
                             </motion.div>
-
                             <div className="mt-5 flex flex-col items-center gap-2 overflow-visible">
                                 {module.skills?.map((skill, si) => {
                                     let key = `${i}-${si}`;
                                     const isOpen = openSkill === key;
 
                                     return (
-                                        <div key={skill.id ?? key} className="flex flex-col items-center overflow-visible">
+                                        <div key={skill.id ?? key} className="flex flex-col items-center overflow-visible" >
                                             <motion.div
                                                 whileHover={{ scale: 1.05 }}
                                                 onClick={() => setOpenSkill(isOpen ? null : key)}
-                                                className="cursor-pointer bg-gray-100 border px-3 py-1 rounded-full text-xs"
+                                                className="cursor-pointer px-3 py-1 rounded-full text-xs"
+                                                style={{
+                                                    backgroundColor: "var(--card-bg-secondary)",
+                                                    color: "var(--text-primary)",
+                                                    padding: "6px 10px",    // increase as needed
+                                                    fontSize: "14px",       // was text-xs (12px)
+                                                    minWidth: "80px",      // optional: consistent width
+                                                    textAlign: "center",
+                                                }}
                                             >
                                                 {skill.name}
                                             </motion.div>
@@ -120,25 +128,37 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
                                                     animate={{ opacity: 1, y: 0 }}
                                                     className="mt-2 z-50"
                                                 >
-                                                    <div className="w-56 bg-white border rounded-xl p-3 space-y-2 shadow-lg">
+                                                    <div className="w-56 rounded-xl p-3 space-y-2 shadow-lg"
+                                                         style={{
+                                                             backgroundColor: "var(--card-bg)",
+                                                             // border: "1px solid var(--border-color)",
+                                                             color: "var(--text-primary)",
+
+                                                         }}
+                                                    >
 
                                                         {skill.skill_resource_links?.map((linkObj, idx) => (
                                                             <>
-                                                                <p className="text-xs font-medium opacity-70">
+                                                                <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
                                                                     Skill Description:
                                                                 </p>
-                                                                <div className="text-xs border rounded px-2 py-1 block truncate hover:bg-gray-50">
+                                                                <div
+                                                                    className="text-xs rounded px-2 py-1 block truncate"
+                                                                >
                                                                     {skill.description}
                                                                 </div>
-                                                                <p className="text-xs font-medium opacity-70">
+                                                                <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
                                                                     Resources
                                                                 </p>
-                                                            <a
+                                                                <a
                                                                 key={idx}
                                                                 href={linkObj.resource_links}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="text-xs border rounded px-2 py-1 block truncate hover:bg-gray-50"
+                                                                style={{
+                                                                    // border: "1px solid ",
+                                                                    color: "var(--text-color-2)"   // blue link color already in your vars
+                                                                }}
                                                             >
                                                                 {linkObj.resource_links.replace(/^https?:\/\//, "")}
 
@@ -154,6 +174,7 @@ export default function RoadMapView({ roadmap }: { roadmap: Roadmap }) {
                                 })}
                             </div>
                         </div>
+                        </>
                     );
                 })}
             </div>
