@@ -38,30 +38,13 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-////        $user = $request->user();
-//         $user = Auth::user();
+
         $user = $request->user();
         if (!$user) {
             return response()->json(['error' => 'No user found'], 401);
         }
 
         switch ($user->role) {
-//            case UserRole::STUDENT:
-//                if ($user->student) {
-//                    $user->load('student');
-//
-//                    if ($user->student->relationLoaded('applications')) {
-//                        $user->load('student.applications');
-//                    }
-//
-//                    $user->load([
-//                        'student.cv',
-//                        'student.applications.jobPosting.company'
-//                    ]);
-//                }
-//            case UserRole::STUDENT:   // ✅ compare enum to enum
-//                $$user->load(['student.applications.jobPosting.company', 'student.cv']);
-//                break;
             case UserRole::STUDENT:
                 if ($user->student) {
                     $user->load([
