@@ -30,25 +30,19 @@ export default function MyJobApplicants({ applications }: { applications: Applic
     return (
         <>
             <IndexHeader />
-            <main style={{
-                padding: "24px",
-                maxWidth: "700px",
-                margin: "0 auto" }}>
-                <h1 style={{
-                    fontSize: "26px",
-                    fontWeight: 600,
-                    marginBottom: "4px" }}>
+            <main style={{padding: "35px", margin: "0 auto"}}>
+                <h1 style={{fontSize: "32px", fontWeight: 600, marginBottom: "4px" }}>
                     Applicants
                 </h1>
-                <p style={{
-                    fontSize: "13px",
-                    color: "var(--color-text-secondary)",
-                    marginBottom: "24px" }}>
+                <p className="label-small" style={{fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
                     {applications.length} Result{applications.length !== 1 ? "s" : ""}
                 </p>
 
                 {applications.length === 0 ? (
-                    <p style={{ color: "var(--color-text-secondary)" }}>No applicants yet.</p>
+                    <div className="flex full-width " style={{height: "52vh"}}>
+                        <h1 className="label-placeholder">No Applicants Yet.</h1>
+                        <h6 className="label-placeholder" style={{fontSize: "18px", fontWeight: "normal"}}> They will show up soon, Hopefully.</h6>
+                    </div>
                 ) : (
                     applications.map((app) => {
                         const status = statuses[String(app.id)];

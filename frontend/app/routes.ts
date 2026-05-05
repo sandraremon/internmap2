@@ -12,5 +12,6 @@ export default [
     route("/roadmaps/:id", "routes/roadMapView.tsx"),
     route("/application/:id", "routes/applicationForm.tsx"),
     route("/profile", "routes/profile.tsx"),
-    route("/myJobPostings", "routes/myJobPostings.tsx")
+    route("/myJobPostings", "routes/myJobPostings.tsx"),
+    route("/job/:id/applicants", "routes/jobApplicants.tsx")
 ];

@@ -33,7 +33,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                 <h1 style={{ fontSize: "30px", fontWeight: 600, marginBottom: "4px" }}>
                     My Job Postings
                 </h1>
-                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "24px" }}>
+                <p className="label-small" style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
                     {jobPostings.length} Result{jobPostings.length !== 1 ? "s" : ""}
                 </p>
 
@@ -44,7 +44,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                         <h6 className="label-placeholder" style={{fontSize: "18px", fontWeight: "normal"}}> Compose a job to see the applicants here.</h6>
                     </div>
                 ) : (
-                    <div style={{padding: "35px", maxWidth: "720px" }}>
+                    <div style={{padding: "0 35px"}}>
                         {jobPostings.map((job, idx) => (
                         <div
                             key={idx}

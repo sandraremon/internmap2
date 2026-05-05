@@ -193,12 +193,12 @@ export function IndexHeader() {
                                 <AlertDialog.Body>
                                     <p>Are you sure you want to sign out? You will not be able to track your progression across roadmaps or apply to jobs... </p>
                                 </AlertDialog.Body>
-                                <AlertDialog.Footer>
-                                    <Button slot="close" variant="tertiary" onClick={() => signOutAlertState.close()} >
+                                <AlertDialog.Footer className="flex justify-end gap-4 mt-8">
+                                    <Button className="full-width p-3" slot="close" variant="tertiary" onClick={() => signOutAlertState.close()} >
                                         Cancel
                                     </Button>
 
-                                    <Button slot="close" onClick={() => logout()} variant="danger">
+                                    <Button className="full-width p-3" slot="close" onClick={() => logout()} variant="danger">
 
                                         {/*  Works but makes clicking Enter after dismissing the dialog to log you out either way */}
                                         {/*  I could remove the event listener upon dismissing the dialog, but I'm not very sure about the efficiency of doing so  */}
