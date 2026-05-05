@@ -37,10 +37,15 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                     {jobPostings.length} Result{jobPostings.length !== 1 ? "s" : ""}
                 </p>
 
+            </div>
                 {jobPostings.length === 0 ? (
-                    <p style={{ color: "var(--color-text-secondary)" }}>No job postings yet.</p>
+                    <div className="flex full-width " style={{height: "52vh"}}>
+                        <h1 className="label-placeholder">You Haven't Post Anything.</h1>
+                        <h6 className="label-placeholder" style={{fontSize: "18px", fontWeight: "normal"}}> Compose a job to see the applicants here.</h6>
+                    </div>
                 ) : (
-                    jobPostings.map((job, idx) => (
+                    <div style={{padding: "35px", maxWidth: "720px" }}>
+                        {jobPostings.map((job, idx) => (
                         <div
                             key={idx}
                             style={{
@@ -54,8 +59,7 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                                 alignItems: "center",
                                 justifyContent: "space-between",
                                 gap: "16px",
-                            }}
-                        >
+                            }}>
                             <div>
                                 <p style={{ fontWeight: 600, fontSize: "16px", margin: "0 0 6px" }}>
                                     {job.job_name}
@@ -83,9 +87,9 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                                 View Applicants
                             </button>
                         </div>
-                    ))
+                    ))}
+                    </div>
                 )}
-            </div>
         </>
     );
 }

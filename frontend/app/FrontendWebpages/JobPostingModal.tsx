@@ -1,7 +1,19 @@
 import "../CSS/Universal.css"
-import { Button, FieldError, FieldGroup, Fieldset, Form, Input, Label, Modal, TextField } from "@heroui/react";
+import {
+    Alert,
+    Button,
+    CloseButton,
+    FieldError,
+    FieldGroup,
+    Fieldset,
+    Form,
+    Input,
+    Label,
+    Modal,
+    TextField
+} from "@heroui/react";
 import { Dropdown } from "@heroui/react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router";
 
 // @ts-ignore
@@ -14,9 +26,10 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
     const labels: Record<string, string> = {
         intern: "Internship",
         fulltime: "Full Time",
-        freelance: "FreeLanceProject",
+        freelance: "Freelance Project",
     };
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState(null as string | null);
 
     async function handleSubmit(e: any) {
 
@@ -53,7 +66,8 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
 
         console.log("testing");
         if (!res.ok) {
-            const errorBody = await res.json(); // ← ADD THIS
+            const errorBody = await res.json();
+            setErrorMessage(errorBody.error);
             console.error("Submission failed:", res.status, errorBody);
         } else {
             const successBody = await res.json();
@@ -63,7 +77,6 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
     }
 
     console.log("selectedValue:", selectedValue);
-    console.log("token:", localStorage.getItem("token"));
 
     return (
 
@@ -77,41 +90,31 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                 <Modal.Heading className="text-2xl font-bold">Compose a Job</Modal.Heading>
                             </Modal.Header>
                             <Modal.Body className="space-y-4" style={{paddingTop: "20px"}}>
+                                {errorMessage && (
+                                    <>
+                                        <Alert className="dark rounded-4xl" style={{background: "var(--container-secondary)"}} status="danger">
+                                            <Alert.Indicator>
+                                                <img src="/images/assets/exclamationmark.circle.fill@4x.png" alt="Logo" style={{width: "20px", height: "20px", aspectRatio: "1/1"}}/>
+                                            </Alert.Indicator>
+                                            <Alert.Content>
+                                                <Alert.Title>
+                                                    <p className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+                                                        {errorMessage}
+                                                    </p>
+                                                </Alert.Title>
+                                            </Alert.Content>
+                                            <CloseButton style={{background: "var(--component-tertiary)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
+                                        </Alert>
+                                        <br/>
+                                    </>
+                                )}
+
                                 <Form method="post" className="w-full" onSubmit={handleSubmit}>
                                     <Fieldset>
                                         <FieldGroup>
-                                            <Dropdown>
-                                                <Button className="full-width p-4" style={{background: "var(--component-secondary)", marginBottom: "25px", color: "var(--text-primary)"}} variant="ghost">
-                                                    <div className="flex items-center justify-around gap-2.5">
-                                                        {labels[selectedValue as string] ?? "Job Type"}
-                                                        <img className="icon" src="/images/assets/chevron@4x.png" alt="chevron" style={{width: "10px", marginRight: "10px"}}/>
-                                                    </div>
-                                                </Button>
-                                                <Dropdown.Popover className="min-w-[256px]">
-                                                    <Dropdown.Menu
-                                                        aria-label="Job type"
-                                                        selectedKeys={selected}
-                                                        defaultSelectedKeys={selected}
-                                                        selectionMode="single"
-                                                        onSelectionChange={(keys) => {
-                                                            if (keys === "all") return;
-                                                            setSelected(new Set(Array.from(keys).map(String)));
-                                                        }}>
-                                                        <Dropdown.Section>
-                                                            <Dropdown.Item id="intern" textValue="Internship">
-                                                                <h1 style={{color: "var(--text-primary)"}} className="label-small font-semibold">Internship</h1>
-                                                            </Dropdown.Item>
-                                                            <Dropdown.Item id="fulltime" textValue="fulltime">
-                                                                <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Full time</h1>
-                                                            </Dropdown.Item>
-                                                            <Dropdown.Item id="freelance" textValue="freelance">
-                                                                <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Freelance</h1>
-                                                            </Dropdown.Item>
-                                                        </Dropdown.Section>
-                                                    </Dropdown.Menu>
-                                                </Dropdown.Popover>
-                                            </Dropdown>
+                                            <div className="flex flex-row gap-5 items-start">
                                             <TextField
+                                                className="full-width"
                                                 isRequired
                                                 name="job_name"
                                                 validate={(value) => {
@@ -121,11 +124,46 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                                     return null;
                                                 }}>
 
-
                                                 <Label>Job Title</Label>
                                                 <Input placeholder="ex. Software Engineer" />
                                                 <FieldError />
                                             </TextField>
+
+                                                <div className="flex flex-col gap-1 full-width items-center">
+                                                    <label className="label-small" style={{fontSize: "14px", fontWeight: 500}}>Type</label>
+                                                    <Dropdown>
+                                                        <Button className="flex full-width items-start p-3.5" style={{background: "var(--component-secondary)", marginBottom: "25px", color: "var(--text-primary)"}} variant="ghost">
+                                                            <div className="flex w-full items-center justify-between gap-2.5 pl-2">
+                                                                {labels[selectedValue as string] ?? "Job Type"}
+                                                                <img className="icon" src="/images/assets/chevron@4x.png" alt="chevron" style={{width: "10px", marginRight: "10px"}}/>
+                                                            </div>
+                                                        </Button>
+                                                        <Dropdown.Popover className="min-w-[256px]">
+                                                            <Dropdown.Menu
+                                                                aria-label="Job type"
+                                                                selectedKeys={selected}
+                                                                defaultSelectedKeys={selected}
+                                                                selectionMode="single"
+                                                                onSelectionChange={(keys) => {
+                                                                    if (keys === "all") return;
+                                                                    setSelected(new Set(Array.from(keys).map(String)));
+                                                                }}>
+                                                                <Dropdown.Section>
+                                                                    <Dropdown.Item id="intern" textValue="Internship">
+                                                                        <h1 style={{color: "var(--text-primary)"}} className="label-small font-semibold">Internship</h1>
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item id="fulltime" textValue="fulltime">
+                                                                        <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Full time</h1>
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item id="freelance" textValue="freelance">
+                                                                        <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Freelance</h1>
+                                                                    </Dropdown.Item>
+                                                                </Dropdown.Section>
+                                                            </Dropdown.Menu>
+                                                        </Dropdown.Popover>
+                                                    </Dropdown>
+                                                </div>
+                                            </div>
 
                                             <TextField
                                                 isRequired
@@ -205,7 +243,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
 
                                         </FieldGroup>
                                         <Fieldset.Actions style={{marginTop: "20px"}}>
-                                            <Button className="full-width p-3 font-semibold" type="submit">Compose</Button>
+                                            <Button className="full-width p-3 font-semibold" type="submit" onClick={() => setErrorMessage(null)}>Compose</Button>
                                         </Fieldset.Actions>
                                     </Fieldset>
                                 </Form>

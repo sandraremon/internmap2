@@ -175,7 +175,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                                 {/* Left - image + name */}
                                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                     <img style={{ width: 40, height: 40, borderRadius: 200, objectFit: "cover" }}
-                                         src="http://localhost:8000/images/jinx.png" />
+                                         src="/images/navi/Navi%20Beta.png" />
                                     <div>
                                         <div style={{ fontSize: 22, fontWeight: 700 }}>
                                             <a href={`/postings/${posting.id}`}>{posting.recruiter?.user?.f_name}</a>
