@@ -63,6 +63,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
         if (userDetails.role === "RECRUITER") {
             payload.title = editForm.title;
         }
+        console.log(userDetails.recruiter);
 
         const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
             method: "PATCH",
@@ -266,22 +267,44 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                         <h4 className="container-label">Works At</h4>
 
                         <div className="container-padded">
-                            {userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (
+                            {/*{userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (*/}
+                            {userDetails.recruiter?.company?.length > 0 ? (
                                 <Table variant="secondary">
                                     <Table.ResizableContainer>
                                         <Table.Content aria-label="Team members" className="min-w-[600px]">
                                             <Table.Header>
+                                                <Table.Column isRowHeader>Logo<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column isRowHeader>Name<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Industry<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Page<Table.ColumnResizer/></Table.Column>
                                                 <Table.Column>Address<Table.ColumnResizer/></Table.Column>
                                             </Table.Header>
                                             <Table.Body>
-                                                {userDetails.recruiter.companies.map((company: Company, index: number) => (
+                                                {userDetails.recruiter.company.map((company: Company, index: number) => (
                                                     <Table.Row key={index}>
+                                                        <Table.Cell>
+                                                            {company.logo ? (
+                                                                <img
+                                                                    src={`http://127.0.0.1:8000/storage/${company.logo}`}
+                                                                    alt={company.name}
+                                                                    style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                                                                />
+                                                            ) : (
+                                                                <span className="text-gray-400">No logo</span>
+                                                            )}
+                                                        </Table.Cell>
                                                         <Table.Cell>{company.name}</Table.Cell>
                                                         <Table.Cell>{company.industry}</Table.Cell>
-                                                        <Table.Cell>{company.websiteurl.toString()}</Table.Cell>
+                                                        <Table.Cell>
+                                                            <a
+                                                                href={company.websiteurl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-blue-500 hover:underline"
+                                                            >
+                                                                {company.websiteurl}
+                                                            </a>
+                                                        </Table.Cell>
                                                         <Table.Cell>{company.location_ofhq}</Table.Cell>
                                                     </Table.Row>
                                                 ))}

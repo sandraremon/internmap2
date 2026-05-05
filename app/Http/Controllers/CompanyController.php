@@ -64,7 +64,12 @@ class CompanyController extends Controller
             'industry' => 'required|string',
             'location_ofhq' => 'required|string',
             'websiteurl' => 'required|string',
+            'logo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('company_logos', 'public');
+            $validated['logo'] = $path;
+        }
 //        $job = JobPostingModal::create([
 //            ...$validated,
 //            'company_id' => $company?->id, // ✅ safe access

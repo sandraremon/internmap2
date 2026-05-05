@@ -174,8 +174,16 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
 
                                 {/* Left - image + name */}
                                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                                    <img style={{ width: 40, height: 40, borderRadius: 200, objectFit: "cover" }}
-                                         src="/images/navi/Navi%20Beta.png" />
+                                    <img
+                                        style={{ width: 40, height: 40, borderRadius: 200, objectFit: "cover" }}
+                                        src={
+                                            posting.company?.logo
+                                                ? `http://127.0.0.1:8000/storage/${posting.company.logo}`
+                                                : "/images/Red Large Logo.png"
+                                        }
+                                        alt={posting.company?.name || "Company"}
+                                    />
+
                                     <div>
                                         <div style={{ fontSize: 22, fontWeight: 700 }}>
                                             <a href={`/postings/${posting.id}`}>{posting.recruiter?.user?.f_name}</a>
@@ -220,9 +228,9 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
 
 
                                 <div style={{ display: "flex", gap: "8px" }}>
-                                    <button style={{ width: 40, height: 40, borderRadius: 40 }}>
-                                        <img style={{ width: 20 }} src="http://localhost:8000/images/jinx.png"/>
-                                    </button>
+                                    {/*<button style={{ width: 40, height: 40, borderRadius: 40 }}>*/}
+                                    {/*    <img style={{ width: 20 }} src="http://localhost:8000/images/jinx.png"/>*/}
+                                    {/*</button>*/}
 
                                     <button
                                         onClick={() =>{setActivePostingId(posting.id);  ApplicationFormOverlayState.toggle()}}

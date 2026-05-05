@@ -19,7 +19,8 @@ class Company extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['industry', 'location_ofhq', 'name', 'websiteurl', 'recruiter_id',
-        'recruiters_id'
+        'recruiters_id',// 👇 new
+        'logo'
     ];
     public $timestamps = false;
 

@@ -13,18 +13,19 @@ export default function RegisterCompany() {
 
     // @ts-ignore
     async function handleSubmit(e) {
+
         e.preventDefault();
         setErrorMessage(null);
         setLoading(true);
 
         const formData = new FormData(e.currentTarget);
 
-        const payload = {
-            industry: formData.get("industry") as string,
-            location_ofhq: formData.get("location_ofhq") as string,
-            name: formData.get("name") as string,
-            websiteurl: formData.get("websiteurl") as string,
-        };
+        // const payload = {
+        //     industry: formData.get("industry") as string,
+        //     location_ofhq: formData.get("location_ofhq") as string,
+        //     name: formData.get("name") as string,
+        //     websiteurl: formData.get("websiteurl") as string,
+        // };
         try{
             const token = localStorage.getItem("token");
             const res = await fetch(
@@ -32,11 +33,10 @@ export default function RegisterCompany() {
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
                         "Accept": "application/json",
                         "Authorization": `Bearer ${token}`,
                     },
-                    body: JSON.stringify(payload),
+                    body:formData,
                 }
             );
             const data = await res.json();
@@ -148,6 +148,15 @@ export default function RegisterCompany() {
                     required
                 />
 
+                <br />
+                <label>Company Logo:</label>
+                <input
+                    type="file"
+                    name="logo"
+                    accept="image/*"
+                />
+
+                <br />
                 <br />
 
 
