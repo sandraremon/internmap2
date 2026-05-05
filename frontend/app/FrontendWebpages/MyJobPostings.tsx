@@ -29,7 +29,9 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
     return (
         <>
             <IndexHeader />
-            <div style={{ padding: "35px", maxWidth: "720px", margin: "0 auto" }}>
+            <div style={{
+                padding: "35px",
+                maxWidth: "720px" }}>
                 <h1 style={{ fontSize: "30px", fontWeight: 600, marginBottom: "4px" }}>
                     My Job Postings
                 </h1>

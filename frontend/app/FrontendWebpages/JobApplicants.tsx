@@ -32,7 +32,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
             <IndexHeader />
             <main style={{
                 padding: "24px",
-                maxWidth: "720px",
+                maxWidth: "700px",
                 margin: "0 auto" }}>
                 <h1 style={{
                     fontSize: "26px",
