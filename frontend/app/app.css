@@ -86,8 +86,10 @@ body {
     }
 
     .menu-item--default {
-        @media (prefers-color-scheme: dark) {
-            filter: invert(1);
+        img {
+            @media (prefers-color-scheme: dark) {
+                filter: invert(1);
+            }
         }
     }
 
@@ -158,6 +160,10 @@ body {
         backdrop-filter: blur(38px);
     }
 
+    .label {
+        color: var(--text-primary);
+    }
+
     .combo-box__input-group {
         .input {
             @apply text-2xl;
@@ -226,16 +232,6 @@ body {
         background: var(--component-quaternary);
         gap: 4px;
         color: var(--text-primary);
-
-        img {
-            filter: brightness(0.7);
-        }
-
-        img {
-            @media (prefers-color-scheme: light) {
-                filter: invert(1);
-            }
-        }
     }
 
     .tabs__list {
@@ -262,6 +258,14 @@ body {
         height: 30px;
         width: 30px;
         border-radius: 80px;
+    }
+
+    .modal__heading {
+        @apply text-2xl font-bold;
+    }
+
+    .modal__dialog {
+        border-radius: 40px;
     }
 }
 

@@ -1,6 +1,6 @@
 import {Alert, CloseButton, Tabs} from "@heroui/react";
 import {useState} from "react";
-import {redirect} from "react-router";
+
 import {useNavigate} from "react-router";
 
 export default function Signup() {

@@ -1,19 +1,13 @@
-import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
-import {Button, Chip, type Key, Table, useOverlayState, Tabs, Checkbox, Alert, cn} from "@heroui/react";
-import "../app.css";
-import "../CSS/Universal.css";
+import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
+import {Button, Chip, Table, useOverlayState, cn, Modal} from "@heroui/react";
 import {useNavigate} from 'react-router-dom';
 import CVForm from "./CV";
 import {useFetcher} from "react-router";
 import {AlertDialog} from "@heroui/react";
-import {Avatar} from "@heroui/react";
 import {Icon} from "@iconify/react";
-import React, {useState, useMemo} from "react";
+import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
-import type {Selection, SortDescriptor} from "@heroui/react";
-import ApplicationForm from "../FrontendWebpages/ApplicationForm";
 import RoadMapEdit from "../FrontendWebpages/RoadMapUpdate";
-import roadmap from "../FrontendWebpages/Roadmap";
 import Dashboard from "./Dashboard";
 
 function SortableColumnHeader({children, sortDirection}: {
@@ -85,15 +79,9 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
         setIsEditOpen(false);
         window.location.reload();
     }
-//-----
-
-
-
 
     // @ts-ignore
     const fetcher = useFetcher();
-
-
 
     console.log(userDetails);
     const navigate = useNavigate();
@@ -142,33 +130,31 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                             <p className="auto-capitalise text-3xl font-bold">{userDetails.f_name + " " + userDetails.l_name}</p>
                             <p>{userDetails.email}</p>
                         </section>
-                        <Button
-                            style={{ width: "32px", height: "32px", background: "var(--secondary-background-color)" }}
-                            className="dark"
-                            isIconOnly
-                            onClick={() => setIsEditOpen(true)}
-                        >
-                            <img src="/images/assets/pencil@4x.png" style={{ width: "16px", filter: "invert(0.3)" }} alt="pencil"/>
-                        </Button>
                         <div className="flex items-center gap-4 flex-row">
-                            <Chip style={{gap: "4px"}} size="lg">
-                                <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px", filter: "invert(0.8)"}}/>
-                                <Chip.Label>{userDetails.created_at?.toString().substring(0, 4) ?? "N/A"}</Chip.Label>
+                            <Chip size="lg" >
+                                <img src="/images/assets/calendar@4x.png" alt="calendar"
+                                     style={{width: "17px"}}/>
+                                <Chip.Label>{userDetails.created_at.toString().substring(0, 4)}</Chip.Label>
                             </Chip>
-                            <Chip style={{gap: "4px"}} size="lg">
-                                <img src="/images/assets/person.fill@4x.png" alt="person" style={{width: "15px", filter: "invert(0.8)"}}/>
-                                <Chip.Label>
-                                    {userDetails?.role
-                                        ? userDetails.role.charAt(0).toUpperCase() + userDetails.role.slice(1).toLowerCase()
-                                        : "N/A"}
-                                </Chip.Label>
+                            <Chip size="lg">
+                                <img className="icon" src="/images/assets/person.fill@4x.png" alt="person"
+                                     style={{width: "15px", filter: "invert(1)"}}/>
+                                <Chip.Label>{userDetails.role.charAt(0) + userDetails.role.toLowerCase().substring(1, userDetails.role.length)}</Chip.Label>
                             </Chip>
                             {userDetails.role == "RECRUITER" && (
-                                <Chip style={{gap: "4px"}} size="lg">
-                                    <img src="/images/assets/suitcase.fill@4x.png" alt="suitcase" style={{width: "15px", filter: "invert(0.8)"}}/>
+                                <Chip size="lg">
+                                    <img src="/images/assets/suitcase.fill@4x.png" alt="suitcase"
+                                         style={{width: "15px"}}/>
                                     <Chip.Label className="auto-capitalise">{userDetails.recruiter.title}</Chip.Label>
                                 </Chip>
                             )}
+                            <Button
+                                style={{ width: "32px", height: "32px", background: "var(--secondary-background-color)" }}
+                                className="dark"
+                                isIconOnly
+                                onClick={() => setIsEditOpen(true)}>
+                                <img src="/images/assets/pencil@4x.png" style={{ width: "16px", filter: "invert(0.3)" }} alt="pencil"/>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -207,7 +193,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                         <br/><br/>
 
                         <div style={{display: "flex", flexDirection: "row", gap: "10px", alignItems: "center"}}>
-                            <h4 className="container-label">Circulmn Vitae</h4>
+                            <h4 className="container-label">Curriculum Vitae</h4>
                             {(userDetails as Student).cv ? (
                                 <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} className="dark">
                                     <img src="/images/assets/pencil@4x.png" style={{width: "16px", filter: "invert(0.3)"}} alt="pencil"/>
@@ -314,30 +300,32 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
             </div>
 
             {/*-------------profile edit-----------------*/}
-            <AlertDialog isOpen={isEditOpen} onOpenChange={setIsEditOpen}>
-                <AlertDialog.Backdrop variant="blur" isDismissable={true}>
-                    <AlertDialog.Container>
-                        <AlertDialog.Dialog className="sm:max-w-100 rounded-4xl">
-                            <AlertDialog.CloseTrigger onClick={() => setIsEditOpen(false)}/>
-                            <AlertDialog.Header>
-                                <AlertDialog.Heading>Edit Profile</AlertDialog.Heading>
-                            </AlertDialog.Header>
-                            <AlertDialog.Body>
-                                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <Modal isOpen={isEditOpen} onOpenChange={setIsEditOpen}>
+                <Modal.Backdrop variant="blur" isDismissable={true}>
+                    <Modal.Container>
+                        <Modal.Dialog className="max-w-xl">
+                            <Modal.CloseTrigger onClick={() => setIsEditOpen(false)}/>
+                            <Modal.Header>
+                                <Modal.Heading>Edit Profile</Modal.Heading>
+                            </Modal.Header>
+                            <Modal.Body className="space-y-4" style={{paddingTop: "20px"}}>
+                                <div className="full-width flex flex-col gap-6">
 
-                                    <div style={{ display: "flex", gap: "12px" }}>
-                                        <div style={{ flex: 1 }}>
-                                            <label className="label-small">First Name</label>
+                                    <div className="flex flex-row gap-4">
+                                        <div className="full-width">
+                                            <label className="flex label-small mb-1">First Name</label>
                                             <input
-                                                className="input"
+                                                type="text"
+                                                className="text-sm"
                                                 value={editForm.f_name}
                                                 onChange={e => setEditForm(p => ({ ...p, f_name: e.target.value }))}
                                             />
                                         </div>
-                                        <div style={{ flex: 1 }}>
-                                            <label className="label-small">Last Name</label>
+                                        <div className="full-width">
+                                            <label className="flex label-small mb-1">Last Name</label>
                                             <input
-                                                className="input"
+                                                type="text"
+                                                className="text-sm"
                                                 value={editForm.l_name}
                                                 onChange={e => setEditForm(p => ({ ...p, l_name: e.target.value }))}
                                             />
@@ -345,9 +333,10 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                     </div>
 
                                     <div>
-                                        <label className="label-small">Email</label>
+                                        <label className="flex label-small mb-1">Email</label>
                                         <input
-                                            className="input"
+                                            type="email"
+                                            className="text-sm"
                                             value={editForm.email}
                                             onChange={e => setEditForm(p => ({ ...p, email: e.target.value }))}
                                         />
@@ -356,33 +345,33 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                     {userDetails.role === "STUDENT" && (
                                         <>
                                             <div>
-                                                <label className="label-small">Major</label>
+                                                <label className="flex label-small mb-1">Major</label>
                                                 <input
-                                                    className="input"
+                                                    type="text"
                                                     value={editForm.student_major}
                                                     onChange={e => setEditForm(p => ({ ...p, student_major: e.target.value }))}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="label-small">Faculty</label>
+                                                <label className="flex label-small mb-1">Faculty</label>
                                                 <input
-                                                    className="input"
+                                                    type="text"
                                                     value={editForm.faculty}
                                                     onChange={e => setEditForm(p => ({ ...p, faculty: e.target.value }))}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="label-small">University</label>
+                                                <label className="flex label-small mb-1">University</label>
                                                 <input
-                                                    className="input"
+                                                    type="text"
                                                     value={editForm.uni_name}
                                                     onChange={e => setEditForm(p => ({ ...p, uni_name: e.target.value }))}
                                                 />
                                             </div>
                                             <div>
-                                                <label className="label-small">Graduating Year</label>
+                                                <label className="flex label-small mb-1">Graduating Year</label>
                                                 <input
-                                                    className="input"
+                                                    type="text"
                                                     value={editForm.graduating_year}
                                                     onChange={e => setEditForm(p => ({ ...p, graduating_year: e.target.value }))}
                                                 />
@@ -392,28 +381,29 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
 
                                     {userDetails.role === "RECRUITER" && (
                                         <div>
-                                            <label className="label-small">Title</label>
+                                            <label className="flex label-small mb-1">Title</label>
                                             <input
-                                                className="input"
+                                                type="text"
+                                                className="text-sm"
                                                 value={editForm.title}
                                                 onChange={e => setEditForm(p => ({ ...p, title: e.target.value }))}
                                             />
                                         </div>
                                     )}
                                 </div>
-                            </AlertDialog.Body>
-                            <AlertDialog.Footer>
-                                <Button slot="close" variant="tertiary" onClick={() => setIsEditOpen(false)}>
+                            </Modal.Body>
+                            <AlertDialog.Footer className="flex justify-end gap-6 mt-8">
+                                <Button className="full-width p-3" slot="close" variant="tertiary" onClick={() => setIsEditOpen(false)}>
                                     Cancel
                                 </Button>
-                                <Button onClick={saveProfile} isDisabled={editLoading}>
+                                <Button className="full-width p-3" onClick={saveProfile} isDisabled={editLoading}>
                                     {editLoading ? "Saving..." : "Save"}
                                 </Button>
                             </AlertDialog.Footer>
-                        </AlertDialog.Dialog>
-                    </AlertDialog.Container>
-                </AlertDialog.Backdrop>
-            </AlertDialog>
+                        </Modal.Dialog>
+                    </Modal.Container>
+                </Modal.Backdrop>
+            </Modal>
 
             <CVForm overlayState={CVFormOverlayState}/>
             <RoadMapEdit overlayState={roadmapFormOverlayState} roadmapId={selectedRoadmapId} />

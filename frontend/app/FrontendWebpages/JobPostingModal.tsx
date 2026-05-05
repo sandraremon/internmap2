@@ -61,8 +61,8 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
             navigate("/");
         }
     }
+
     console.log("selectedValue:", selectedValue);
-    console.log("TOKEN:", localStorage.getItem("token"));
     console.log("token:", localStorage.getItem("token"));
 
     return (
@@ -71,7 +71,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
             <Modal isOpen={onJobPostingState.isOpen}>
                 <Modal.Backdrop className="dark" variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                     <Modal.Container>
-                        <Modal.Dialog className="max-w-xl" style={{borderRadius: "40px"}}>
+                        <Modal.Dialog className="max-w-xl">
                             <Modal.CloseTrigger style={{height: "35px", width: "35px", borderRadius: "80px"}} onClick={() => onJobPostingState.close()} />
                             <Modal.Header>
                                 <Modal.Heading className="text-2xl font-bold">Compose a Job</Modal.Heading>
@@ -99,13 +99,13 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
                                                         }}>
                                                         <Dropdown.Section>
                                                             <Dropdown.Item id="intern" textValue="Internship">
-                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="label-small font-semibold">Internship</h1>
+                                                                <h1 style={{color: "var(--text-primary)"}} className="label-small font-semibold">Internship</h1>
                                                             </Dropdown.Item>
                                                             <Dropdown.Item id="fulltime" textValue="fulltime">
-                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="font-semibold label-small">Full time</h1>
+                                                                <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Full time</h1>
                                                             </Dropdown.Item>
                                                             <Dropdown.Item id="freelance" textValue="freelance">
-                                                                <h1 style={{color: "var(--text-primary-inverted)"}} className="font-semibold label-small">Freelance</h1>
+                                                                <h1 style={{color: "var(--text-primary)"}} className="font-semibold label-small">Freelance</h1>
                                                             </Dropdown.Item>
                                                         </Dropdown.Section>
                                                     </Dropdown.Menu>
