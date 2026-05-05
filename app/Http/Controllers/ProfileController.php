@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User\Recruiter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         \Log::info('Request data:', $request->all());
+        \Log::info('Recruiter relation:', ['recruiter' => $user->recruiter]);
 
         $validated = $request->validate([
             'f_name' => 'sometimes|string',
@@ -51,7 +53,7 @@ class ProfileController extends Controller
 
         \Log::info('User after save:', $user->fresh()->toArray());
 
-        if ($user->role === 'STUDENT' && $user->student) {
+        if ( $user->student) {
             $student = $user->student;
             $student->student_major = $validated['student_major'] ?? $student->student_major;
             $student->graduating_year = $validated['graduating_year'] ?? $student->graduating_year;
@@ -60,10 +62,11 @@ class ProfileController extends Controller
             $student->save();
         }
 
-        if ($user->role === 'RECRUITER' && $user->recruiter) {
+        if ($user->recruiter) {
             $recruiter = $user->recruiter;
             $recruiter->title = $validated['title'] ?? $recruiter->title;
             $recruiter->save();
+
         }
 
         return response()->json($user->fresh(['student', 'recruiter']));
