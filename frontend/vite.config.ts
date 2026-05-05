@@ -4,4 +4,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     plugins: [reactRouter(), tailwindcss()],
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8000',
+                changeOrigin: true,
+            },
+        },
+    },
 });

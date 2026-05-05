@@ -27,4 +27,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/application/new/{jobposting}', [ApplicationController::class, 'store']);
     Route::get('/profile',[AuthController::class, 'profile']);
     Route::post('/jobposting/new', [JobPostingController::class, 'store']);
+    Route::put('/roadmap/{roadmap}', [RoadmapController::class, 'update']);
 });

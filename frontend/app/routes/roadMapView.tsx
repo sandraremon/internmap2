@@ -13,6 +13,7 @@ export function meta() {
     ];
 }
 
+// @ts-ignore
 export async function clientLoader({ params }) {
     const res = await fetch(`http://localhost:8000/api/roadmap/${params.id}`, {
         headers: {

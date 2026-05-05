@@ -109,7 +109,7 @@ type RouteModules = {
   "routes/signup": typeof import("./app/routes/signup.tsx");
   "routes/recRegister": typeof import("./app/routes/recRegister.tsx");
   "routes/roadMapCreate": typeof import("./app/routes/roadMapCreate.tsx");
-  // "routes/dashboard": typeof import("./app/routes/dashboard.tsx");
+  "routes/dashboard": typeof import("./app/routes/dashboard.tsx");
   "routes/logout": typeof import("./app/routes/logout.tsx");
   "routes/roadMapView": typeof import("./app/routes/roadMapView.tsx");
   "routes/applicationForm": typeof import("./app/routes/applicationForm.tsx");

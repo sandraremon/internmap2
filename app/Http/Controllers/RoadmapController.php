@@ -101,12 +101,83 @@ class RoadmapController extends Controller
 
     public function update(Request $request, Roadmap $roadmap)
     {
-        $data = $request->validate([
-            'name' => 'required'
+        $validated = $request->validate([
+            'name'                              => 'required|string|max:255',
+
+            'modules'                           => 'required|array|min:1',
+            'modules.*.name'                    => 'required|string|max:255',
+            'modules.*.description'             => 'required|string',
+
+            'modules.*.skills'                  => 'required|array|min:1',
+            'modules.*.skills.*.name'           => 'required|string|max:255',
+            'modules.*.skills.*.description'    => 'required|string|max:255',
+            'modules.*.skills.*.links'          => 'nullable|array',
+            'modules.*.skills.*.links.*'        => 'nullable|url'
         ]);
-        $roadmap->update($data);
-        return response()->json($roadmap);
-//         return view('roadmap.view', ['roadmap' => $roadmap]);
+
+        $roadmap = DB::transaction(callback:function () use ($validated, $roadmap) {
+
+            // 1. Update roadmap name
+            $roadmap->update([
+                'name' => $validated['name'],
+            ]);
+
+            // 2. Delete old relations (important!)
+            foreach ($roadmap->modules as $module) {
+
+                foreach ($module->skills as $skill) {
+                    DB::table('skill_resource_links')
+                        ->where('skill_id', $skill->id)
+                        ->delete();
+                }
+
+                $module->skills()->detach();
+            }
+
+            $roadmap->modules()->detach();
+
+            // Optional: delete modules & skills if they are not reused elsewhere
+            // RoadmapModule::whereIn(...)->delete();
+            // Skill::whereIn(...)->delete();
+
+            // 3. Recreate everything (same as store)
+            foreach ($validated['modules'] as $moduleData) {
+
+                $module = RoadmapModule::create([
+                    'name'        => $moduleData['name'],
+                    'description' => $moduleData['description'],
+                ]);
+
+                $roadmap->modules()->attach($module->id);
+
+                foreach ($moduleData['skills'] as $skillData) {
+
+                    $skill = Skill::create([
+                        'name'        => $skillData['name'],
+                        'description' => $skillData['description'],
+                    ]);
+
+                    $module->skills()->attach($skill->id);
+
+                    foreach ($skillData['links'] ?? [] as $link) {
+                        if ($link) {
+                            DB::table('skill_resource_links')->insert([
+                                'skill_id'       => $skill->id,
+                                'resource_links' => $link,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            return $roadmap;
+        });
+
+        return response()->json([
+            'message' => 'Roadmap updated successfully',
+            'data'    => $roadmap->load('modules.skills'),
+        ]);
+
     }
 
     public function destroy(Roadmap $roadmap)

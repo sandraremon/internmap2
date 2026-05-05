@@ -38,7 +38,7 @@ Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
 Route::get('/api/jopostings/{jobposting}', [RoadmapController::class, 'show']);
 //Route::middleware('auth:sanctum')->post('/api/jobposting/new', [JobPostingController::class, 'store']);
 
-
+Route::put('/api/roadmap/{roadmap}', [RoadmapController::class, 'update']);
 //roadmaps
 Route::get('/api/roadmap/{roadmap}', [RoadmapController::class, 'show']);
 //company
