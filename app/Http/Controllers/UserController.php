@@ -66,4 +66,9 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
+    publicn function userRole(User $user){
+        $user=auth()->user();
+        $role=$user->role;
+        return $role;
+}
 }

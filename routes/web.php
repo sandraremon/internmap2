@@ -35,7 +35,7 @@ Route::get('/api/users/', [UserController::class, 'index']);
 Route::delete('/api/users/{user}', [UserController::class, 'destroy']);
 Route::delete('/api/roadmap/{roadmap}', [RoadmapController::class, 'destroy']);
 Route::get('/api/recruiter/', [RecruiterController::class, 'index']);
-Route::get('/api/jopostings/{jobposting}', [RoadmapController::class, 'show']);
+Route::get('/api/roadmap/{roadmap}', [RoadmapController::class, 'show']);
 //Route::middleware('auth:sanctum')->post('/api/jobposting/new', [JobPostingController::class, 'store']);
 
 Route::put('/api/roadmap/{roadmap}', [RoadmapController::class, 'update']);
@@ -51,7 +51,7 @@ Route::get('/api/roadmap/', [RoadmapController::class, 'index']);//done with fro
 //application
 Route::post('/api/application/new/{jobposting}', [ApplicationController::class, 'store']);
 //profile
-
+Route::get('/api/user/{user}/role',[UserController::class, 'userRole']);
 //cv
 Route::middleware('auth:sanctum')->post('/cv/create', [CvController::class,'store']);
 Route::middleware('auth:sanctum')->get('/api/profile', [AuthController::class,  'profile']);
