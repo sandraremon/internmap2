@@ -206,6 +206,9 @@ export default function Signup() {
 
                 <br/><br/>
                 <p style={{justifySelf: "center", alignSelf: "center", fontSize: "14px", fontWeight: 400}}>
+                    Need to create a company first? <a style={{color: "rgb(49, 131, 254)", fontWeight: 600, borderRadius: "200px", textDecoration: "none"}} href={"/company/register"}>Create a company</a>
+                </p>
+                <p style={{justifySelf: "center", alignSelf: "center", fontSize: "14px", fontWeight: 400}}>
                     Already have an account? <a style={{color: "rgb(49, 131, 254)", fontWeight: 600, borderRadius: "200px", textDecoration: "none"}} href={"/login"}>Sign in</a>
                 </p>
                 <br/>

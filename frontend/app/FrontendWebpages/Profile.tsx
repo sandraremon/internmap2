@@ -126,8 +126,8 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                         </section>
                         <div className="flex items-center gap-4 flex-row">
                             <Chip style={{gap: "4px"}} size="lg">
-                                <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px", filter: "invert(0.8)"}}/>
-                                <Chip.Label>{userDetails.created_at?.toString().substring(0, 4) ?? "N/A"}</Chip.Label>
+                                <img src="/images/assets/calendar@4x.png" alt="calendar" style={{width: "17px"}}/>
+                                <Chip.Label>{userDetails.created_at?.toString().substring(0, 4) ?? "Unkown"}</Chip.Label>
                             </Chip>
                             <Chip style={{gap: "4px"}} size="lg">
                                 <img src="/images/assets/person.fill@4x.png" alt="person" style={{width: "15px", filter: "invert(0.8)"}}/>
