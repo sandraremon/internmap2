@@ -252,6 +252,10 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                                     <label className="label-small">Phone Number</label>
                                                     <p className="auto-capitalise">{application.phone_number}</p>
                                                 </div>
+                                                <div className="mb-3">
+                                                    <label className="label-small">Application status</label>
+                                                    <p className="auto-capitalise">{application.status}</p>
+                                                </div>
                                             </div>
                                         );
                                     })

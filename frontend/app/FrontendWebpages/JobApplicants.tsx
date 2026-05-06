@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IndexHeader } from "./fragments/IndexHeaderAndFooter";
-import { Chip } from "@heroui/react";
+import {Button, Chip} from "@heroui/react";
 import "../app.css";
 import "../CSS/Universal.css";
 
@@ -8,7 +8,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
     // since its a list of application array and i need each of them to need its own useState
     //and i need to track them all at once and each id maps to its status
     const [statuses, setStatuses] = useState<Record<string, string>>(
-        Object.fromEntries(applications.map(a => [String(a.id), a.status as string ?? "pending"]))
+        Object.fromEntries(applications.map(a => [String(a.id), a.status as string ?? "PENDING"]))
         //converts the pairs into an actual object/dictionary
     );
 
@@ -46,7 +46,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                 ) : (
                     applications.map((app) => {
                         const status = statuses[String(app.id)];
-                        const decided = status === "accepted" || status === "rejected";
+                        const decided = status === "ACCEPTED" || status === "REJECTED";
 
                         return (
                             <div key={String(app.id)} style={{borderRadius: "60px", background: "var(--container-secondary)", boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)", backdropFilter: "blur(30px)", padding: "20px 28px", marginBottom: "12px", display: "flex", justifyContent: "space-between", gap: "16px",}}>
@@ -65,7 +65,13 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                                         </span>
 
                                         {decided && (
-                                            <Chip size="sm" variant="soft" color={status === "accepted" ? "success" : "danger"}>
+                                            <Chip
+                                                size="sm"
+                                                variant="soft"
+                                                style={{
+                                                    color: status === "ACCEPTED" ? "#22c55e" : "#ef4444",
+                                                }}
+                                            >
                                                 {status}
                                             </Chip>
                                         )}
@@ -90,36 +96,15 @@ export default function MyJobApplicants({ applications }: { applications: Applic
 
                                 {!decided && (
                                     <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
-                                        <button
-                                            onClick={() => updateStatus(String(app.id), "accepted")}
-                                            style={{
-                                                borderRadius: "99px",
-                                                padding: "9px 18px",
-                                                fontSize: "13px",
-                                                fontWeight: 500,
-                                                cursor: "pointer",
-                                                border: "0.5px solid rgba(34,197,94,0.4)",
-                                                background: "rgba(34,197,94,0.15)",
-                                                color: "#4ade80",
-                                            }}
-                                        >
+                                        <br/>   <br/>   <br/>
+                                        <Button  onClick={() => updateStatus(String(app.id), "ACCEPTED")} style={{color: "#4ade80", background: "rgba(34,197,94,0.15)"}}>
                                             Accept
-                                        </button>
-                                        <button
-                                            onClick={() => updateStatus(String(app.id), "rejected")}
-                                            style={{
-                                                borderRadius: "99px",
-                                                padding: "9px 18px",
-                                                fontSize: "13px",
-                                                fontWeight: 500,
-                                                cursor: "pointer",
-                                                border: "0.5px solid rgba(239,68,68,0.4)",
-                                                background: "rgba(239,68,68,0.15)",
-                                                color: "#f87171",
-                                            }}
-                                        >
+                                        </Button>
+
+                                            <Button onClick={() => updateStatus(String(app.id), "REJECTED") }style={{color: "#f87171", background: "rgba(239,68,68,0.15)"}}>
                                             Reject
-                                        </button>
+                                                </Button>
+
                                     </div>
                                 )}
                             </div>
