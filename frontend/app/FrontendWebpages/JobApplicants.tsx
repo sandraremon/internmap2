@@ -75,6 +75,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                                                 {status}
                                             </Chip>
                                         )}
+
                                     </div>
                                     {app.student?.cv && (
                                         <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>
