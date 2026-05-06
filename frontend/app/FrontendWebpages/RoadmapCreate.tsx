@@ -3,9 +3,11 @@ import "../CSS/InternMapHomepage.css";
 import { useState } from "react";
 import { IndexFooter, IndexHeader } from "./fragments/IndexHeaderAndFooter";
 import {Button, FieldError, FieldGroup, Fieldset, Form, IconPlus, Input, Label, TextField,} from "@heroui/react";
+import {useNavigate} from "react-router";
 
 // @ts-ignore
 export default function RoadmapCreate() {
+    const navigate=useNavigate();
 
     const [modules, setModules] = useState([
         { skills: [{}] }
@@ -39,18 +41,17 @@ export default function RoadmapCreate() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-
         const body = {
-            name: title,
-            modules: modules.map((mod) => ({
-                name: mod.name,
-                description: mod.description,
-                skills: mod.skills.map((skill) => ({
-                    name: skill.name,
-                    description: skill.description,
-                    links: skill.links || [],
-                })),
-            })),
+            name: formData.get("title"),
+            modules: modules.map((mod, moduleIndex) => ({
+                name: formData.get(`modules[${moduleIndex}].name`),
+                description: formData.get(`modules[${moduleIndex}].description`),
+                skills: mod.skills.map((_, skillIndex) => ({
+                    name: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].name`),
+                    description: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].description`),
+                    links: [formData.get(`modules[${moduleIndex}].skills[${skillIndex}].links[0]`)]
+                }))
+            }))
         };
 
         console.log(body);
@@ -71,6 +72,7 @@ export default function RoadmapCreate() {
         }
 
         console.log("Roadmap created!");
+        navigate("/");
     }
 
     return (
@@ -199,6 +201,7 @@ export default function RoadmapCreate() {
                                 </Button>
                                 <Button type="submit">
                                     Create
+
                                 </Button>
                             </div>
                         </Fieldset>
