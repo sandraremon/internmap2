@@ -59,11 +59,10 @@ export default function CVForm({overlayState}: {overlayState: UseOverlayStateRet
         <Modal isOpen={onCVState.isOpen}>
             <Modal.Backdrop className="dark" variant="blur" isKeyboardDismissDisabled={false} isDismissable={true}>
                 <Modal.Container>
-                    <Modal.Dialog className="sm:max-w-90 rounded-4xl">
+                    <Modal.Dialog className="max-w-lg rounded-4xl">
                         <Modal.CloseTrigger onClick={() => onCVState.close()} />
                         <Modal.Header>
-                            <img src="/images/navi/Navi%20Beta.png" alt="Logo" style={{height: "60px", width: "60px"}}/>
-                            <Modal.Heading>Welcome to Internmap!</Modal.Heading>
+                            <Modal.Heading>Compose a CV</Modal.Heading>
                             {errorMessage && (
                                 <>
                                     <br/>
@@ -73,9 +72,9 @@ export default function CVForm({overlayState}: {overlayState: UseOverlayStateRet
                                         </Alert.Indicator>
                                         <Alert.Content>
                                             <Alert.Title>
-                            <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
-                                failed to save cv
-                            </span>
+                                            <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+                                                Failed to save your CV
+                                            </span>
                                             </Alert.Title>
                                         </Alert.Content>
                                         <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />
@@ -91,34 +90,32 @@ export default function CVForm({overlayState}: {overlayState: UseOverlayStateRet
                             )}
                         </Modal.Header>
                         <Modal.Body>
-                            <Form method="post" className="w-full max-w-96" onSubmit={handleSubmit}>
+                            <Form method="post" className="w-full" onSubmit={handleSubmit}>
                                 <Fieldset>
-                                    <Description>Apply to Application!</Description>
                                     <FieldGroup>
                                         <TextField isRequired name="description" validate={(v) => v.length < 3 ? "Min 3 characters" : null}>
-                                            <Label>About :</Label>
-                                            <Input placeholder="John" />
+                                            <Label>About</Label>
+                                            <Input placeholder="ex. Laravel & PHP expert" />
                                             <FieldError />
                                         </TextField>
                                         <TextField isRequired name="past_experiences" validate={(v) => v.length < 3 ? "Min 3 characters" : null}>
-                                            <Label>Your past experiences:</Label>
-                                            <Input placeholder="worked on.." />
+                                            <Label>Your past experiences</Label>
+                                            <Input placeholder="Worked on..." />
                                             <FieldError />
                                         </TextField>
                                         <TextField isRequired name="projects" validate={(v) => v.length < 3 ? "Min 3 characters" : null}>
                                             <Label>Your projects</Label>
-                                            <Input placeholder="front end project" />
+                                            <Input placeholder="Made InternMap" />
                                             <FieldError />
                                         </TextField>
                                         <TextField isRequired name="email" type="email">
                                             <Label>Email</Label>
-                                            <Input placeholder="john@example.com" />
+                                            <Input placeholder="benjamin@internmap.com" />
                                             <FieldError />
                                         </TextField>
                                     </FieldGroup>
                                     <Fieldset.Actions>
-                                        <Button type="submit" onClick={() => onCVState.close()} slot="close">Apply</Button>
-                                        <Button type="reset" variant="secondary">Reset</Button>
+                                        <Button className="full-width p-4 font-bold rounded-4xl" type="submit" onClick={() => onCVState.close()} slot="close">Save</Button>
                                     </Fieldset.Actions>
                                 </Fieldset>
                             </Form>

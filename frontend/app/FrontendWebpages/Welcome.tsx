@@ -399,16 +399,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                                                 setActivePostingId(posting.id);
                                                 ApplicationFormOverlayState.toggle();
                                             }}
-                                            style={{
-                                                width: 93,
-                                                height: 40,
-                                                borderRadius: 75,
-                                                background: "#0E81EC",
-                                                color: "white",
-                                                fontSize: 18,
-                                                fontWeight: 700,
-                                                border: "none",
-                                                cursor: "pointer",
+                                            style={{width: 93, height: 40, borderRadius: 75, background: "var(--primary-color)", color: "white", fontSize: 18, fontWeight: 700, border: "none", cursor: "pointer",
                                             }}
                                         >
                                             Apply
@@ -421,6 +412,7 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                 </div>
             )}
 
+            <br/><br/>
             <IndexFooter/>
 
             <ApplicationForm overlayState={ApplicationFormOverlayState} jobId={activePostingId}/>

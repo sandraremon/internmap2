@@ -4,14 +4,11 @@ class JobPosting {
     job_description: String;
     job_name: String;
 
-
     company: Company;
 
     locationOfHQ: String;
     date_posted: Date;
     recruiter: Recruiter;
-
-
 
     constructor(id: bigint, job_description: String, job_name: String, jobName: String, job_requirements: String, company: Company, locationOfHQ: String, date_posted: Date, recruiter: Recruiter) {
         this.id = id;
