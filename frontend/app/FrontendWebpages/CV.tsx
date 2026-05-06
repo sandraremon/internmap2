@@ -83,11 +83,6 @@ export default function CVForm({overlayState}: {overlayState: UseOverlayStateRet
                                 </>
                             )}
 
-                            {!errorMessage && (
-                                <>
-                                    <h1 className="font-bold text-3xl m-2" style={{paddingTop: "12px"}}>make Cv</h1>
-                                </>
-                            )}
                         </Modal.Header>
                         <Modal.Body>
                             <Form method="post" className="w-full" onSubmit={handleSubmit}>
