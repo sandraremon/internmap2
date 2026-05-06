@@ -1,13 +1,11 @@
-import {IndexFooter, IndexHeader} from "./fragments/IndexHeaderAndFooter";
+import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
 import {Button, Chip, Table, useOverlayState, cn, Modal} from "@heroui/react";
 import {useNavigate} from 'react-router-dom';
 import CVForm from "./CV";
 import {useFetcher} from "react-router";
 import {AlertDialog} from "@heroui/react";
-import {Icon} from "@iconify/react";
 import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
-import RoadMapEdit from "../FrontendWebpages/RoadMapUpdate";
 import Dashboard from "./Dashboard";
 
 
@@ -18,15 +16,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
     //edit part by shimaa
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editForm, setEditForm] = useState({
-        // f_name: String(userDetails.f_name ?? ""),
-        // l_name: String(userDetails.l_name ?? ""),
-        // email: String(userDetails.email ?? ""),
-        // profile_pic: null as File | null, // ✅ FIX
-        // student_major: String(userDetails.student?.student_major ?? ""),
-        // graduating_year: String(userDetails.student?.graduating_year ?? ""),
-        // uni_name: String(userDetails.student?.uni_name ?? ""),
-        // faculty: String(userDetails.student?.faculty ?? ""),
-        // title: String(userDetails.recruiter?.title ?? ""),
+
         f_name: userDetails.f_name ?? "",
         l_name: userDetails.l_name ?? "",
         email: userDetails.email ?? "",
@@ -78,40 +68,6 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
         setEditLoading(false);
         setIsEditOpen(false);
         window.location.reload();
-
-        // const payload: Record<string, string> = {
-        //     f_name: editForm.f_name,
-        //     l_name: editForm.l_name,
-        //     email: editForm.email,
-        //     profile_pic:editForm.profile_pic,
-        // };
-        //
-        // if (userDetails.role === "STUDENT") {
-        //     payload.student_major = editForm.student_major;
-        //     payload.graduating_year = editForm.graduating_year;
-        //     payload.uni_name = editForm.uni_name;
-        //     payload.faculty = editForm.faculty;
-        // }
-        //
-        // if (userDetails.role === "RECRUITER") {
-        //     payload.title = editForm.title;
-        // }
-        // console.log(userDetails.recruiter);
-        //
-        // const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
-        //     method: "PATCH",
-        //     headers: {
-        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(payload),
-        // });
-        // const json = await response.json();
-        // console.log(json);
-        // setEditLoading(false);
-        // setIsEditOpen(false);
-        // window.location.reload();
     }
 
     // @ts-ignore

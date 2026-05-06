@@ -1,4 +1,3 @@
-
 import "../CSS/jobPosting.css";
 import "../CSS/Roadmap.css";
 import "../CSS/InternMapHomepage.css";
@@ -6,6 +5,7 @@ import "../CSS/Universal.css";
 import {useState} from "react";
 import { motion } from "framer-motion";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
+
 interface ResourceLink {
     resource_links: string;
 }

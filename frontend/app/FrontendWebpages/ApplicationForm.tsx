@@ -1,19 +1,6 @@
 import "../CSS/jobPosting.css"
 import "../CSS/InternMapHomepage.css";
-import {IndexFooter, IndexHeader} from './fragments/IndexHeaderAndFooter';
-import {
-    Button,
-    Description,
-    FieldError,
-    FieldGroup,
-    Fieldset,
-    Form,
-    Input,
-    Label,
-    Modal,
-    TextField, type UseOverlayStateReturn
-} from "@heroui/react";
-import {useParams} from "react-router";
+import {Button, FieldError, FieldGroup, Fieldset, Form, Input, Label, Modal, TextField, type UseOverlayStateReturn} from "@heroui/react";
 
 export default function ApplicationForm({overlayState, jobId}: {overlayState: UseOverlayStateReturn ,jobId: number | null}) {
 

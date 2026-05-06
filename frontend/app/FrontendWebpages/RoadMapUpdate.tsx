@@ -1,19 +1,7 @@
 import "../CSS/jobPosting.css";
 import "../CSS/InternMapHomepage.css";
 import { useEffect, useState } from "react";
-import {
-    Button,
-    Description,
-    FieldError,
-    FieldGroup,
-    Fieldset,
-    Form, IconPlus,
-    Input,
-    Label,
-    Modal,
-    TextField,
-    type UseOverlayStateReturn,
-} from "@heroui/react";
+import {Button, FieldError, FieldGroup, Fieldset, Form, IconPlus, Input, Label, Modal, TextField, type UseOverlayStateReturn,} from "@heroui/react";
 
 // pass roadmapId as prop
 export default function RoadMapEdit({overlayState,roadmapId}: {overlayState:UseOverlayStateReturn, roadmapId: number|null}) {
