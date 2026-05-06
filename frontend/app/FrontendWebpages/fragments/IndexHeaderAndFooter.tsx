@@ -97,6 +97,11 @@ export function IndexHeader() {
                 <button className="button-prominant" onClick={() => location.href = '/signup'}>Sign up</button>
             </section> : <section className="section wide">
 
+                {role === "ROLE_ADMIN" && !useLocation().pathname.includes("/roadmap/create") && (
+                    <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => location.href = '/roadmap/create'}>
+                        <img src="/images/assets/plus-black@4x.png" className="theme-adaptive-icon" style={{width: "20px"}} alt="add a job posting"/>
+                    </Button>)}
+
                 {role === "ROLE_RECRUITER" && (
                     <>
                         <Button style={{width: "32px", height: "32px", background: "var(--secondary-background-color)"}} isIconOnly onClick={() => jobPostingFormOverlayState.open()}>

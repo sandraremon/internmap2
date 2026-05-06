@@ -70,6 +70,7 @@ export default function JobPostingModal({overlayState}: {overlayState: UseOverla
             setErrorMessage(errorBody.error);
             console.error("Submission failed:", res.status, errorBody);
         } else {
+            onJobPostingState.close();
             const successBody = await res.json();
             console.log("Success:", successBody);
             navigate("/");
