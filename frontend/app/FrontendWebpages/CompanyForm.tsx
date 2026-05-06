@@ -95,7 +95,8 @@ export default function RegisterCompany() {
 
                 {!errorMessage && (
                     <>
-                        <h1 className="font-bold text-3xl m-2" style={{paddingTop: "12px"}}>Sign in</h1>
+                        <h1 className="font-bold text-3xl m-2" style={{paddingTop: "12px"}}>Create a Company</h1>
+                        <br/>
                     </>
                 )}
 
@@ -141,7 +142,7 @@ export default function RegisterCompany() {
                 <label>Website:</label>
                 <input
                     className="text-sm"
-                    type="url"
+                    type="text"
                     name="websiteurl"
                     placeholder="eg.https:/orange.com"
                     //onChange={(e) => setPassword(e.target.value)}
@@ -154,16 +155,13 @@ export default function RegisterCompany() {
                     type="file"
                     name="logo"
                     accept="image/*"
+                    placeholder="Put your logo here"
                 />
 
-                <br />
                 <br />
 
 
                 { loading ? <Spinner size="lg" color="current" /> : <><br /> <input className="text-lg" type="submit" value="Register Company" /></>}
-
-                <br />
-
                 <br/>
             </form>
         </div>
