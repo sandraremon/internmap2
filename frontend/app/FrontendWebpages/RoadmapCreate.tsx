@@ -40,17 +40,29 @@ export default function RoadmapCreate() {
 
         const formData = new FormData(e.currentTarget);
 
+        // const body = {
+        //     name: formData.get("title"),
+        //     modules: modules.map((mod, moduleIndex) => ({
+        //         name: formData.get(`modules[${moduleIndex}].name`),
+        //         description: formData.get(`modules[${moduleIndex}].description`),
+        //         skills: mod.skills.map((_, skillIndex) => ({
+        //             name: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].name`),
+        //             description: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].description`),
+        //             links: [formData.get(`modules[${moduleIndex}].skills[${skillIndex}].links[0]`)]
+        //         }))
+        //     }))
+        // };
         const body = {
-            name: formData.get("title"),
-            modules: modules.map((mod, moduleIndex) => ({
-                name: formData.get(`modules[${moduleIndex}].name`),
-                description: formData.get(`modules[${moduleIndex}].description`),
-                skills: mod.skills.map((_, skillIndex) => ({
-                    name: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].name`),
-                    description: formData.get(`modules[${moduleIndex}].skills[${skillIndex}].description`),
-                    links: [formData.get(`modules[${moduleIndex}].skills[${skillIndex}].links[0]`)]
-                }))
-            }))
+            name: title,
+            modules: modules.map((mod) => ({
+                name: mod.name,
+                description: mod.description,
+                skills: mod.skills.map((skill) => ({
+                    name: skill.name,
+                    description: skill.description,
+                    links: skill.links || [],
+                })),
+            })),
         };
 
         console.log(body);

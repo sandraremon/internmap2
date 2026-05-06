@@ -35,7 +35,7 @@ type Pages = {
   "/logout": {
     params: {};
   };
-  "/roadmaps/:id": {
+  "/roadmap/:id": {
     params: {
       "id": string;
     };
@@ -61,7 +61,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/company/register" | "/signup" | "/recruiter/register" | "/roadmap/create" | "/dashboard" | "/logout" | "/roadmaps/:id" | "/application/:id" | "/profile" | "/myJobPostings" | "/job/:id/applicants";
+    page: "/" | "/login" | "/company/register" | "/signup" | "/recruiter/register" | "/roadmap/create" | "/dashboard" | "/logout" | "/roadmap/:id" | "/application/:id" | "/profile" | "/myJobPostings" | "/job/:id/applicants";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -97,7 +97,7 @@ type RouteFiles = {
   };
   "routes/roadMapView.tsx": {
     id: "routes/roadMapView";
-    page: "/roadmaps/:id";
+    page: "/roadmap/:id";
   };
   "routes/applicationForm.tsx": {
     id: "routes/applicationForm";
