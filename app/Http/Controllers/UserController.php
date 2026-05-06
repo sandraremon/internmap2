@@ -7,6 +7,7 @@ use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @method middleware(string $string)
@@ -27,9 +28,15 @@ class UserController extends Controller
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:6',
             'role'     => 'nullable|string',
+            'profile_pic' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
 
         ]);
+        if ($request->hasFile('profile_pic')) {
+            $path = $request->file('profile_pic')->store('profile_pics', 'public');
+            $validated['profile_pic'] = $path;
+        }
+
 
         $validated['password'] = Hash::make($validated['password']); // never store plain text
         if (!$request->has('role')) {
@@ -49,10 +56,19 @@ class UserController extends Controller
         $validated = $request->validate([
             'email' => 'sometimes|required',
             'password' => 'sometimes|required',
+            'profile_pic' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+        if ($request->hasFile('profile_pic')) {
+            // ✅ Delete old pic if exists
+            if ($user->profile_pic) {
+                Storage::disk('public')->delete($user->profile_pic);
+            }
+            $validated['profile_pic'] = $request->file('profile_pic')->store('profile_pics', 'public');
+        }
         $validated['password'] = bcrypt($validated['password']);
         $user->update($validated);
-        return $user;// should return a confirmation maybe then redirect to home
+        // should return a confirmation maybe then redirect to home
+        return response()->json($user);
     }
 
     public function destroy(User $user)

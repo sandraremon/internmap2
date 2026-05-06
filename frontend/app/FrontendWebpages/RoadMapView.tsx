@@ -2,7 +2,6 @@ import "../CSS/jobPosting.css";
 import "../CSS/Roadmap.css";
 import "../CSS/InternMapHomepage.css";
 import "../CSS/Universal.css";
-import {Button, Card, CardContent, Tabs} from "@heroui/react";
 import {useState} from "react";
 import { motion } from "framer-motion";
 import {IndexHeader} from "./fragments/IndexHeaderAndFooter";
