@@ -384,14 +384,14 @@ export default function Welcome({roadmaps, jobPostings}: {roadmaps: Roadmap[], j
                                     </div>
 
                                     <div className="flex gap-2 items-center align-middle">
-                                        <Button variant="secondary" isIconOnly style={{width: 40, height: 40}}>
-                                            <img
-                                                className="theme-adaptive-icon"
-                                                style={{width: 16}}
-                                                src="/images/assets/arrow.up.left.and.arrow.down.right@4x.png"
-                                                alt="expand"
-                                            />
-                                        </Button>
+                                        {/*<Button variant="secondary" isIconOnly style={{width: 40, height: 40}}>*/}
+                                        {/*    <img*/}
+                                        {/*        className="theme-adaptive-icon"*/}
+                                        {/*        style={{width: 16}}*/}
+                                        {/*        src="/images/assets/arrow.up.left.and.arrow.down.right@4x.png"*/}
+                                        {/*        alt="expand"*/}
+                                        {/*    />*/}
+                                        {/*</Button>*/}
 
                                         <Button
                                             isDisabled={role !== "ROLE_STUDENT"}
