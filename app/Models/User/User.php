@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $keyType = 'int';
     public $timestamps = false;
 
-    protected $fillable = ['f_name','l_name', 'email', 'password', 'role'];
+    protected $fillable = ['f_name','l_name', 'email', 'password', 'role','profile_pic'];
 
     protected $casts = [
         'role' => UserRole::class,

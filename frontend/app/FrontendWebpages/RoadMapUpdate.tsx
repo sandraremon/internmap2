@@ -100,7 +100,7 @@ export default function RoadMapEdit({overlayState,roadmapId}: {overlayState:UseO
 
     async function handleSubmit(e: any) {
         e.preventDefault();
-
+        const token = localStorage.getItem("token"); // ✅ FIX
         const body = {
             name: title,
             modules: modules.map((mod) => ({
@@ -120,14 +120,18 @@ export default function RoadMapEdit({overlayState,roadmapId}: {overlayState:UseO
 
         console.log("UPDATE BODY:", body);
 
-        const res = await fetch(`/api/roadmap/${roadmapId}/`, {
+        const res = await fetch(`http://localhost:8000/api/roadmap/${roadmapId}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                // Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Accept": "application/json", // ✅ CRITICAL FIX
+                Authorization: `Bearer ${token}`,
+
             },
             body: JSON.stringify(body),
         });
+        console.log(localStorage.getItem("token"));
 
         if (!res.ok) {
             console.error("Update failed", await res.text());

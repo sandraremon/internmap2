@@ -28,3 +28,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/jobposting/new', [JobPostingController::class, 'store']);
     Route::put('/roadmap/{roadmap}', [RoadmapController::class, 'update']);
 });
+Route::get('/roadmap/{roadmap}', [RoadmapController::class, 'show']);

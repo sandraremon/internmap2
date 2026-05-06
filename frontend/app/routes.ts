@@ -9,7 +9,7 @@ export default [
     route("/roadmap/create", "routes/roadMapCreate.tsx"),
     route("/dashboard","routes/dashboard.tsx"),
     route("/logout","routes/logout.tsx"),
-    route("/roadmaps/:id", "routes/roadMapView.tsx"),
+    route("/roadmap/:id", "routes/roadMapView.tsx"),
     route("/application/:id", "routes/applicationForm.tsx"),
     route("/profile", "routes/profile.tsx"),
     route("/myJobPostings", "routes/myJobPostings.tsx"),

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -44,7 +45,16 @@ class ProfileController extends Controller
             'uni_name' => 'sometimes|string',
             'faculty' => 'sometimes|string',
             'title' => 'sometimes|string',
+            'profile_pic' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+//        if ($request->hasFile('profile_pic')) {
+//            // ✅ Delete old pic if exists
+//            if ($user->profile_pic) {
+//                Storage::disk('public')->delete($user->profile_pic);
+//            }
+//            $validated['profile_pic'] = $request->file('profile_pic')->store('profile_pics', 'public');
+//            $user->profile_pic = $validated['profile_pic'];
+//        }
 
         $user->f_name = $validated['f_name'] ?? $user->f_name;
         $user->l_name = $validated['l_name'] ?? $user->l_name;

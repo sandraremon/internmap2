@@ -31,7 +31,7 @@ class SkillController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description'=>'required|string|max:255',
+            'description'=>'required|string',
         ]);
         $skill = Skill::create($validated);
         $module->skills()->attach($skill->skill_id);

@@ -10,22 +10,7 @@ import type {Roadmap} from "../../Model/Roadmap";
 import RoadMapEdit from "../FrontendWebpages/RoadMapUpdate";
 import Dashboard from "./Dashboard";
 
-function SortableColumnHeader({children, sortDirection}: {
-    children: React.ReactNode;
-    sortDirection?: "ascending" | "descending";
-}) {
-    return (
-        <span className="flex items-center justify-between">
-            {children}
-            {!!sortDirection && (
-                <Icon icon="gravity-ui:chevron-up" className={cn(
-                    "size-3 transform transition-transform duration-100 ease-out",
-                    sortDirection === "descending" ? "rotate-180" : "",
-                )}/>
-            )}
-        </span>
-    );
-}
+
 
 export default function Profile({userDetails, roadmaps = [], users = []}: { users: User[], userDetails: User, roadmaps: Roadmap[] }) {
 
@@ -33,52 +18,100 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
     //edit part by shimaa
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editForm, setEditForm] = useState({
-        f_name: String(userDetails.f_name ?? ""),
-        l_name: String(userDetails.l_name ?? ""),
-        email: String(userDetails.email ?? ""),
-        student_major: String(userDetails.student?.student_major ?? ""),
-        graduating_year: String(userDetails.student?.graduating_year ?? ""),
-        uni_name: String(userDetails.student?.uni_name ?? ""),
-        faculty: String(userDetails.student?.faculty ?? ""),
-        title: String(userDetails.recruiter?.title ?? ""),
+        // f_name: String(userDetails.f_name ?? ""),
+        // l_name: String(userDetails.l_name ?? ""),
+        // email: String(userDetails.email ?? ""),
+        // profile_pic: null as File | null, // ✅ FIX
+        // student_major: String(userDetails.student?.student_major ?? ""),
+        // graduating_year: String(userDetails.student?.graduating_year ?? ""),
+        // uni_name: String(userDetails.student?.uni_name ?? ""),
+        // faculty: String(userDetails.student?.faculty ?? ""),
+        // title: String(userDetails.recruiter?.title ?? ""),
+        f_name: userDetails.f_name ?? "",
+        l_name: userDetails.l_name ?? "",
+        email: userDetails.email ?? "",
+        profile_pic: null as File | null, // ✅ FIX
+        student_major: userDetails.student?.student_major ?? "",
+        graduating_year: userDetails.student?.graduating_year ?? "",
+        uni_name: userDetails.student?.uni_name ?? "",
+        faculty: userDetails.student?.faculty ?? "",
+        title: userDetails.recruiter?.title ?? "",
     });
     const [editLoading, setEditLoading] = useState(false);
 
     async function saveProfile() {
         setEditLoading(true);
+        const formData = new FormData();
 
-        const payload: Record<string, string> = {
-            f_name: editForm.f_name,
-            l_name: editForm.l_name,
-            email: editForm.email,
-        };
+        formData.append("f_name", editForm.f_name);
+        formData.append("l_name", editForm.l_name);
+        formData.append("email", editForm.email);
+
+        // ✅ only append if it's a file
+        if (editForm.profile_pic instanceof File) {
+            formData.append("profile_pic", editForm.profile_pic);
+        }
 
         if (userDetails.role === "STUDENT") {
-            payload.student_major = editForm.student_major;
-            payload.graduating_year = editForm.graduating_year;
-            payload.uni_name = editForm.uni_name;
-            payload.faculty = editForm.faculty;
+            formData.append("student_major", editForm.student_major);
+            formData.append("graduating_year", editForm.graduating_year);
+            formData.append("uni_name", editForm.uni_name);
+            formData.append("faculty", editForm.faculty);
         }
 
         if (userDetails.role === "RECRUITER") {
-            payload.title = editForm.title;
+            formData.append("title", editForm.title);
         }
-        console.log(userDetails.recruiter);
 
         const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
-            method: "PATCH",
+            method: "POST", // ⚠️ use POST (Laravel handles file uploads better)
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 Accept: "application/json",
-                "Content-Type": "application/json",
             },
-            body: JSON.stringify(payload),
+            body: formData,
         });
+
         const json = await response.json();
         console.log(json);
+
         setEditLoading(false);
         setIsEditOpen(false);
         window.location.reload();
+
+        // const payload: Record<string, string> = {
+        //     f_name: editForm.f_name,
+        //     l_name: editForm.l_name,
+        //     email: editForm.email,
+        //     profile_pic:editForm.profile_pic,
+        // };
+        //
+        // if (userDetails.role === "STUDENT") {
+        //     payload.student_major = editForm.student_major;
+        //     payload.graduating_year = editForm.graduating_year;
+        //     payload.uni_name = editForm.uni_name;
+        //     payload.faculty = editForm.faculty;
+        // }
+        //
+        // if (userDetails.role === "RECRUITER") {
+        //     payload.title = editForm.title;
+        // }
+        // console.log(userDetails.recruiter);
+        //
+        // const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
+        //     method: "PATCH",
+        //     headers: {
+        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //         Accept: "application/json",
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(payload),
+        // });
+        // const json = await response.json();
+        // console.log(json);
+        // setEditLoading(false);
+        // setIsEditOpen(false);
+        // window.location.reload();
     }
 
     // @ts-ignore
@@ -123,9 +156,17 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
 
             <div className="pl-17 pt-8">
                 <div className="flex items-center gap-4 flex-row">
-                    <img src="/images/navi/Navi%20Beta.png"
-                         style={{display: "flex", width: "100px", height: "100px", borderRadius: "100%"}}
-                         alt="Unstable Logo"/>
+
+                    <img
+                        src={
+                            userDetails.profile_pic
+                                ? `http://127.0.0.1:8000/storage/${userDetails.profile_pic}`
+                                : "/images/navi/Navi%20Beta.png"
+                        }
+                        alt="Profile"
+                        style={{display: "flex", width: "100px", height: "100px", borderRadius: "100%"}}
+                        className="w-12 h-12 rounded-full object-cover"
+                    />
                     <div style={{gap: "7px", display: "flex", flexDirection: "column"}}>
                         <section>
                             <p className="auto-capitalise text-3xl font-bold">{userDetails.f_name + " " + userDetails.l_name}</p>
@@ -416,6 +457,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                             />
                                         </div>
                                     )}
+
                                 </div>
                             </Modal.Body>
                             <AlertDialog.Footer className="flex justify-end gap-6 mt-8">
