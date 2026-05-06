@@ -7,6 +7,7 @@ import {AlertDialog} from "@heroui/react";
 import React, {useState} from "react";
 import type {Roadmap} from "../../Model/Roadmap";
 import Dashboard from "./Dashboard";
+import "../CSS/Universal.css";
 
 
 
@@ -264,7 +265,28 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                 {/* Recruiter Fields */}
                 {userDetails.role == "RECRUITER" && (
                     <>
-                        <h4 className="container-label">Works At</h4>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <h4 className="container-label" style={{ margin: 0 }}>
+                                Works At
+                            </h4>
+
+                            <Button
+                                style={{
+                                    width: "32px",
+                                    height: "32px",
+                                    background: "var(--secondary-background-color)"
+                                }}
+                                isIconOnly
+                                onClick={() => navigate("/company/register")}
+                            >
+                                <img
+                                    src="/images/assets/plus-black@4x.png"
+                                    className="theme-adaptive-icon"
+                                    style={{ width: "20px" }}
+                                    alt="add a job posting"
+                                />
+                            </Button>
+                        </div>
 
                         <div className="container-padded">
                             {/*{userDetails.recruiter.companies && userDetails.recruiter?.companies?.length || 0 ? (*/}
@@ -293,8 +315,8 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                                                 <span className="text-gray-400">No logo</span>
                                                             )}
                                                         </Table.Cell>
-                                                        <Table.Cell>{company.name}</Table.Cell>
-                                                        <Table.Cell>{company.industry}</Table.Cell>
+                                                        <Table.Cell><span style={{fontSize: "13px", color: "var(--text-primary)"}}>{company.name}</span></Table.Cell>
+                                                        <Table.Cell><span style={{fontSize: "13px", color: "var(--text-primary)"}}>{company.industry}</span></Table.Cell>
                                                         <Table.Cell>
                                                             <a
                                                                 href={company.websiteurl}
@@ -305,7 +327,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                                                                 {company.websiteurl}
                                                             </a>
                                                         </Table.Cell>
-                                                        <Table.Cell>{company.location_ofhq}</Table.Cell>
+                                                        <Table.Cell><span style={{fontSize: "13px", color: "var(--text-primary)"}}>{company.location_ofhq}</span></Table.Cell>
                                                     </Table.Row>
                                                 ))}
                                             </Table.Body>
