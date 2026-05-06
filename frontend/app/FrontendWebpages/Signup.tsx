@@ -106,11 +106,11 @@ export default function Signup() {
                             <input type="password" id="admin-password" className="text-sm" name="password" placeholder="Password" required autoComplete="new-password"/>
                             <br/><br/>
                             <label htmlFor="admin-permission_level">Permission level:</label>
-                            <input type="number" id="admin-permission_level" className="text-sm" name="permission_level" placeholder="permission level" required autoComplete="permission level"/>
+                            <input type="number" id="admin-permission_level" className="text-sm" name="permission_level" placeholder="permission level"  autoComplete="permission level"/>
                             <br/><br/>
 
                             <label htmlFor="admin-profile-pic">Profile Picture:</label>
-                            <input type="file" id="admin-profile-pic" name="profile_pic" accept="image/*" required/>
+                            <input type="file" id="admin-profile-pic" name="profile_pic" accept="image/*" />
                             <br/><br/>
 
                             <input type="submit" className="form-submit" value={loading ? "Creating..." : "Create Account"} disabled={loading}/>
@@ -156,7 +156,7 @@ export default function Signup() {
                             <br/><br/>
 
                             <label htmlFor="student-profile-pic">Profile Picture:</label>
-                            <input type="file" id="student-profile-pic" name="profile_pic" accept="image/*" required/>
+                            <input type="file" id="student-profile-pic" name="profile_pic" accept="image/*" />
                             <br/><br/>
 
                             <input type="submit" className="form-submit" value={loading ? "Creating..." : "Create Account"} disabled={loading}/>
@@ -194,7 +194,7 @@ export default function Signup() {
                             <br/><br/>
 
                             <label htmlFor="recruiter-profile-pic">Profile Picture:</label>
-                            <input type="file" id="recruiter-profile-pic" name="profile_pic" accept="image/*" required/>
+                            <input type="file" id="recruiter-profile-pic" name="profile_pic" accept="image/*" />
                             <br/><br/>
 
                             <input type="submit" className="form-submit" value={loading ? "Creating..." : "Create Account"} disabled={loading}/>

@@ -12,7 +12,6 @@ import Dashboard from "./Dashboard";
 
 export default function Profile({userDetails, roadmaps = [], users = []}: { users: User[], userDetails: User, roadmaps: Roadmap[] }) {
 
-    const [selectedRoadmapId, setSelectedRoadmapId] = useState<number | null>(null);
     //edit part by shimaa
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editForm, setEditForm] = useState({
