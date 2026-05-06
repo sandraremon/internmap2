@@ -31,7 +31,7 @@ export default function MyJobApplicants({ applications }: { applications: Applic
         <>
             <IndexHeader />
             <main style={{padding: "35px", margin: "0 auto"}}>
-                <h1 style={{fontSize: "32px", fontWeight: 600, marginBottom: "4px" }}>
+                <h1 style={{fontSize: "32px", fontWeight: "bold", marginBottom: "4px" }}>
                     Applicants
                 </h1>
                 <p className="label-small" style={{fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
@@ -49,48 +49,23 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                         const decided = status === "accepted" || status === "rejected";
 
                         return (
-                            <div
-                                key={String(app.id)}
-                                style={{
-                                    borderRadius: "60px",
-                                    background: "rgba(44, 44, 44, 0.85)",
-                                    boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)",
-                                    backdropFilter: "blur(30px)",
-                                    padding: "20px 28px",
-                                    marginBottom: "12px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    gap: "16px",
-                                }}
-                            >
+                            <div key={String(app.id)} style={{borderRadius: "60px", background: "var(--container-secondary)", boxShadow: "0 0 40px 0 rgba(0, 0, 0, 0.17)", backdropFilter: "blur(30px)", padding: "20px 28px", marginBottom: "12px", display: "flex", justifyContent: "space-between", gap: "16px",}}>
                                 <div>
-                                    <p style={{
-                                        fontWeight: 600,
-                                        fontSize: "16px",
-                                        margin: "0 0 6px" }}>
+                                    <p style={{fontWeight: 600, fontSize: "16px", margin: "0 0 6px" }}>
                                         {app.f_name} {app.l_name}
                                     </p>
-                                    <div style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "8px",
-                                        flexWrap: "wrap" }}>
+                                    <div style={{display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
 
-                                        <span style={{
-                                            fontSize: "13px",
-                                            color: "var(--color-text-secondary)" }}>
+                                        <span style={{fontSize: "13px", color: "var(--text-secondary)"}}>
                                             {app.email}
                                         </span>
 
-                                        <span style={{
-                                            fontSize: "13px",
-                                            color: "var(--color-text-secondary)" }}>
+                                        <span style={{fontSize: "13px", color: "var(--text-secondary)" }}>
                                             {app.phone_number}
                                         </span>
 
                                         {decided && (
-                                            <Chip size="sm" variant="secondary" color={status === "accepted" ? "success" : "danger"}>
+                                            <Chip size="sm" variant="soft" color={status === "accepted" ? "success" : "danger"}>
                                                 {status}
                                             </Chip>
                                         )}
@@ -98,16 +73,16 @@ export default function MyJobApplicants({ applications }: { applications: Applic
                                     {app.student?.cv && (
                                         <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>
                                             <div>
-                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Description</span>
-                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--color-text-secondary)" }}>{app.student.cv.description}</p>
+                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em"}}>Description</span>
+                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--text-secondary)" }}>{app.student.cv.description}</p>
                                             </div>
                                             <div>
-                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Past Experiences</span>
-                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--color-text-secondary)" }}>{app.student.cv.past_experiences}</p>
+                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em"}}>Past Experiences</span>
+                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--text-secondary)" }}>{app.student.cv.past_experiences}</p>
                                             </div>
                                             <div>
-                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--color-text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Projects</span>
-                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--color-text-secondary)" }}>{app.student.cv.projects}</p>
+                                                <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.08em"}}>Projects</span>
+                                                <p style={{ margin: "2px 0", fontSize: "13px", color: "var(--text-secondary)" }}>{app.student.cv.projects}</p>
                                             </div>
                                         </div>
                                     )}

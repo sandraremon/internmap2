@@ -82,9 +82,9 @@ export default function RegisterCompany() {
                             </Alert.Indicator>
                             <Alert.Content>
                                 <Alert.Title>
-    <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
-        Registration failed
-    </span>
+                                <span className="font-bold" style={{marginTop: "2.2px", color: "rgb(225, 66, 69)"}}>
+                                    Registration failed
+                                </span>
                                 </Alert.Title>
                             </Alert.Content>
                             <CloseButton style={{background: "var(--tertiary-background-color)", marginTop: "2.2px"}} onClick={() => setErrorMessage(null)} />

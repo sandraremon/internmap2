@@ -53,9 +53,6 @@ export default function CVForm({overlayState}: {overlayState: UseOverlayStateRet
         } finally {
             setLoading(false);
         }
-
-
-
     }
 
     return (

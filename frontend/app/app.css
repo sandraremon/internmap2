@@ -194,8 +194,12 @@ body {
         color: var(--text-primary);
     }
 
-    .modal__close-trigger {
+    .modal__close-trigger, .alert-dialog__close-trigger {
         background: var(--component-secondary);
+    }
+
+    .modal__close-trigger:hover, .alert-dialog__close-trigger:hover {
+        background: var(--hover);
     }
 
     .modal__dialog {
@@ -272,6 +276,14 @@ body {
         background-color: var(--component-secondary);
         color: var(--text-primary);
     }
+
+    .button--secondary:hover {
+        background-color: var(--hover);
+    }
+
+    .input {
+        box-shadow: none;
+    }
 }
 
 .module {
@@ -307,8 +319,8 @@ body {
 }
 
 .skill-card {
-    background: #800080;
-    border-radius: 22px;
+    background: var(--component-secondary);
+    @apply rounded-4xl;
     padding: 14px 15px;
     margin-top: 6px;
     margin-bottom: 4px;
@@ -317,7 +329,7 @@ body {
 
 .skill-card:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(27, 27, 27, 0.2);
 }
 
 .skill-name {

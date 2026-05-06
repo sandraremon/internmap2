@@ -431,9 +431,7 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
                 </Modal.Backdrop>
             </Modal>
 
-
             <CVForm overlayState={CVFormOverlayState}/>
-            <RoadMapEdit overlayState={roadmapFormOverlayState} roadmapId={selectedRoadmapId} />
         </>
     );
 }

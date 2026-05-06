@@ -1,18 +1,16 @@
- import "../CSS/jobPosting.css"
+import "../CSS/jobPosting.css"
 import "../CSS/InternMapHomepage.css";
 import {Avatar, Checkbox, cn, type Key, type SortDescriptor, Tabs, Toast, useOverlayState} from "@heroui/react";
 import { Table } from '@heroui/react';
 import React, {useMemo, useState} from "react";
 import {Button , Alert} from "@heroui/react";
-
 import {useFetcher} from "react-router";
 import {AlertDialog} from "@heroui/react";
- import type {Roadmap} from "../../Model/Roadmap";
- import {Icon} from "@iconify/react";
- function SortableColumnHeader({children, sortDirection}: {
-     children: React.ReactNode;
-     sortDirection?: "ascending" | "descending";
- }) {
+import type {Roadmap} from "../../Model/Roadmap";
+import {Icon} from "@iconify/react";
+import RoadMapEdit from "../FrontendWebpages/RoadMapUpdate";
+
+function SortableColumnHeader({children, sortDirection}: { children: React.ReactNode; sortDirection?: "ascending" | "descending"; }) {
      return (
          <span className="flex items-center justify-between">
             {children}
@@ -24,7 +22,7 @@ import {AlertDialog} from "@heroui/react";
              )}
         </span>
      );
- }
+}
 
 export default function Dashboard({users , roadmaps}: {users : User[], roadmaps : Roadmap[]}) {
     const fetcher = useFetcher();
@@ -130,8 +128,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                             selectionMode="multiple"
                                             sortDescriptor={sortDescriptor}
                                             onSelectionChange={setSelectedKeys}
-                                            onSortChange={setSortDescriptor}
-                                        >
+                                            onSortChange={setSortDescriptor}>
                                             <Table.Header>
                                                 <Table.Column className="pr-0">
                                                     <Checkbox aria-label="Select all" slot="selection">
@@ -215,7 +212,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                             {/* Bulk smite */}
                             <AlertDialog>
                                 <Button variant="danger" isDisabled={selectedKeys !== "all" && (selectedKeys as Set<Key>).size === 0}>
-                                    Smite Selected
+                                    Delete Selection
                                 </Button>
                                 <AlertDialog.Backdrop>
                                     <AlertDialog.Container>
@@ -243,7 +240,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                     }
                                                     fetcher.submit({users: JSON.stringify(selectedUsers)}, {method: "POST", encType: "application/json"});
                                                     setSelectedKeys(new Set());
-                                                }}>Smite!</Button>
+                                                }}>Delete</Button>
                                             </AlertDialog.Footer>
                                         </AlertDialog.Dialog>
                                     </AlertDialog.Container>
@@ -422,7 +419,7 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                                                     );
                                                     setRoadmapToSmite(null);
                                                     setIsRoadmapDialogOpen(false);
-                                                }}>Smite!</Button>
+                                                }}>Delete</Button>
                                             </AlertDialog.Footer>
                                         </AlertDialog.Dialog>
                                     </AlertDialog.Container>
@@ -432,6 +429,8 @@ export default function Dashboard({users , roadmaps}: {users : User[], roadmaps 
                     </Tabs>
                 </div>
             </div>
+
+            <RoadMapEdit overlayState={roadmapFormOverlayState} roadmapId={selectedRoadmapId} />
         </>
     );
 }

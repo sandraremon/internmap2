@@ -52,13 +52,13 @@ export default function MyJobPostings({ jobPostings }: { jobPostings: JobPosting
                                     {job.job_name}
                                 </p>
                                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                    <span style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>
+                                    <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
                                         {job.company?.name}
                                     </span>
 
                                 </div>
                             </div>
-                            <Button variant="secondary" onClick={() => navigate(`/job/${job.id}/applicants`)} style={{borderRadius: "20px", padding: "9px 16px", fontSize: "13px", fontWeight: 500,}}>
+                            <Button variant="secondary" onClick={() => navigate(`/job/${job.id}/applicants`)} style={{borderRadius: "20px", padding: "9px 16px", fontSize: "13px", fontWeight: 500}}>
                                 View Applicants
                             </Button>
                         </div>
