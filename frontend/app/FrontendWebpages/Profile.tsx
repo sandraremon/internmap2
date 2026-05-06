@@ -16,16 +16,14 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
     //edit part by shimaa
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editForm, setEditForm] = useState({
-
-        f_name: userDetails.f_name ?? "",
-        l_name: userDetails.l_name ?? "",
-        email: userDetails.email ?? "",
-        profile_pic: null as File | null, // ✅ FIX
-        student_major: userDetails.student?.student_major ?? "",
-        graduating_year: userDetails.student?.graduating_year ?? "",
-        uni_name: userDetails.student?.uni_name ?? "",
-        faculty: userDetails.student?.faculty ?? "",
-        title: userDetails.recruiter?.title ?? "",
+        f_name: String(userDetails.f_name ?? ""),
+        l_name: String(userDetails.l_name ?? ""),
+        email: String(userDetails.email ?? ""),
+        student_major: String(userDetails.student?.student_major ?? ""),
+        graduating_year: String(userDetails.student?.graduating_year ?? ""),
+        uni_name: String(userDetails.student?.uni_name ?? ""),
+        faculty: String(userDetails.student?.faculty ?? ""),
+        title: String(userDetails.recruiter?.title ?? ""),
     });
     const [editLoading, setEditLoading] = useState(false);
 
@@ -33,33 +31,32 @@ export default function Profile({userDetails, roadmaps = [], users = []}: { user
         setEditLoading(true);
         const formData = new FormData();
 
-        formData.append("f_name", editForm.f_name);
-        formData.append("l_name", editForm.l_name);
-        formData.append("email", editForm.email);
+        const payload: Record<string, string> = {
+            f_name: editForm.f_name,
+            l_name: editForm.l_name,
+            email: editForm.email,
+        };
 
-        // ✅ only append if it's a file
-        if (editForm.profile_pic instanceof File) {
-            formData.append("profile_pic", editForm.profile_pic);
-        }
 
         if (userDetails.role === "STUDENT") {
-            formData.append("student_major", editForm.student_major);
-            formData.append("graduating_year", editForm.graduating_year);
-            formData.append("uni_name", editForm.uni_name);
-            formData.append("faculty", editForm.faculty);
+            payload.student_major = editForm.student_major;
+            payload.graduating_year = editForm.graduating_year;
+            payload.uni_name = editForm.uni_name;
+            payload.faculty = editForm.faculty;
         }
 
         if (userDetails.role === "RECRUITER") {
-            formData.append("title", editForm.title);
+            payload.title = editForm.title;
         }
 
         const response = await fetch("http://127.0.0.1:8000/api/profile/update", {
-            method: "POST", // ⚠️ use POST (Laravel handles file uploads better)
+            method: "PATCH", // ⚠️ use POST (Laravel handles file uploads better)
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 Accept: "application/json",
+                "Content-Type": "application/json",
             },
-            body: formData,
+            body: JSON.stringify(payload),
         });
 
         const json = await response.json();
