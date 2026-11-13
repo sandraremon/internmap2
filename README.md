@@ -127,21 +127,6 @@ npm run dev
 
 ---
 
-## ⚙️ Environment Configuration
-
-Key variables in `.env` (copy from `.env.example`):
-
-| Variable | Default | Description |
-|---|---|---|
-| `APP_URL` | `http://localhost` | Base URL |
-| `DB_CONNECTION` | `sqlite` | Database driver |
-| `DB_DATABASE` | _(sqlite file)_ | Database path / name |
-| `SESSION_DRIVER` | `database` | Session storage |
-| `QUEUE_CONNECTION` | `database` | Queue driver |
-| `MAIL_MAILER` | `log` | Mail driver (use `smtp` for production) |
-
----
-
 ## 🔑 Authentication
 
 Authentication is handled by **Laravel Sanctum** (token-based). The frontend stores the token and attaches it to API requests via Axios.
@@ -180,33 +165,7 @@ Authentication is handled by **Laravel Sanctum** (token-based). The frontend sto
 - ✅ means the endpoint requires authentication (protected by Laravel Sanctum)
 ---
 
-## 🧪 Testing
 
-```bash
-composer run test
-# or
-php artisan test
-```
-
-Tests are written with **Pest** and located in `tests/`.
-
----
-
-## 🛠️ Other Useful Commands
-
-```bash
-# Run database migrations
-php artisan migrate
-
-# Link public storage
-php artisan storage:link
-
-# Build frontend assets (production)
-npm run build
-
-# Lint frontend
-cd frontend && npm run lint
-```
 
 ---
 
